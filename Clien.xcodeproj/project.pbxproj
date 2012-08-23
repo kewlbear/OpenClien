@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C18A43215E3DA9600EA16F9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C18A43015E3DA9600EA16F9 /* WebViewController.m */; };
+		4C18A43315E3DA9600EA16F9 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C18A43115E3DA9600EA16F9 /* WebViewController.xib */; };
 		4C49F89A15E311F300E929B4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F89915E311F300E929B4 /* UIKit.framework */; };
 		4C49F89C15E311F300E929B4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F89B15E311F300E929B4 /* Foundation.framework */; };
 		4C49F89E15E311F300E929B4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F89D15E311F300E929B4 /* CoreGraphics.framework */; };
@@ -21,6 +23,16 @@
 		4C49F8BA15E311F400E929B4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F89F15E311F300E929B4 /* CoreData.framework */; };
 		4C49F8C215E311F400E929B4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C49F8C015E311F400E929B4 /* InfoPlist.strings */; };
 		4C49F8C515E311F400E929B4 /* ClienTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8C415E311F400E929B4 /* ClienTests.m */; };
+		4C49F8D115E3124500E929B4 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8CF15E3124500E929B4 /* MainViewController.m */; };
+		4C49F8D215E3124500E929B4 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C49F8D015E3124500E929B4 /* MainViewController.xib */; };
+		4C49F8D915E35D5100E929B4 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8D815E35D5100E929B4 /* Board.m */; };
+		4C49F8DE15E3613100E929B4 /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8DC15E3613100E929B4 /* BoardViewController.m */; };
+		4C49F8DF15E3613100E929B4 /* BoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C49F8DD15E3613100E929B4 /* BoardViewController.xib */; };
+		4C49F8E215E3647A00E929B4 /* NSString+SubstringFromTo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8E115E3647A00E929B4 /* NSString+SubstringFromTo.m */; };
+		4C49F8E515E364EB00E929B4 /* NSScanner+Skip.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8E415E364EB00E929B4 /* NSScanner+Skip.m */; };
+		4C49F8E815E3698F00E929B4 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8E715E3698F00E929B4 /* Article.m */; };
+		4C49F8EC15E36C5F00E929B4 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8EA15E36C5F00E929B4 /* ArticleViewController.m */; };
+		4C49F8EF15E385E100E929B4 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F8EE15E385E100E929B4 /* libiconv.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +46,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C18A42F15E3DA9600EA16F9 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		4C18A43015E3DA9600EA16F9 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		4C18A43115E3DA9600EA16F9 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 		4C49F89515E311F300E929B4 /* Clien.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clien.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C49F89915E311F300E929B4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4C49F89B15E311F300E929B4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -52,6 +67,24 @@
 		4C49F8C115E311F400E929B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4C49F8C315E311F400E929B4 /* ClienTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClienTests.h; sourceTree = "<group>"; };
 		4C49F8C415E311F400E929B4 /* ClienTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClienTests.m; sourceTree = "<group>"; };
+		4C49F8CE15E3124500E929B4 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		4C49F8CF15E3124500E929B4 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		4C49F8D015E3124500E929B4 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		4C49F8D715E35D5100E929B4 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
+		4C49F8D815E35D5100E929B4 /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
+		4C49F8DB15E3613100E929B4 /* BoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardViewController.h; sourceTree = "<group>"; };
+		4C49F8DC15E3613100E929B4 /* BoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardViewController.m; sourceTree = "<group>"; };
+		4C49F8DD15E3613100E929B4 /* BoardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardViewController.xib; sourceTree = "<group>"; };
+		4C49F8E015E3647A00E929B4 /* NSString+SubstringFromTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SubstringFromTo.h"; sourceTree = "<group>"; };
+		4C49F8E115E3647A00E929B4 /* NSString+SubstringFromTo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SubstringFromTo.m"; sourceTree = "<group>"; };
+		4C49F8E315E364EB00E929B4 /* NSScanner+Skip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSScanner+Skip.h"; sourceTree = "<group>"; };
+		4C49F8E415E364EB00E929B4 /* NSScanner+Skip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScanner+Skip.m"; sourceTree = "<group>"; };
+		4C49F8E615E3698F00E929B4 /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
+		4C49F8E715E3698F00E929B4 /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
+		4C49F8E915E36C5F00E929B4 /* ArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleViewController.h; sourceTree = "<group>"; };
+		4C49F8EA15E36C5F00E929B4 /* ArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleViewController.m; sourceTree = "<group>"; };
+		4C49F8EB15E36C5F00E929B4 /* ArticleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleViewController.xib; sourceTree = "<group>"; };
+		4C49F8EE15E385E100E929B4 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C49F8EF15E385E100E929B4 /* libiconv.dylib in Frameworks */,
 				4C49F89A15E311F300E929B4 /* UIKit.framework in Frameworks */,
 				4C49F89C15E311F300E929B4 /* Foundation.framework in Frameworks */,
 				4C49F89E15E311F300E929B4 /* CoreGraphics.framework in Frameworks */,
@@ -102,6 +136,7 @@
 		4C49F89815E311F300E929B4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C49F8EE15E385E100E929B4 /* libiconv.dylib */,
 				4C49F89915E311F300E929B4 /* UIKit.framework */,
 				4C49F89B15E311F300E929B4 /* Foundation.framework */,
 				4C49F89D15E311F300E929B4 /* CoreGraphics.framework */,
@@ -118,6 +153,26 @@
 				4C49F8AB15E311F300E929B4 /* AppDelegate.m */,
 				4C49F8AD15E311F300E929B4 /* Clien.xcdatamodeld */,
 				4C49F8A215E311F300E929B4 /* Supporting Files */,
+				4C49F8CE15E3124500E929B4 /* MainViewController.h */,
+				4C49F8CF15E3124500E929B4 /* MainViewController.m */,
+				4C49F8D015E3124500E929B4 /* MainViewController.xib */,
+				4C49F8D715E35D5100E929B4 /* Board.h */,
+				4C49F8D815E35D5100E929B4 /* Board.m */,
+				4C49F8DB15E3613100E929B4 /* BoardViewController.h */,
+				4C49F8DC15E3613100E929B4 /* BoardViewController.m */,
+				4C49F8DD15E3613100E929B4 /* BoardViewController.xib */,
+				4C49F8E015E3647A00E929B4 /* NSString+SubstringFromTo.h */,
+				4C49F8E115E3647A00E929B4 /* NSString+SubstringFromTo.m */,
+				4C49F8E315E364EB00E929B4 /* NSScanner+Skip.h */,
+				4C49F8E415E364EB00E929B4 /* NSScanner+Skip.m */,
+				4C49F8E615E3698F00E929B4 /* Article.h */,
+				4C49F8E715E3698F00E929B4 /* Article.m */,
+				4C49F8E915E36C5F00E929B4 /* ArticleViewController.h */,
+				4C49F8EA15E36C5F00E929B4 /* ArticleViewController.m */,
+				4C49F8EB15E36C5F00E929B4 /* ArticleViewController.xib */,
+				4C18A42F15E3DA9600EA16F9 /* WebViewController.h */,
+				4C18A43015E3DA9600EA16F9 /* WebViewController.m */,
+				4C18A43115E3DA9600EA16F9 /* WebViewController.xib */,
 			);
 			path = Clien;
 			sourceTree = "<group>";
@@ -224,6 +279,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C49F8A615E311F300E929B4 /* InfoPlist.strings in Resources */,
+				4C49F8D215E3124500E929B4 /* MainViewController.xib in Resources */,
+				4C49F8DF15E3613100E929B4 /* BoardViewController.xib in Resources */,
+				4C18A43315E3DA9600EA16F9 /* WebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +319,14 @@
 				4C49F8A815E311F300E929B4 /* main.m in Sources */,
 				4C49F8AC15E311F300E929B4 /* AppDelegate.m in Sources */,
 				4C49F8AF15E311F300E929B4 /* Clien.xcdatamodeld in Sources */,
+				4C49F8D115E3124500E929B4 /* MainViewController.m in Sources */,
+				4C49F8D915E35D5100E929B4 /* Board.m in Sources */,
+				4C49F8DE15E3613100E929B4 /* BoardViewController.m in Sources */,
+				4C49F8E215E3647A00E929B4 /* NSString+SubstringFromTo.m in Sources */,
+				4C49F8E515E364EB00E929B4 /* NSScanner+Skip.m in Sources */,
+				4C49F8E815E3698F00E929B4 /* Article.m in Sources */,
+				4C49F8EC15E36C5F00E929B4 /* ArticleViewController.m in Sources */,
+				4C18A43215E3DA9600EA16F9 /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,6 +494,7 @@
 				4C49F8CA15E311F400E929B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4C49F8CB15E311F400E929B4 /* Build configuration list for PBXNativeTarget "ClienTests" */ = {
 			isa = XCConfigurationList;
@@ -436,6 +503,7 @@
 				4C49F8CD15E311F400E929B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
