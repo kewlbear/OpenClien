@@ -11,6 +11,14 @@
 #import "NSString+SubstringFromTo.h"
 #import "WebViewController.h"
 #import <iconv.h>
+#import "Comment.h"
+#import "ArticleCell.h"
+#import "CommentCell.h"
+#import "TextParagraph.h"
+#import "ImageParagraph.h"
+#import "UIImageView+AFNetworking.h"
+#import "GTMNSString+HTML.h"
+#import "UIViewController+Stack.h"
 
 @interface ArticleViewController ()
 
@@ -31,12 +39,8 @@
 {
     [super viewDidLoad];
     
-    UITextView* textView = [[UITextView alloc] initWithFrame:self.view.bounds];
-    textView.editable = NO;
-    textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:textView];
-    self.textView = textView;
-        
+    [self setTitleView];
+    [self setGestureRecognizer];
     [self reload];
 }
 
@@ -50,18 +54,14 @@
 
 - (void)openWebView {
     WebViewController* controller = [[WebViewController alloc] initWithNibName:nil bundle:nil];
-    controller.href = [self URL];
-    [self.navigationController pushViewController:controller animated:YES];
-}
-
-- (NSString*)URL {
-    return [self.href stringByReplacingOccurrencesOfString:@".." withString:@"http://clien.career.co.kr/cs2"];
+    controller.URL = _URL;
+//    [self.navigationController pushViewController:controller animated:YES];
+    [self push:controller];
 }
 
 - (void)reload {
-    NSURL* URL = [NSURL URLWithString:[self URL]];
-    NSLog(@"%s: %@ %@", __func__, self.href, URL);
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:URL];
+    NSLog(@"%s: %@", __func__, _URL);
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:_URL];
     [request setValue:@"utf-8" forHTTPHeaderField:@"accept-charset"];
     NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
     if (connection) {
@@ -109,7 +109,7 @@
                 NSLog(@"%s: iconv=%lu", __func__, n);
                 if (n == (size_t) -1) {
                     NSLog(@"%s: %d %s", __func__, errno, strerror(errno));
-                    if (errno == EILSEQ) {
+                    if (YES || errno == EILSEQ) {
                         NSLog(@"%s: %x", __func__, (unsigned char) *inbuf);
                         ++inbuf;
                         --inbytesleft;
@@ -127,19 +127,75 @@
             NSLog(@"%s: %s", __func__, strerror(errno));
         }
     }
-    NSScanner* scanner = [NSScanner scannerWithString:[response substringFrom:@"<span id=\"writeContents\"" to:@"</span>"]];
-    NSLog(@"%s: %@", __func__, response);
+    article = [[Article alloc] init];
+    NSMutableArray* content = [NSMutableArray array];
+    NSMutableString* paragraph = [NSMutableString string];
+    NSScanner* scanner = [NSScanner scannerWithString:[response substringFrom:@"<div id=\"resContents\"" to:@"<!-- 서명"]];
+    NSLog(@"%s: %@", __func__, scanner.string);
+    [scanner skip:@"<"];
+    if ([scanner scanString:@"div class=\"attachedImage\">" intoString:NULL]) {
+        while ([scanner scanString:@"<img" intoString:NULL]) {
+            [scanner skip:@"src="];
+            NSString* quote;
+            [scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\"'"] intoString:&quote];
+            NSString* src;
+            [scanner scanUpToString:quote intoString:&src];
+            [content addObject:[[ImageParagraph alloc] initWithURL:[NSURL URLWithString:[src stringByReplacingOccurrencesOfString:@"../" withString:@"http://clien.career.co.kr/cs2/"]]]];
+            NSLog(@"%s: attach %@", __func__, src);
+        }
+    }
+    [scanner skip:@"span id=\"writeContents\""];
     [scanner skip:@">"];
     while (!scanner.isAtEnd) {
         NSString* string;
-        if ([scanner scanUpToString:@"<" intoString:&string]) {
-            self.textView.text = [self.textView.text stringByAppendingString:string];
-        }
+        [scanner scanUpToString:@"<" intoString:&string];
         if ([scanner scanString:@"<" intoString:NULL]) {
+            if (string) {
+                [paragraph appendString:string];
+            }
+            NSLog(@"%s: %@", __func__, string);
             if ([scanner scanString:@"!--" intoString:NULL]) {
                 [scanner skip:@"-->"];
+                NSLog(@"%s: HTML comment", __func__);
+            } else if ([scanner scanString:@"br />" intoString:NULL]) {
+                [paragraph appendString:@"\n"];
+                NSLog(@"%s: br", __func__);
+            } else if ([scanner scanString:@"p>" intoString:NULL]) {
+                [content addObject:[[TextParagraph alloc] initWithString:paragraph]];
+                paragraph = [NSMutableString string];
+                NSLog(@"%s: p", __func__);
+            } else if ([scanner scanString:@"a href=\"" intoString:NULL]) {
+                NSString* href;
+                [scanner scanUpToString:@"\"" intoString:&href];
+                [scanner skip:@">"];
+                [scanner scanUpToString:@"<" intoString:&string];
+                [paragraph appendFormat:@"%@:%@", href, string];
+                [scanner skip:@">"];
+                NSLog(@"%s: a %@ %@", __func__, href, string);
+            } else if ([scanner scanString:@"img" intoString:NULL]) {
+                [scanner skip:@"src=\""];
+                NSString* src;
+                [scanner scanUpToString:@"\"" intoString:&src];
+                [scanner skip:@">"];
+                [content addObject:[[TextParagraph alloc] initWithString:paragraph]];
+                paragraph = [NSMutableString string];
+                [content addObject:[[ImageParagraph alloc] initWithURL:[NSURL URLWithString:src]]];
+                NSLog(@"%s: img %@", __func__, src);
+            } else if ([scanner scanString:@"object" intoString:NULL]) {
+                [content addObject:[[TextParagraph alloc] initWithString:paragraph]];
+                paragraph = [NSMutableString string];
+                [content addObject:[[TextParagraph alloc] initWithString:@"<object>"]];
+                [scanner skip:@"</object>"];
+                NSLog(@"%s: object", __func__);
+            } else if ([scanner scanString:@"embed" intoString:NULL]) {
+                [content addObject:[[TextParagraph alloc] initWithString:paragraph]];
+                paragraph = [NSMutableString string];
+                [content addObject:[[TextParagraph alloc] initWithString:@"<embed>"]];
+                [scanner skip:@"</embed>"];
+                NSLog(@"%s: object", __func__);
             } else {
                 while ([scanner scanUpToString:@">" intoString:&string]) {
+                    NSLog(@"%s: %@>", __func__, string);
                     NSRange range = [string rangeOfString:@"\""];
                     if (range.location != NSNotFound) {
                         int n = 1;
@@ -159,28 +215,127 @@
                     break;
                 }
             }
+        } else {
+            [paragraph appendString:string];
+            [content addObject:[[TextParagraph alloc] initWithString:paragraph]];
+            paragraph = [NSMutableString string];
+            NSLog(@"%s: %@", __func__, string);
         }
     }
+    if ([paragraph length]) {
+        [content addObject:[[TextParagraph alloc] initWithString:paragraph]];
+    }
+    NSLog(@"%s: %@", __func__, content);
+    article.content = content;
     NSLog(@"%s: 본문 스캔 끝", __func__);
+    NSMutableArray* array = [NSMutableArray array];
     scanner = [NSScanner scannerWithString:[response substringFrom:@"<div id=\"comment_wrapper\">" to:@"<script"]];
+    NSLog(@"%s: %@", __func__, scanner.string);
     while (!scanner.isAtEnd) {
+        Comment* comment = [[Comment alloc] init];
         [scanner skip:@"<li class=\"user_id\">"];
-        NSString* user;
-        if (![scanner scanUpToString:@"</li>" intoString:&user]) {
+        NSString* user = nil;
+        while ([scanner scanString:@"<img" intoString:NULL]) {
+            [scanner skip:@"src="];
+            NSString* quote;
+            [scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\"'"] intoString:&quote];
+            [scanner scanUpToString:quote intoString:&user];
+//            NSLog(@"%s: quote=%@ %@", __func__, quote, user);
+            if ([user rangeOfString:@"/blet_re2.gif"].location != NSNotFound) {
+                comment.nested = YES;
+            }
+            [scanner skip:@">"];
+        }
+        if (user && [user rangeOfString:@"/member/"].location != NSNotFound) {
+            user = [[NSURL URLWithString:user relativeToURL:_URL] absoluteString];
+        } else {
+            [scanner skip:@">"];
+            [scanner scanUpToString:@"</span>" intoString:&user];
+        }
+        NSLog(@"%s: user=%@", __func__, user);
+        if (!user) {
             break;
         }
-        NSLog(@"%s: %@님 댓글", __func__, user);
-        self.textView.text = [self.textView.text stringByAppendingFormat:@"\n\n%@", user];
+        comment.user = user;
         [scanner skip:@"<li> ("];
         NSString* timestamp;
         [scanner scanUpToString:@")" intoString:&timestamp];
-        self.textView.text = [self.textView.text stringByAppendingFormat:@" %@", timestamp];
+        comment.timestamp = timestamp;
         [scanner skip:@"<div class=\"reply_content\">"];
         NSString* content;
         [scanner scanUpToString:@"<span" intoString:&content];
-        self.textView.text = [self.textView.text stringByAppendingFormat:@"\n%@", content];
+        content = [content stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
+        comment.content = content.gtm_stringByUnescapingFromHTML;
+        [array addObject:comment];
     }
+    comments = array;
+    [self.tableView reloadData];
+    
     [self setRefreshButton];
+}
+
+- (void)setTitleView {
+    UILabel* label = [[UILabel alloc] initWithFrame:UIEdgeInsetsInsetRect(self.navigationController.navigationBar.bounds, UIEdgeInsetsMake(5, 0, 5, 0))];
+    label.text = self.title;
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    label.numberOfLines = 0;
+    label.font = [UIFont systemFontOfSize:14];
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = UITextAlignmentCenter;
+//    label.shadowColor = [UIColor blackColor];
+    self.navigationItem.titleView = label;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1;
+    } else {
+        return [comments count];
+    }
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        ArticleCell* cell = [[ArticleCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
+        [cell setArticle:article];
+        return cell;
+    } else {
+        static NSString* CellIdentifier = @"comment cell";
+        CommentCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (!cell) {
+            cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        }
+        Comment* comment = [comments objectAtIndex:indexPath.row];
+        cell.textLabel.text = comment.content;
+        if ([comment.user rangeOfString:@"http://"].location == 0) {
+            [cell.imageView setImageWithURL:[NSURL URLWithString:comment.user] placeholderImage:[[UIImage alloc] init]];
+        } else {
+            cell.detailTextLabel.text = comment.user;
+        }
+        if (comment.nested) {
+            cell.indentationLevel = 1;
+        }
+        return cell;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat height;
+    if (indexPath.section == 0) {
+        height = [ArticleCell heightForArticle:article tableView:tableView];
+    } else {
+        Comment* comment = [comments objectAtIndex:indexPath.row];
+        height = [CommentCell heightForComment:comment tableView:tableView];
+    }
+    if (height < 44) {
+        height = 44;
+    }
+    return height;
 }
 
 - (void)viewDidUnload

@@ -7,6 +7,7 @@
 //
 
 #import "WebViewController.h"
+#import "UIViewController+Stack.h"
 
 @interface WebViewController ()
 
@@ -32,8 +33,9 @@
     [self.view addSubview:webView];
     self.webView = webView;
     
-    NSURL* URL = [NSURL URLWithString:self.href];
-    NSURLRequest* request = [NSURLRequest requestWithURL:URL];
+    [self setGestureRecognizer];
+    
+    NSURLRequest* request = [NSURLRequest requestWithURL:_URL];
     [webView loadRequest:request];
 }
 

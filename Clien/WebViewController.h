@@ -11,6 +11,6 @@
 @interface WebViewController : UIViewController
 
 @property (weak, nonatomic) UIWebView* webView;
-@property (copy, nonatomic) NSString* href;
+@property (copy, nonatomic) NSURL* URL;
 
 @end

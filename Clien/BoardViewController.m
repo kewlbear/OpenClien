@@ -11,8 +11,14 @@
 #import "NSScanner+Skip.h"
 #import "Article.h"
 #import "ArticleViewController.h"
+#import "UIImageView+AFNetworking.h"
+#import "BoardCell.h"
+#import "GTMNSString+HTML.h"
+#import "UIViewController+Stack.h"
 
-@interface BoardViewController ()
+@interface BoardViewController () {
+    UIView* view;
+}
 
 @end
 
@@ -22,7 +28,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -30,13 +35,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [self setGestureRecognizer];
     
     [self reload];
 }
 
 - (void)reload {
-    NSURL* URL = [NSURL URLWithString:[self.href stringByReplacingOccurrencesOfString:@"./" withString:@"http://clien.career.co.kr/"]];
-    NSURLRequest* request = [NSURLRequest requestWithURL:URL];
+    NSURLRequest* request = [NSURLRequest requestWithURL:_URL];
     NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
     if (connection) {
         receivedData = [NSMutableData data];
@@ -70,12 +76,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     NSString* response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-    NSScanner* scanner = [NSScanner scannerWithString:[response substringFrom:@"<div class=\"board_title\">" to:@"</div>"]];
-    [scanner skip:@"\">"];
-    NSString* title;
-    [scanner scanUpToString:@"</a>" intoString:&title];
-    self.title = title;
-    scanner = [NSScanner scannerWithString:[response substringFrom:@"<form name=\"fboardlist\"" to:@"</tbody>"]];
+    NSScanner* scanner = [NSScanner scannerWithString:[response substringFrom:@"<form name=\"fboardlist\"" to:@"</tbody>"]];
     NSLog(@"%s: %@", __func__, scanner.string);
     NSMutableArray* array = [NSMutableArray array];
     while (!scanner.isAtEnd) {
@@ -86,11 +87,11 @@
         if (![scanner scanUpToString:@"'" intoString:&href]) {
             break;
         }
-        article.href = href;
+        article.URL = [NSURL URLWithString:href relativeToURL:_URL];
         [scanner skip:@">"];
         NSString* title;
         [scanner scanUpToString:@"<" intoString:&title];
-        article.title = title;
+        article.title = title.gtm_stringByUnescapingFromHTML;
         [scanner skip:@"</a>"];
         if ([scanner scanString:@"<span>[" intoString:NULL]) {
             int numberOfComments;
@@ -104,6 +105,7 @@
         } else {
             [scanner skip:@"src='"];
             [scanner scanUpToString:@"'" intoString:&name];
+            name = [[NSURL URLWithString:name relativeToURL:_URL] absoluteString];
         }
         article.name = name;
         [scanner skip:@"<span title=\""];
@@ -127,28 +129,37 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString* CellIdentifier = @"cell";
-    UITableViewCell* cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString* CellIdentifier = @"board cell";
+    BoardCell* cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[BoardCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     Article* article = [articles objectAtIndex:indexPath.row];
     cell.textLabel.text = article.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ 댓글: %d %@ %d hits", article.name, article.numberOfComments, article.timestamp, article.numberOfHits];
+    if ([article.name rangeOfString:@"http://"].location == 0) {
+        [cell.imageView setImageWithURL:[NSURL URLWithString:article.name] placeholderImage:[[UIImage alloc] init]];
+    } else {
+        cell.detailTextLabel.text = article.name;
+    }
+//    cell.detailTextLabel.text = [cell.detailTextLabel.text stringByAppendingFormat:@" 댓글: %d %@ %d hits", article.numberOfComments, article.timestamp, article.numberOfHits];
+    cell.numberOfComments = article.numberOfComments;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Article* article = [articles objectAtIndex:indexPath.row];
-    NSLog(@"%s: %@", __func__, article.href);
+    NSLog(@"%s: %@", __func__, article.URL);
     ArticleViewController* controller = [[ArticleViewController alloc] initWithNibName:nil bundle:nil];
-    controller.href = article.href;
-    [self.navigationController pushViewController:controller animated:YES];
+    controller.URL = article.URL;
+    controller.title = article.title;
+//    [self.navigationController pushViewController:controller animated:YES];
+    [self push:controller];
 }
 
 - (void)viewDidUnload
 {
+    [self setTableView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

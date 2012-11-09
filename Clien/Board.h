@@ -11,7 +11,7 @@
 @interface Board : NSObject
 
 @property (copy, nonatomic) NSString* title;
-@property (copy, nonatomic) NSString* href;
+@property (strong, nonatomic) NSURL* URL;
 @property (copy, nonatomic) NSString* src;
 
 @end

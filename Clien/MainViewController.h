@@ -10,9 +10,7 @@
 
 @interface MainViewController : UITableViewController <NSURLConnectionDataDelegate> {
     NSMutableData* receivedData;
-    NSArray* boards;
+    NSArray* sections;
 }
-
-@property (weak, nonatomic) IBOutlet UITextView *logView;
 
 @end

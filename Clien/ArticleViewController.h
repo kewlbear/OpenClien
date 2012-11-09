@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Article.h"
 
-@interface ArticleViewController : UIViewController <NSURLConnectionDataDelegate> {
+@interface ArticleViewController : UITableViewController <NSURLConnectionDataDelegate> {
     NSMutableData* receivedData;
+    Article* article;
+    NSArray* comments;
 }
 
-@property (copy, nonatomic) NSString* href;
-@property (weak, nonatomic) UITextView* textView;
+@property (strong, nonatomic) NSURL* URL;
 
 @end

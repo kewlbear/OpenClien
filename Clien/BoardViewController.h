@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BoardViewController : UITableViewController <NSURLConnectionDataDelegate> {
+@interface BoardViewController : UITableViewController <NSURLConnectionDataDelegate, UIGestureRecognizerDelegate> {
     NSMutableData* receivedData;
     NSArray* articles;
 }
 
-@property (copy, nonatomic) NSString* href;
+@property (strong, nonatomic) NSURL* URL;
 
 @end

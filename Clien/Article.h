@@ -11,10 +11,11 @@
 @interface Article : NSObject
 
 @property (copy, nonatomic) NSString* title;
-@property (copy, nonatomic) NSString* href;
+@property (strong, nonatomic) NSURL* URL;
 @property (nonatomic) int numberOfComments;
 @property (copy, nonatomic) NSString* name;
 @property (copy, nonatomic) NSString* timestamp;
 @property (nonatomic) int numberOfHits;
+@property (strong, nonatomic) NSArray* content;
 
 @end
