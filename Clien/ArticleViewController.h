@@ -9,10 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Article.h"
 
-@interface ArticleViewController : UITableViewController <NSURLConnectionDataDelegate> {
+@interface ArticleViewController : UIViewController <NSURLConnectionDataDelegate, UIWebViewDelegate> {
     NSMutableData* receivedData;
-    Article* article;
-    NSArray* comments;
 }
 
 @property (strong, nonatomic) NSURL* URL;

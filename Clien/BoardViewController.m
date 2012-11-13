@@ -18,6 +18,10 @@
 
 @interface BoardViewController () {
     UIView* view;
+    BOOL isLoading;
+    BOOL isLoadingMore;
+    int page;
+    UIActivityIndicatorView* indicator;
 }
 
 @end
@@ -36,18 +40,35 @@
 {
     [super viewDidLoad];
 
+    if (!indicator) {
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator.frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
+    }
+    self.tableView.tableFooterView = indicator;
+    
     [self setGestureRecognizer];
     
-    [self reload];
+    [self loadMore:NO];
 }
 
-- (void)reload {
-    NSURLRequest* request = [NSURLRequest requestWithURL:_URL];
+- (void)loadMore:(BOOL)more {
+    if (isLoading) {
+        return;
+    }
+    isLoadingMore = more;
+    [indicator startAnimating];
+    NSURL* URL;
+    if (more) {
+        URL = [NSURL URLWithString:[_URL.absoluteString stringByAppendingFormat:@"&page=%d", page + 1]];
+    } else {
+        page = 1;
+        URL = _URL;
+    }
+    NSURLRequest* request = [NSURLRequest requestWithURL:URL];
     NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
     if (connection) {
+        isLoading = YES;
         receivedData = [NSMutableData data];
-        UIActivityIndicatorView* indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        [indicator startAnimating];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:indicator];
     } else {
         NSLog(@"%s: connection failed", __func__);
@@ -56,7 +77,13 @@
 }
 
 - (void)setRefreshButton {
+    isLoading = NO;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reload)];
+    [indicator stopAnimating];
+}
+
+- (void)reload {
+    [self loadMore:NO];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
@@ -71,14 +98,24 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     NSLog(@"%s: %@", __func__, error);
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:connection.originalRequest.URL.description message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"확인", nil];
+    [alert show];
     [self setRefreshButton];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    if (isLoadingMore) {
+        ++page;
+    }
     NSString* response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     NSScanner* scanner = [NSScanner scannerWithString:[response substringFrom:@"<form name=\"fboardlist\"" to:@"</tbody>"]];
     NSLog(@"%s: %@", __func__, scanner.string);
-    NSMutableArray* array = [NSMutableArray array];
+    NSMutableArray* array;
+    if (isLoadingMore) {
+        array = [articles mutableCopy];
+    } else {
+        array = [NSMutableArray array];
+    }
     while (!scanner.isAtEnd) {
         Article* article = [[Article alloc] init];
         [scanner skip:@"<td class=\"post_subject\">"];
@@ -98,7 +135,8 @@
             [scanner scanInt:&numberOfComments];
             article.numberOfComments = numberOfComments;
         }
-        [scanner skip:@"<td class=\"post_name\">"];
+        [scanner skip:@"<td class=\"post_name"];
+        [scanner skip:@">"];
         NSString* name;
         if ([scanner scanString:@"<span class='member'>" intoString:NULL]) {
             [scanner scanUpToString:@"</span>" intoString:&name];
@@ -108,14 +146,14 @@
             name = [[NSURL URLWithString:name relativeToURL:_URL] absoluteString];
         }
         article.name = name;
-        [scanner skip:@"<span title=\""];
-        NSString* timestamp;
-        [scanner scanUpToString:@"\">" intoString:&timestamp];
-        article.timestamp = timestamp;
-        [scanner skip:@"<td>"];
-        int numberOfHits;
-        [scanner scanInt:&numberOfHits];
-        article.numberOfHits = numberOfHits;
+//        [scanner skip:@"<span title=\""];
+//        NSString* timestamp;
+//        [scanner scanUpToString:@"\">" intoString:&timestamp];
+//        article.timestamp = timestamp;
+//        [scanner skip:@"<td>"];
+//        int numberOfHits;
+//        [scanner scanInt:&numberOfHits];
+//        article.numberOfHits = numberOfHits;
         [array addObject:article];
 //        NSLog(@"%s: %@ %@", __func__, href, title);
     }
@@ -168,6 +206,13 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (!isLoading && scrollView.contentSize.height - scrollView.contentOffset.y - scrollView.bounds.size.height < scrollView.contentSize.height * .1f) {
+        NSLog(@"%s: content height=%f offset=%f view height=%f", __func__, scrollView.contentSize.height, scrollView.contentOffset.y, scrollView.bounds.size.height);
+        [self loadMore:YES];
+    }
 }
 
 @end

@@ -72,7 +72,7 @@
     NSLog(@"%s: %@", __func__, response);
     NSMutableArray* array = [NSMutableArray array];
     [array addObject:[self parseSection:[response substringFrom:@"<div id=\"snb_navi1\">" to:@"</div>"]]];
-    [array addObject:[self parseSection:[response substringFrom:@"<div id=\"snb_navi2\">" to:@"</ul>"]]];
+    [array addObject:[self parseSection:[response substringFrom:@"<div id=\"snb_navi2\">" to:@"</div>"]]];
     sections = array;
     [self.tableView reloadData];
     [self setRefreshButton];
@@ -80,7 +80,7 @@
 
 - (NSArray*)parseSection:(NSString*)string {
     NSMutableArray* boards = [NSMutableArray array];
-    NSScanner* scanner = [NSScanner scannerWithString:string];
+    NSScanner* scanner = [NSScanner scannerWithString:[string stringByRemovingHTMLComments]];
     while (!scanner.isAtEnd) {
         Board* board = [[Board alloc] init];
         [scanner skip:@"href=\""];
@@ -89,18 +89,22 @@
             break;
         }
         board.URL = [NSURL URLWithString:href relativeToURL:URL];
-        [scanner skip:@"src=\""];
-        NSString* src;
-        [scanner scanUpToString:@"\"" intoString:&src];
-        board.src = [src stringByReplacingOccurrencesOfString:@"./" withString:@"http://clien.career.co.kr/"];
-        [scanner skip:@"/>"];
+        [scanner skip:@">"];
+        if ([scanner scanString:@"<img" intoString:NULL]) {
+            [scanner skip:@">"];
+        }
         if ([scanner scanString:@"<font" intoString:NULL]) {
             [scanner skip:@">"];
         }
         NSString* title;
         [scanner scanUpToString:@"<" intoString:&title];
         board.title = title;
-        [boards addObject:board];
+        NSLog(@"%s: %@ %@ %@", __func__, title, href, board.URL);
+        if (board.URL.path && [board.URL.path rangeOfString:@"board.php"].location != NSNotFound) {
+            [boards addObject:board];
+        } else {
+            NSLog(@"%s: bad href=%@", __func__, href);
+        }
     }
     return boards;
 }
@@ -138,6 +142,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Board* board = [[sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    NSLog(@"%s: URL=%@", __func__, board.URL);
     BoardViewController* controller = [[BoardViewController alloc] initWithStyle:UITableViewStylePlain];
     controller.URL = board.URL;
     controller.title = board.title;

@@ -28,7 +28,6 @@
 		4C49F8E215E3647A00E929B4 /* NSString+SubstringFromTo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8E115E3647A00E929B4 /* NSString+SubstringFromTo.m */; };
 		4C49F8E515E364EB00E929B4 /* NSScanner+Skip.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8E415E364EB00E929B4 /* NSScanner+Skip.m */; };
 		4C49F8E815E3698F00E929B4 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8E715E3698F00E929B4 /* Article.m */; };
-		4C49F8EC15E36C5F00E929B4 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8EA15E36C5F00E929B4 /* ArticleViewController.m */; };
 		4C49F8EF15E385E100E929B4 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F8EE15E385E100E929B4 /* libiconv.dylib */; };
 		4C49F94115E5DF5600E929B4 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F92D15E5DF5600E929B4 /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4C49F94215E5DF5600E929B4 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F92F15E5DF5600E929B4 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -48,6 +47,10 @@
 		4CD2850B164BACF700ECEAC9 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD28509164BACF700ECEAC9 /* GTMNSString+HTML.m */; };
 		4CD28513164CDC5700ECEAC9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CD28512164CDC5700ECEAC9 /* Default-568h@2x.png */; };
 		4CD4FFBB164CFFDC00727748 /* UIViewController+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD4FFBA164CFFDC00727748 /* UIViewController+Stack.m */; };
+		4CD4FFF01650E2DE00727748 /* Clien.js in Sources */ = {isa = PBXBuildFile; fileRef = 4CD4FFEF1650E2DE00727748 /* Clien.js */; };
+		4CD4FFF41650E61800727748 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8EA15E36C5F00E929B4 /* ArticleViewController.m */; };
+		4CD4FFF51650E66500727748 /* Clien.js in Resources */ = {isa = PBXBuildFile; fileRef = 4CD4FFEF1650E2DE00727748 /* Clien.js */; };
+		4CD4FFFF16521B1B00727748 /* Article.html in Resources */ = {isa = PBXBuildFile; fileRef = 4CD4FFFE16521B1B00727748 /* Article.html */; };
 		4CDBED0315E91F5E0092B03E /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDBED0215E91F5E0092B03E /* Comment.m */; };
 		4CDBED0715EA5FFE0092B03E /* ArticleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDBED0615EA5FFE0092B03E /* ArticleCell.m */; };
 		4CDBED0A15EA60110092B03E /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDBED0915EA60110092B03E /* CommentCell.m */; };
@@ -136,6 +139,8 @@
 		4CD4FFB6164CFA5A00727748 /* BoardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardView.xib; sourceTree = "<group>"; };
 		4CD4FFB9164CFFDC00727748 /* UIViewController+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Stack.h"; sourceTree = "<group>"; };
 		4CD4FFBA164CFFDC00727748 /* UIViewController+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Stack.m"; sourceTree = "<group>"; };
+		4CD4FFEF1650E2DE00727748 /* Clien.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Clien.js; sourceTree = "<group>"; };
+		4CD4FFFE16521B1B00727748 /* Article.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Article.html; sourceTree = "<group>"; };
 		4CDBED0115E91F5E0092B03E /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		4CDBED0215E91F5E0092B03E /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		4CDBED0515EA5FFE0092B03E /* ArticleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleCell.h; sourceTree = "<group>"; };
@@ -260,6 +265,8 @@
 				4C49F8A415E311F300E929B4 /* InfoPlist.strings */,
 				4C49F8A715E311F300E929B4 /* main.m */,
 				4C49F8A915E311F300E929B4 /* Clien-Prefix.pch */,
+				4CD4FFEF1650E2DE00727748 /* Clien.js */,
+				4CD4FFFE16521B1B00727748 /* Article.html */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -382,8 +389,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CD4FFF51650E66500727748 /* Clien.js in Resources */,
 				4C49F8A615E311F300E929B4 /* InfoPlist.strings in Resources */,
 				4CD28513164CDC5700ECEAC9 /* Default-568h@2x.png in Resources */,
+				4CD4FFFF16521B1B00727748 /* Article.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +436,6 @@
 				4C49F8E215E3647A00E929B4 /* NSString+SubstringFromTo.m in Sources */,
 				4C49F8E515E364EB00E929B4 /* NSScanner+Skip.m in Sources */,
 				4C49F8E815E3698F00E929B4 /* Article.m in Sources */,
-				4C49F8EC15E36C5F00E929B4 /* ArticleViewController.m in Sources */,
 				4C18A43215E3DA9600EA16F9 /* WebViewController.m in Sources */,
 				4C49F94115E5DF5600E929B4 /* AFHTTPClient.m in Sources */,
 				4C49F94215E5DF5600E929B4 /* AFHTTPRequestOperation.m in Sources */,
@@ -448,6 +456,8 @@
 				4C6A50F515EB3D7F004A0956 /* ImageParagraph.m in Sources */,
 				4CD2850A164BACF700ECEAC9 /* GTMNSString+HTML.m in Sources */,
 				4CD4FFBB164CFFDC00727748 /* UIViewController+Stack.m in Sources */,
+				4CD4FFF01650E2DE00727748 /* Clien.js in Sources */,
+				4CD4FFF41650E61800727748 /* ArticleViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

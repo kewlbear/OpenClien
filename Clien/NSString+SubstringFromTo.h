@@ -11,5 +11,6 @@
 @interface NSString (SubstringFromTo)
 
 - (NSString*)substringFrom:(NSString*)from to:(NSString*)to;
+- (NSString*)stringByRemovingHTMLComments;
 
 @end
