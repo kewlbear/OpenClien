@@ -8,6 +8,9 @@
 
 #import "ComposeViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "AFHTTPClient.h"
+#import "NSScanner+Skip.h"
+#import "ComposeTextCell.h"
 
 @interface ComposeViewController ()
 
@@ -20,8 +23,45 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismiss)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"보내기" style:UIBarButtonItemStylePlain target:self action:@selector(submit:)];
     }
     return self;
+}
+
+- (void)submit:(id)sender {
+    AFHTTPClient* httpClient = [AFHTTPClient clientWithBaseURL:_url];
+    NSMutableDictionary* parameters = [@{//@"wr_name": @"test",
+                                       @"w": @"c"}
+                                       mutableCopy];
+    NSArray* array = [_url.baseURL.query componentsSeparatedByString:@"&"];
+    for (NSString* parameter in array) {
+        NSArray* nameValue = [parameter componentsSeparatedByString:@"="];
+        NSLog(@"%@", nameValue);
+        parameters[nameValue[0]] = nameValue[1];
+    }
+    parameters[@"wr_content"] = _textCell.textView.text;
+    [httpClient postPath:@"" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        // fixme
+        NSString* response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSLog(@"%@", response);
+        // fixme merge message handling
+        NSScanner* scanner = [NSScanner scannerWithString:response];
+        if ([scanner skip:@"alert('"]) {
+            NSString* message;
+            [scanner scanUpToString:@"'" intoString:&message];
+            message = [message stringByReplacingOccurrencesOfString:@"\\n" withString:@" "];
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"확인", nil];
+            [alertView show];
+        } else {
+            if (_successBlock) {
+                _successBlock();
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"확인", nil];
+        [alertView show];
+    }];
 }
 
 - (void)dismiss {
@@ -31,8 +71,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _tableView.superview.layer.cornerRadius = 5;
-    _navigationBar.items = @[self.navigationItem];
+    self.navigationController.view.superview.layer.cornerRadius = 5;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -40,7 +79,7 @@
     [super viewWillAppear:animated];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        if (animated)
+        if (YES || animated)
         {
             CATransition *slide = [CATransition animation];
             
@@ -51,29 +90,14 @@
             
             slide.removedOnCompletion = YES;
             
-            [_tableView.superview.layer addAnimation:slide forKey:@"slidein"];
+            [self.navigationController.view.superview.layer addAnimation:slide forKey:@"slidein"];
         }
     }
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
-}
-
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Text"];
-        return cell;
-    } else {
-        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Option"];
-        cell.textLabel.text = [NSString stringWithFormat:@"Option %d", indexPath.row];
-        return cell;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return indexPath.row == 0 ? 100 : 44; // fixme
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return indexPath.row == 0 ? 100 : 44; // fixme
+//}
 
 - (void)didReceiveMemoryWarning
 {

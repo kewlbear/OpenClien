@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ComposeViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+typedef void (^SuccessBlock)();
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@class ComposeTextCell;
+
+@interface ComposeViewController : UITableViewController
+
+@property (strong, nonatomic) NSURL* url;
+@property (weak, nonatomic) IBOutlet ComposeTextCell *textCell;
+@property (strong, nonatomic) SuccessBlock successBlock;
 
 @end

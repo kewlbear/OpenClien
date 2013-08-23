@@ -10,9 +10,9 @@
 
 @implementation NSScanner (Skip)
 
-- (void)skip:(NSString *)string {
+- (BOOL)skip:(NSString *)string {
     [self scanUpToString:string intoString:NULL];
-    [self scanString:string intoString:NULL];
+    return [self scanString:string intoString:NULL];
 }
 
 @end

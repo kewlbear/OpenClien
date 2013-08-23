@@ -21,6 +21,7 @@
 
 @interface ArticleViewController () {
     UIWebView* _webView;
+    NSString* response;
 }
 
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
@@ -33,7 +34,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        UIBarButtonItem* comment = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(compose:)];
+        UIBarButtonItem* comment = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(compose:)];
         UIBarButtonItem* actions = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActions:)];
         UIBarButtonItem* flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
         self.toolbarItems = @[comment, flexibleSpace, actions];
@@ -43,9 +44,25 @@
 }
 
 - (void)compose:(id)sender {
-    ComposeViewController* vc = [[UIStoryboard storyboardWithName:@"SharedStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"Compose"];
-    self.navigationController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    [self presentViewController:vc animated:YES completion:NULL];
+    if ([self canComment]) {
+        UIViewController* container = [[UIStoryboard storyboardWithName:@"SharedStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"ComposePhone"];
+        self.navigationController.modalPresentationStyle = UIModalPresentationCurrentContext;
+        [self presentViewController:container animated:YES completion:^{
+            UINavigationController* nc = container.childViewControllers[0];
+            ComposeViewController* vc = nc.viewControllers[0];
+            vc.url = [NSURL URLWithString:@"./write_comment_update.php" relativeToURL:_URL];
+            vc.successBlock = ^{
+                [self dismissViewControllerAnimated:YES completion:NULL];
+                [self reload];
+            };
+        }];
+    } else {
+        [self showLoginAlertViewWithMessage:@"로그인이 필요한 기능입니다."];
+    }
+}
+
+- (BOOL)canComment {
+    return [response rangeOfString:@"<div class=\"reply_write\">"].location != NSNotFound;
 }
 
 - (void)showActions:(id)sender {
@@ -172,7 +189,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     connection = nil;
-    NSString* response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     if (!response) {
         NSLog(@"invalid encoding");
         iconv_t cd = iconv_open("UTF-16", "UTF-8");
@@ -259,12 +276,6 @@
         NSLog(@"%s: comments not found", __func__);
     }
     
-    if ([response rangeOfString:@"<div class=\"reply_write\">"].location == NSNotFound) {
-        NSLog(@"can't reply");
-    } else {
-        NSLog(@"can reply");
-    }
-    
 //    [html replaceOccurrencesOfString:@"width" withString:@"w" options:0 range:NSMakeRange(0, html.length)];
 //    [html replaceOccurrencesOfString:@"height" withString:@"h" options:0 range:NSMakeRange(0, html.length)];
     [html replaceOccurrencesOfString:@"<iframe" withString:@"<if" options:0 range:NSMakeRange(0, html.length)];
@@ -278,8 +289,11 @@
     NSString* content = [response substringFrom:@"javascript'>alert('" to:@"'"];
     NSLog(@"%@", content);
     content = [content stringByReplacingOccurrencesOfString:@"\\n" withString:@" "];
-    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil message:content delegate:nil cancelButtonTitle:@"취소" otherButtonTitles:@"확인", nil];
-    alertView.delegate = self;
+    [self showLoginAlertViewWithMessage:content];
+}
+
+- (void)showLoginAlertViewWithMessage:(NSString*)message {
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:@"취소" otherButtonTitles:@"확인", nil];
     alertView.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
     [alertView show];
 }

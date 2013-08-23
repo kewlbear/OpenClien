@@ -10,6 +10,6 @@
 
 @interface NSScanner (Skip)
 
-- (void)skip:(NSString*)string;
+- (BOOL)skip:(NSString*)string;
 
 @end

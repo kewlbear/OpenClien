@@ -211,7 +211,6 @@
             title = [title stringByReplacingOccurrencesOfString:@"<span class='search_text'>" withString:@""];
             title = [title stringByReplacingOccurrencesOfString:@"</span>" withString:@""];
         }
-        NSLog(@"%@", title);
         article.title = title.gtm_stringByUnescapingFromHTML;
         [scanner skip:@"</a>"];
         if ([scanner scanString:@"<span>[" intoString:NULL]) {

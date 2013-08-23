@@ -72,6 +72,7 @@
 		4C8F66A115E7059700D4ACF1 /* MainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8F66A015E7059700D4ACF1 /* MainCell.m */; };
 		4C8F66A515E7423400D4ACF1 /* BoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8F66A415E7423400D4ACF1 /* BoardCell.m */; };
 		4CB116E117C43F1F00FD11DE /* UIViewController+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB116E017C43F1F00FD11DE /* UIViewController+URL.m */; };
+		4CB116E417C73CA900FD11DE /* ComposeTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB116E317C73CA800FD11DE /* ComposeTextCell.m */; };
 		4CC039CF177BDFBE00956F4D /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC039CE177BDFBE00956F4D /* UIImage+ImageEffects.m */; };
 		4CC039D1177BE04F00956F4D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CC039D0177BE04F00956F4D /* Accelerate.framework */; };
 		4CD2850A164BACF700ECEAC9 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD28509164BACF700ECEAC9 /* GTMNSString+HTML.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -196,6 +197,8 @@
 		4C8F66A415E7423400D4ACF1 /* BoardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardCell.m; sourceTree = "<group>"; };
 		4CB116DF17C43F1F00FD11DE /* UIViewController+URL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+URL.h"; sourceTree = "<group>"; };
 		4CB116E017C43F1F00FD11DE /* UIViewController+URL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+URL.m"; sourceTree = "<group>"; };
+		4CB116E217C73CA800FD11DE /* ComposeTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeTextCell.h; sourceTree = "<group>"; };
+		4CB116E317C73CA800FD11DE /* ComposeTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeTextCell.m; sourceTree = "<group>"; };
 		4CC039CD177BDFBE00956F4D /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		4CC039CE177BDFBE00956F4D /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		4CC039D0177BE04F00956F4D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -352,6 +355,8 @@
 				4C49962617B2445F0027A00C /* SettingsViewController.m */,
 				4C49962B17B320D80027A00C /* Settings.h */,
 				4C49962C17B320D80027A00C /* Settings.m */,
+				4CB116E217C73CA800FD11DE /* ComposeTextCell.h */,
+				4CB116E317C73CA800FD11DE /* ComposeTextCell.m */,
 			);
 			path = Clien;
 			sourceTree = "<group>";
@@ -618,6 +623,7 @@
 				4C49962717B2445F0027A00C /* SettingsViewController.m in Sources */,
 				4C49962D17B320D80027A00C /* Settings.m in Sources */,
 				4CB116E117C43F1F00FD11DE /* UIViewController+URL.m in Sources */,
+				4CB116E417C73CA900FD11DE /* ComposeTextCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
