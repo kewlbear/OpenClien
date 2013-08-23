@@ -36,11 +36,41 @@
     if (self) {
         UIBarButtonItem* comment = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(compose:)];
         UIBarButtonItem* actions = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActions:)];
+        UIBarButtonItem* scrap = [[UIBarButtonItem alloc] initWithTitle:@"스크랩" style:UIBarButtonItemStylePlain target:self action:@selector(scrap:)];
         UIBarButtonItem* flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
-        self.toolbarItems = @[comment, flexibleSpace, actions];
+        self.toolbarItems = @[comment, scrap, flexibleSpace, actions];
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"logo"] landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:nil action:NULL];
     }
     return self;
+}
+
+- (void)scrap:(id)sender {
+    if ([self canComment]) { // fixme canScrap?
+        NSMutableDictionary* parameters = [@{@"wr_mb_id": @"mbmbmb", // fixme
+                                           @"wr_content": @"oc"}
+                                           mutableCopy];
+        NSArray* array = [_URL.query componentsSeparatedByString:@"&"];
+        for (NSString* parameter in array) {
+            NSArray* nameValue = [parameter componentsSeparatedByString:@"="];
+            NSLog(@"%@", nameValue);
+            parameters[nameValue[0]] = nameValue[1];
+        }
+        parameters[@"wr_subject"] = self.title;
+        [[AFHTTPClient clientWithBaseURL:_URL] postPath:@"./scrap_popin_update.php" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSString* response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+            NSLog(@"%@", response);
+            // fixme provide proper viewer
+            WebViewController* vc = [[WebViewController alloc] init];
+            vc.URL = [NSURL URLWithString:@"http://m.clien.net/cs3/scrap"];
+            [self.navigationController pushViewController:vc animated:YES];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"확인", nil];
+            [alertView show];
+        }];
+    } else {
+        // fixme other restrictions?
+        [self showLoginAlertViewWithMessage:@"로그인이 필요한 기능입니다."];
+    }
 }
 
 - (void)compose:(id)sender {
@@ -57,6 +87,7 @@
             };
         }];
     } else {
+        // fixme other restrictions?
         [self showLoginAlertViewWithMessage:@"로그인이 필요한 기능입니다."];
     }
 }

@@ -60,12 +60,13 @@ enum {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    static int n[] = {1, 2};
+    return n[section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -76,15 +77,20 @@ enum {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     
-    if (indexPath.row == SaveLogRow) {
-        cell.textLabel.text = @"로그 저장";
-        UISwitch* aSwitch = [[UISwitch alloc] init];
-        aSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:SettingsDebugKey];
-        [aSwitch addTarget:self action:@selector(debugChanged:) forControlEvents:UIControlEventValueChanged];
-        cell.accessoryView = aSwitch;
-    } else if (indexPath.row == ViewLogRow) {
-        cell.textLabel.text = @"로그 보기";
+    if (indexPath.section == 0) {
+        cell.textLabel.text = @"스크랩";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    } else {
+        if (indexPath.row == SaveLogRow) {
+            cell.textLabel.text = @"로그 저장";
+            UISwitch* aSwitch = [[UISwitch alloc] init];
+            aSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:SettingsDebugKey];
+            [aSwitch addTarget:self action:@selector(debugChanged:) forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView = aSwitch;
+        } else if (indexPath.row == ViewLogRow) {
+            cell.textLabel.text = @"로그 보기";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
     }
     
     return cell;
@@ -176,11 +182,18 @@ enum {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == ViewLogRow) {
+    if (indexPath.section == 0) {
         // fixme provide proper viewer
         WebViewController* vc = [[WebViewController alloc] init];
-        vc.URL = [self logURL];
+        vc.URL = [NSURL URLWithString:@"http://m.clien.net/cs3/scrap"];
         [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        if (indexPath.row == ViewLogRow) {
+            // fixme provide proper viewer
+            WebViewController* vc = [[WebViewController alloc] init];
+            vc.URL = [self logURL];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
 }
 
