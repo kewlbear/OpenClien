@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Board : NSObject
+@interface Board : NSManagedObject
 
-@property (copy, nonatomic) NSString* title;
-@property (strong, nonatomic) NSURL* URL;
-@property (copy, nonatomic) NSString* src;
+@property (strong, nonatomic) NSString* title;
+@property (strong, nonatomic) NSString* url;
+@property (strong, nonatomic) NSNumber* section;
+@property (strong, nonatomic) NSNumber* row;
+@property (strong, nonatomic) NSNumber* hidden;
 
 @end

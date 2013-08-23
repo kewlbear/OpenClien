@@ -17,5 +17,6 @@
 @property (copy, nonatomic) NSString* timestamp;
 @property (nonatomic) int numberOfHits;
 @property (strong, nonatomic) NSArray* content;
+@property (copy, nonatomic) NSString* ID;
 
 @end

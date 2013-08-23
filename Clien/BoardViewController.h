@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BoardViewController : UITableViewController <NSURLConnectionDataDelegate, UIGestureRecognizerDelegate> {
-    NSMutableData* receivedData;
-    NSArray* articles;
+@interface BoardViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate> {
+    NSMutableArray* articles;
 }
 
 @property (strong, nonatomic) NSURL* URL;

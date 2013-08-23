@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UITableViewController <NSURLConnectionDataDelegate> {
-    NSMutableData* receivedData;
+@interface MainViewController : UITableViewController {
     NSArray* sections;
 }
+
+@property (strong, nonatomic) NSManagedObjectContext* managedObjectContext;
+
+- (IBAction)openSettings:(id)sender;
 
 @end

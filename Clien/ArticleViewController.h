@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Article.h"
+#import <StoreKit/StoreKit.h>
 
-@interface ArticleViewController : UIViewController <NSURLConnectionDataDelegate, UIWebViewDelegate> {
+@interface ArticleViewController : UIViewController <NSURLConnectionDataDelegate, UIWebViewDelegate, UIAlertViewDelegate, SKStoreProductViewControllerDelegate, UIActionSheetDelegate> {
     NSMutableData* receivedData;
 }
 

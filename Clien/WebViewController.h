@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 
-@interface WebViewController : UIViewController
+@interface WebViewController : UIViewController <UIWebViewDelegate, SKStoreProductViewControllerDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) UIWebView* webView;
 @property (copy, nonatomic) NSURL* URL;

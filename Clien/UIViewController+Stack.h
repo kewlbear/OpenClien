@@ -10,6 +10,8 @@
 
 @interface UIViewController (Stack) <UIGestureRecognizerDelegate>
 
+@property (strong, readonly, nonatomic) UISwipeGestureRecognizer* swipeGestureRecognizer;
+
 - (void)push:(UIViewController*)viewController;
 - (void)setGestureRecognizer;
 

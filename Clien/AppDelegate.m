@@ -17,13 +17,60 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    MainViewController* controller = [[MainViewController alloc] initWithStyle:UITableViewStylePlain];
-    UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-    self.window.rootViewController = navigationController;
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
+    NSManagedObjectContext* context = self.managedObjectContext;
+    if (!context) {
+        NSLog(@"%s: context is nil", __func__);
+        // TODO:
+    }
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        MainViewController* controller = [[MainViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        controller.managedObjectContext = context;
+        
+        UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+        navigationController.delegate = self;
+        navigationController.toolbarHidden = NO;
+        
+        self.window.rootViewController = navigationController;
+        [self.window makeKeyAndVisible];
+    } else {
+        UISplitViewController* splitViewController = (UISplitViewController*) _window.rootViewController;
+        splitViewController.delegate = self;
+        UINavigationController* navigationController = (UINavigationController*) splitViewController.viewControllers[0];
+        MainViewController* mainViewController = (MainViewController*) navigationController.viewControllers[0];
+        mainViewController.managedObjectContext = context;
+        [self.window makeKeyAndVisible];
+        navigationController = splitViewController.viewControllers[1];
+        UIBarButtonItem* barButtonItem = navigationController.navigationBar.topItem.leftBarButtonItem;
+        if (barButtonItem) {
+            [_popoverController presentPopoverFromBarButtonItem:barButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];
+        }
+    }
     return YES;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc {
+    UINavigationController* navigationController = (UINavigationController*) [svc.viewControllers objectAtIndex:1];
+    barButtonItem.title = @"Clien.net";
+    navigationController.navigationBar.topItem.leftBarButtonItem = barButtonItem;
+    if (svc.view.window) {
+        pc.contentViewController = aViewController;
+//        pc.popoverContentSize = CGSizeMake(320, 480);
+        [pc presentPopoverFromBarButtonItem:barButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];
+    }
+    _popoverController = pc;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
+    UINavigationController* nc = (UINavigationController*) svc.viewControllers[1];
+    nc.navigationBar.topItem.leftBarButtonItem = nil;
+    _popoverController = nil;
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    navigationController.navigationBarHidden = NO;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

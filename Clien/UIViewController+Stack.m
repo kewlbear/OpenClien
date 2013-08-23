@@ -12,6 +12,9 @@
 @implementation UIViewController (Stack)
 
 - (void)push:(UIViewController *)viewController {
+    [self.navigationController pushViewController:viewController animated:YES];
+    return;
+    
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:viewController];
     controller.view.frame = CGRectOffset([UIScreen mainScreen].applicationFrame, self.view.frame.size.width, 0);
     CALayer* layer = controller.view.layer;
@@ -29,38 +32,63 @@
 }
 
 - (void)setGestureRecognizer {
-    UIPanGestureRecognizer* panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-    panGestureRecognizer.delegate = self;
-    [self.view addGestureRecognizer:panGestureRecognizer];
+    UISwipeGestureRecognizer* swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+    swipeGestureRecognizer.delegate = self;
+    [self.view addGestureRecognizer:swipeGestureRecognizer];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        UIPanGestureRecognizer* panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+        panGestureRecognizer.delegate = self;
+        [self.view addGestureRecognizer:panGestureRecognizer];
+    }
+}
+
+- (void)swipe:(UISwipeGestureRecognizer*)swipeGestureRecognizer {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)pan:(UIPanGestureRecognizer*)panGestureRecognizer {
 //    NSLog(@"%s: %@", __func__, panGestureRecognizer);
     CGPoint translation = [panGestureRecognizer translationInView:self.view];
-    if (panGestureRecognizer.state == UIGestureRecognizerStateChanged && translation.x > 0) {
-        self.navigationController.view.frame = CGRectOffset([UIScreen mainScreen].applicationFrame, translation.x, 0);
-    } else {
-        if (panGestureRecognizer.state == UIGestureRecognizerStateEnded
-            && self.navigationController.view.frame.origin.x > 100) {
-            [self willMoveToParentViewController:nil];
-            [UIView animateWithDuration:.2 animations:^{
-                self.navigationController.view.frame = CGRectOffset([UIScreen mainScreen].applicationFrame, self.view.frame.size.width, 0);
-            } completion:^(BOOL finished) {
-                [self.navigationController.view removeFromSuperview];
-                [self removeFromParentViewController];
-            }];
-            return;
+//    if (panGestureRecognizer.state == UIGestureRecognizerStateChanged && translation.x > 0) {
+//        self.navigationController.view.frame = CGRectOffset([UIScreen mainScreen].applicationFrame, translation.x, 0);
+//    } else {
+//        if (panGestureRecognizer.state == UIGestureRecognizerStateEnded
+//            && self.navigationController.view.frame.origin.x > 100) {
+//            [self.navigationController willMoveToParentViewController:nil];
+//            [UIView animateWithDuration:.2 animations:^{
+//                self.navigationController.view.frame = CGRectOffset([UIScreen mainScreen].applicationFrame, self.view.frame.size.width, 0);
+//            } completion:^(BOOL finished) {
+//                [self.navigationController.view removeFromSuperview];
+//                [self.navigationController removeFromParentViewController];
+//            }];
+//            return;
+//        }
+//        self.navigationController.view.frame = [UIScreen mainScreen].applicationFrame;
+//    }
+    if (YES || self.toolbarItems) {
+        if (fabs(translation.y) > 10) {
+            BOOL hidden = translation.y < 0;
+            if (self.toolbarItems) {
+                [self.navigationController setToolbarHidden:hidden animated:YES];
+            }
+            [self.navigationController setNavigationBarHidden:hidden animated:YES];
         }
-        self.navigationController.view.frame = [UIScreen mainScreen].applicationFrame;
-    }
-    if (self.toolbarItems) {
-        [self.navigationController setToolbarHidden:translation.y < 0 animated:YES];
     }
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
 //    NSLog(@"%s: %@ %@", __func__, gestureRecognizer, otherGestureRecognizer);
     return YES;
+}
+
+- (UISwipeGestureRecognizer*)swipeGestureRecognizer {
+    for (UIGestureRecognizer* r in self.view.gestureRecognizers) {
+        if ([r isKindOfClass:[UISwipeGestureRecognizer class]]) {
+            return (UISwipeGestureRecognizer*) r;
+        }
+    }
+    return nil;
 }
 
 @end

@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <meta name="viewport" content="width = device-width">
+        <style>
+            body { word-break: break-all }
+            img, object, embed { max-width: 100% }
+            div.view_head p { display: inline }
+            p.post_info { font-size: small }
+            h3.category { display: none }
+            h4 span { font-size: 15pt }
+            hr { clear: both }
+            div.ccl { float: right }
+            ul.reply_info { list-style-type: none; padding-left: 0 }
+            ul.reply_info li { display: inline }
+            ul.reply_info li:nth-child(2) { margin-left: 1ex; font-size: small }
+            div.reply_content:before { content: ""; border-left: solid transparent 5px; border-right: solid transparent 5px; border-bottom: solid #ccc 10px; display: block; width: 0; top: -10px; left: 10px; position: absolute }
+            div.reply_content { background-color: #ccc; -webkit-border-radius: 10px; position: relative; padding: 10px }
+        </style>
+        <script>
+            var iframe;
+            
+            function onLoad() {
+                iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                console = {
+                    log: function(objects) {
+                        this._log('LOG', objects);
+                        },
+                    warn: function(objects) {
+                        this._log('WARN', objects);
+                        },
+                    error: function(objects) {
+                        this._log('ERROR', objects);
+                        },
+                    debug: function(objects) {
+                        this._log('DEBUG', objects);
+                        },
+                    info: function(objects) {
+                        this._log('INFO', objects);
+                        },
+                    _log: function(level, objects) {
+                        this._logs.push(level + ' ' + objects);
+                        iframe.src = 'clien:log';
+                        },
+                    _logs: []
+                };
+
+                var a = document.getElementsByTagName('img');
+                console.log(a);
+                for (var i = 0; i < a.length; ++i) {
+                    var width = parseInt(document.defaultView.getComputedStyle(a[i], null)['width']);
+                    console.log(i + ': ' + width);
+                    a[i].addEventListener('click', onImageClick, false);
+                }
+            }
+                    
+            function onImageClick() {
+                open('clien:img?' + this.src);
+            }
+            
+            window.addEventListener('load', onLoad, false);
+        </script>
+    </head>
+    <body>

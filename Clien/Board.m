@@ -10,4 +10,10 @@
 
 @implementation Board
 
+@dynamic title;
+@dynamic url;
+@dynamic section;
+@dynamic row;
+@dynamic hidden;
+
 @end

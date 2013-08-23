@@ -12,17 +12,18 @@
 #import "WebViewController.h"
 #import <iconv.h>
 #import "Comment.h"
-#import "ArticleCell.h"
-#import "CommentCell.h"
-#import "TextParagraph.h"
-#import "ImageParagraph.h"
 #import "UIImageView+AFNetworking.h"
 #import "GTMNSString+HTML.h"
 #import "UIViewController+Stack.h"
+#import "AFHTTPClient.h"
+#import "ComposeViewController.h"
+#import "UIViewController+URL.h"
 
 @interface ArticleViewController () {
-    UIWebView* webView;
+    UIWebView* _webView;
 }
+
+@property (strong, nonatomic) UIRefreshControl* refreshControl;
 
 @end
 
@@ -32,43 +33,84 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.toolbarItems = [NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openWebView)]];
+        UIBarButtonItem* comment = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(compose:)];
+        UIBarButtonItem* actions = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActions:)];
+        UIBarButtonItem* flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        self.toolbarItems = @[comment, flexibleSpace, actions];
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"logo"] landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:nil action:NULL];
     }
     return self;
+}
+
+- (void)compose:(id)sender {
+    ComposeViewController* vc = [[UIStoryboard storyboardWithName:@"SharedStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"Compose"];
+    self.navigationController.modalPresentationStyle = UIModalPresentationCurrentContext;
+    [self presentViewController:vc animated:YES completion:NULL];
+}
+
+- (void)showActions:(id)sender {
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"취소" destructiveButtonTitle:@"삭제" otherButtonTitles:@"웹", nil];
+    [actionSheet showFromBarButtonItem:sender animated:YES];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == actionSheet.destructiveButtonIndex) {
+        [self notYet];
+    } else if (buttonIndex != actionSheet.cancelButtonIndex) {
+        switch (buttonIndex - actionSheet.firstOtherButtonIndex) {
+            case 0:
+                [self openWebView];
+                break;
+                
+            default:
+                NSLog(@"unexpected button index: %d", buttonIndex);
+                break;
+        }
+    }
+}
+
+- (void)notYet {
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil message:@"미구현" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"확인", nil];
+    [alertView show];
 }
 
 - (void)loadView {
     [super loadView];
     
-    webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    webView.delegate = self;
-    self.view = webView;
+    _webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+    _webView.delegate = self;
+    _webView.scrollView.backgroundColor = [UIColor whiteColor];
+    // hide shadow - http://stackoverflow.com/questions/3009063/remove-gradient-background-from-uiwebview
+    for (UIView* subview in _webView.scrollView.subviews) {
+        if ([subview isKindOfClass:[UIImageView class]]) {
+            subview.hidden = YES;
+        }
+    }
+    
+    if (!_refreshControl) {
+        self.refreshControl = [[UIRefreshControl alloc] init];
+    }
+    [_refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
+    [_webView.scrollView addSubview:_refreshControl];
+    
+    self.view = _webView;
 }
 
 - (BOOL)webView:(UIWebView *)webView_ shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    if ([request.URL.scheme isEqualToString:@"about"]) {
+    if (navigationType == UIWebViewNavigationTypeLinkClicked || [request.URL.scheme isEqualToString:@"clien"]) { // fixme
+        // fixme handle redirects
+        [self openURL:request.URL];
         return NO;
     }
-    if ([request.URL.scheme isEqualToString:@"clien"]) {
-        while ([webView stringByEvaluatingJavaScriptFromString:@"console._logs.length"].intValue > 0) {
-            NSLog(@"%s: %@", __func__, [webView stringByEvaluatingJavaScriptFromString:@"console._logs.shift()"]);
-        }
-        return NO;
-    }
-    NSLog(@"%s: %@ %d", __func__, request, navigationType);
     return YES;
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView_ {
-    NSURL* URL = [[NSBundle mainBundle] URLForResource:@"Clien" withExtension:@"js"];
-    NSError* error;
-    NSString* script = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
-    if (script) {
-        NSString* string = [webView stringByEvaluatingJavaScriptFromString:script];
-        NSLog(@"%s: eval()=%@", __func__, string);
-    } else {
-        NSLog(@"%s: %@", __func__, error);
-    }
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSLog(@"%s: %@", __func__, webView.request);
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    NSLog(@"%s: %@", __func__, error);
 }
 
 - (void)viewDidLoad
@@ -80,41 +122,36 @@
     [self reload];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    self.navigationController.toolbarHidden = NO;
-    [self performSelector:@selector(hideToolbar) withObject:nil afterDelay:.5];
-}
-
-- (void)hideToolbar {
-    [self.navigationController setToolbarHidden:YES animated:YES];
-}
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    
+//    self.navigationController.toolbarHidden = NO;
+//}
+//
+//- (void)viewWillDisappear:(BOOL)animated {
+//    [super viewWillDisappear:animated];
+//    
+//    self.navigationController.toolbarHidden = YES;
+//}
 
 - (void)openWebView {
-    WebViewController* controller = [[WebViewController alloc] initWithNibName:nil bundle:nil];
-    controller.URL = _URL;
-//    [self.navigationController pushViewController:controller animated:YES];
-    [self push:controller];
+    WebViewController* vc = [[WebViewController alloc] init];
+    vc.URL = _URL;
+    [self push:vc];
 }
 
 - (void)reload {
     NSLog(@"%s: %@", __func__, _URL);
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:_URL];
-    [request setValue:@"utf-8" forHTTPHeaderField:@"accept-charset"];
+//    [request setValue:@"utf-8" forHTTPHeaderField:@"accept-charset"];
     NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
     if (connection) {
+        [_refreshControl beginRefreshing];
         receivedData = [NSMutableData data];
-        UIActivityIndicatorView* indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        [indicator startAnimating];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:indicator];
     } else {
         NSLog(@"%s: connection failed", __func__);
-        [self setRefreshButton];
+        [_refreshControl endRefreshing];
     }
-}
-
-- (void)setRefreshButton {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reload)];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
@@ -129,43 +166,63 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     NSLog(@"%s: %@", __func__, error);
-    [self setRefreshButton];
+    connection = nil;
+    [_refreshControl endRefreshing];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    connection = nil;
     NSString* response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     if (!response) {
-        iconv_t cd = iconv_open("UTF-8", "UTF-8");  // TODO: convert to unichar
+        NSLog(@"invalid encoding");
+        iconv_t cd = iconv_open("UTF-16", "UTF-8");
         if (cd != (iconv_t) -1) {
-            NSMutableData* data = [NSMutableData dataWithLength:receivedData.length];
+            NSMutableData* data = [NSMutableData dataWithLength:2 * receivedData.length];
             const char* inbuf = [receivedData bytes];
             size_t inbytesleft = receivedData.length;
             char* outbuf = [data mutableBytes];
             size_t outbytesleft = data.length;
+            int x = -1;
             while (inbytesleft > 0) {
                 size_t n = iconv(cd, (char**) &inbuf, &inbytesleft, &outbuf, &outbytesleft);
-                NSLog(@"%s: iconv=%lu", __func__, n);
                 if (n == (size_t) -1) {
-                    NSLog(@"%s: %d %s", __func__, errno, strerror(errno));
-                    if (YES || errno == EILSEQ) {
+                    if (errno == EILSEQ) {
                         NSLog(@"%s: %x", __func__, (unsigned char) *inbuf);
                         ++inbuf;
                         --inbytesleft;
-                        *outbuf++ = '?';
-                        --outbytesleft;
+                        if (x < 0) {
+                            x = (outbuf - (char*) data.mutableBytes) / 2;
+                        }
+                        *((unichar*) outbuf) = [@"�" characterAtIndex:0];
+                        outbuf += sizeof(unichar);
+                        outbytesleft -= sizeof(unichar);
                         continue;
+                    } else if (errno == EINVAL) {
+                        NSLog(@"einval");
+                    } else if (errno == E2BIG) {
+                        NSLog(@"e2big");
+                    } else {
+                        NSLog(@"%s: %d %s", __func__, errno, strerror(errno));
                     }
                     break;
                 }
             }
             iconv_close(cd);
             data.length = outbuf - (char*) [data mutableBytes];
-            response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            // fixme check performance
+            response = [[NSString alloc] initWithData:data encoding:NSUTF16StringEncoding];
+            if (x >= 0) {
+                NSRange range;
+                range.location = MAX(x - 500, 0);
+                range.length = MIN(1000, response.length - range.location);
+                NSLog(@"x=%d %@", x, [response substringWithRange:range]);
+            }
         } else {
             NSLog(@"%s: %s", __func__, strerror(errno));
         }
     }
-    NSLog(@"%s: response=%@", __func__, response);
+    receivedData = nil;
+//    NSLog(@"%s: response=%@", __func__, response);
     static NSString* prefix;
     if (!prefix) {
         NSURL* URL = [[NSBundle mainBundle] URLForResource:@"Article" withExtension:@"html"];
@@ -174,34 +231,24 @@
         if (!prefix) {
             NSLog(@"%s: %@", __func__, error);
         }
+        // fixme
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            prefix = [prefix stringByReplacingOccurrencesOfString:@"device-width" withString:@"700"];
+        }
     }
     NSMutableString* html = [NSMutableString stringWithString:prefix];
 
-    NSString* content = [response substringFrom:@"<div class=\"board_main\">" to:@"<div class=\"view_content\">"];
+    NSString* content = [response substringFrom:@"<div class=\"board_main\">" to:@"<!-- 광고 영역 -->"];
     if (content) {
+        NSRange range = [content rangeOfString:@"<ul class=\"view_content_btn2\""];
+        if (range.location != NSNotFound) {
+            content = [content substringToIndex:range.location];
+        }
         [html appendString:content];
     } else {
         NSLog(@"%s: no content", __func__);
+        [self showLoginAlertViewWithResponse:response];
     }
-    
-    NSScanner* scanner = [NSScanner scannerWithString:[response substringFrom:@"<div id=\"resContents\"" to:@"<!-- 광고 영역 -->"]];
-    NSLog(@"%s: %@", __func__, scanner.string);
-    [scanner skip:@"<"];
-    if ([scanner scanString:@"div class=\"attachedImage\">" intoString:NULL]) {
-        while ([scanner scanString:@"<img" intoString:NULL]) {
-            [scanner skip:@"src="];
-            NSString* quote;
-            [scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\"'"] intoString:&quote];
-            NSString* src;
-            [scanner scanUpToString:quote intoString:&src];
-            NSLog(@"%s: attach %@", __func__, src);
-            [html appendFormat:@"<img src=\"%@\" />", src];
-        }
-    }
-    [scanner skip:@"span id=\"writeContents\""];
-    [scanner skip:@">"];
-
-    [html appendString:[scanner.string substringFromIndex:scanner.scanLocation]];
     
     NSString* comments = [response substringFrom:@"<div class=\"reply_head\"" to:@"<script"];
     if (comments) {
@@ -212,26 +259,74 @@
         NSLog(@"%s: comments not found", __func__);
     }
     
+    if ([response rangeOfString:@"<div class=\"reply_write\">"].location == NSNotFound) {
+        NSLog(@"can't reply");
+    } else {
+        NSLog(@"can reply");
+    }
+    
 //    [html replaceOccurrencesOfString:@"width" withString:@"w" options:0 range:NSMakeRange(0, html.length)];
 //    [html replaceOccurrencesOfString:@"height" withString:@"h" options:0 range:NSMakeRange(0, html.length)];
     [html replaceOccurrencesOfString:@"<iframe" withString:@"<if" options:0 range:NSMakeRange(0, html.length)];
-    NSLog(@"%s: %@", __func__, html);
-    [webView loadHTMLString:html baseURL:_URL];
+//    NSLog(@"%s: %@", __func__, html);
+    [_webView loadHTMLString:html baseURL:_URL];
     
-    [self setRefreshButton];
+    [_refreshControl endRefreshing];
+}
+
+- (void)showLoginAlertViewWithResponse:(NSString*)response {
+    NSString* content = [response substringFrom:@"javascript'>alert('" to:@"'"];
+    NSLog(@"%@", content);
+    content = [content stringByReplacingOccurrencesOfString:@"\\n" withString:@" "];
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil message:content delegate:nil cancelButtonTitle:@"취소" otherButtonTitles:@"확인", nil];
+    alertView.delegate = self;
+    alertView.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == alertView.firstOtherButtonIndex) {
+        NSString* login = [alertView textFieldAtIndex:0].text;
+        NSString* password = [alertView textFieldAtIndex:1].text;
+        NSLog(@"%@ %@", login, password);
+        if (login.length > 0 && password.length > 0) {
+            // https://www.clien.net/cs2/bbs/login_check.php
+            // url=%2f
+            // mb_id (max_length=20)
+            // mb_password (same)
+            AFHTTPClient* httpClient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"https://www.clien.net/cs2/bbs/login_check.php"]];
+            [httpClient postPath:@"" parameters:@{@"mb_id": login, @"mb_password": password} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                NSString* response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+                NSLog(@"login success %@", response);
+                if ([response rangeOfString:@"?nowlogin=1'"].location == NSNotFound) {
+                    [self showLoginAlertViewWithResponse:response];
+                } else {
+                    [self reload];
+                }
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                // fixme
+                NSLog(@"login failure");
+            }];
+            return;
+        }
+    }
+
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)setTitleView {
-    UILabel* label = [[UILabel alloc] initWithFrame:UIEdgeInsetsInsetRect(self.navigationController.navigationBar.bounds, UIEdgeInsetsMake(5, 0, 5, 0))];
-    label.text = self.title;
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    label.numberOfLines = 0;
-    label.font = [UIFont systemFontOfSize:14];
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor whiteColor];
-    label.textAlignment = UITextAlignmentCenter;
-//    label.shadowColor = [UIColor blackColor];
-    self.navigationItem.titleView = label;
+//    UILabel* label = [[UILabel alloc] initWithFrame:UIEdgeInsetsInsetRect(self.navigationController.navigationBar.bounds, UIEdgeInsetsMake(5, 0, 5, 0))];
+//    label.text = self.title;
+//    label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//    label.numberOfLines = 0;
+//    label.font = [UIFont systemFontOfSize:14];
+//    label.backgroundColor = [UIColor clearColor];
+//    label.textColor = [UIColor whiteColor];
+//    label.textAlignment = UITextAlignmentCenter;
+////    label.shadowColor = [UIColor blackColor];
+//    self.navigationItem.titleView = label;
+    UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
+    self.navigationItem.titleView = imageView;
 }
 
 - (void)viewDidUnload
