@@ -2,8 +2,19 @@
 //  MainViewController.m
 //  Clien
 //
-//  Created by 안창범 on 12. 8. 21..
-//  Copyright (c) 2012년 안창범. All rights reserved.
+// Copyright 2013 Changbeom Ahn
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
 
 #import "MainViewController.h"
@@ -12,17 +23,14 @@
 #import "NSString+SubstringFromTo.h"
 #import "NSScanner+Skip.h"
 #import "UIImageView+AFNetworking.h"
-#import "MainCell.h"
 #import "UIViewController+Stack.h"
 #import "AFHTTPClient.h"
 #import "AppDelegate.h"
 #import "SettingsViewController.h"
 #import "UIViewController+URL.h"
+#import "Settings.h"
 
-@interface MainViewController () {
-    NSURL* URL;
-    UIActivityIndicatorView* indicator;
-}
+@interface MainViewController ()
 
 @end
 
@@ -52,7 +60,7 @@
 
 - (void)sharedInit {
     self.title = @"Clien.net";
-    URL = [NSURL URLWithString:@"http://www.clien.net"];
+    _URL = [NSURL URLWithString:@"http://www.clien.net/"];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
@@ -87,14 +95,19 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
 
-    indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    indicator.frame = CGRectMake(0, 0, self.tableView.rowHeight, self.tableView.rowHeight);
-    self.tableView.tableFooterView = indicator;
-
 //    [self setGestureRecognizer];
     
     if (![self loadFromCoreDataIncludingHidden:NO]) {
         [self reload];
+    }
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSString* memberID = [defaults objectForKey:SettingsMemberIDKey];
+    NSString* password = [defaults objectForKey:SettingsPasswordKey];
+    if (![defaults boolForKey:SettingsManualLoginKey] && memberID && password) {
+        [self tryLoginWithID:memberID password:password completionBlock:^(NSString *message) {
+            // fixme
+        }];
     }
 }
 
@@ -147,7 +160,7 @@
             // TODO
             break;
         }
-        NSLog(@"%s: section=%d count=%u", __func__, section, boards.count);
+        NSLog(@"%s: section=%d count=%lu", __func__, section, (unsigned long)boards.count);
         [array addObject:boards];
     }
     if ([[array objectAtIndex:1] count] > 0) {
@@ -159,10 +172,10 @@
 }
 
 - (void)reload {
-    [indicator startAnimating];
+    [self.refreshControl beginRefreshing];
 
-    NSURLRequest* request = [NSURLRequest requestWithURL:URL];
-    [[[AFHTTPClient clientWithBaseURL:URL] HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSURLRequest* request = [NSURLRequest requestWithURL:_URL];
+    [[[AFHTTPClient clientWithBaseURL:_URL] HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSString* response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSLog(@"%s: %@", __func__, response);
         NSMutableArray* array = [NSMutableArray array];
@@ -177,11 +190,11 @@
         [self save];
         sections = array;
         [self.tableView reloadData];
-        [self setRefreshButton];
+        [self.refreshControl endRefreshing];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%s: %@", __func__, error);
-        // TODO:
-        [self setRefreshButton];
+        // fixme report error
+        [self.refreshControl endRefreshing];
     }] start];
 }
 
@@ -234,7 +247,7 @@
         NSLog(@"%s: %@ %@", __func__, title, href);
         if ([href rangeOfString:@"board.php"].location != NSNotFound) {
             Board* board = (Board*) [NSEntityDescription insertNewObjectForEntityForName:@"Board" inManagedObjectContext:_managedObjectContext];
-            board.url = [[NSURL URLWithString:href relativeToURL:URL] absoluteString];
+            board.url = [[NSURL URLWithString:href relativeToURL:_URL] absoluteString];
             board.title = title;
             board.section = [NSNumber numberWithInt:section];
             board.row = [NSNumber numberWithInt:row];
@@ -245,11 +258,6 @@
         }
     }
     return boards;
-}
-
-- (void)setRefreshButton {
-    [indicator stopAnimating];
-    [self.refreshControl endRefreshing];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -290,8 +298,8 @@
 }
 
 - (void)toggle:(id)sender {
-    int tag = [sender tag];
-    NSLog(@"%s: %d", __func__, tag);
+    NSInteger tag = [sender tag];
+    NSLog(@"%s: %ld", __func__, (long)tag);
     Board* board = [[sections objectAtIndex:tag / 100] objectAtIndex:tag % 100];
     board.hidden = [NSNumber numberWithBool:!board.hidden.boolValue];
     [self save];
@@ -362,12 +370,12 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
     if (destinationIndexPath.row > sourceIndexPath.row) {
-        for (int row = sourceIndexPath.row + 1; row <= destinationIndexPath.row; ++row) {
+        for (NSInteger row = sourceIndexPath.row + 1; row <= destinationIndexPath.row; ++row) {
             Board* board = [[sections objectAtIndex:0] objectAtIndex:row];
             board.row = [NSNumber numberWithInt:board.row.intValue - 1];
         }
     } else if (destinationIndexPath.row < sourceIndexPath.row) {
-        for (int row = destinationIndexPath.row; row < sourceIndexPath.row; ++row) {
+        for (NSInteger row = destinationIndexPath.row; row < sourceIndexPath.row; ++row) {
             Board* board = [[sections objectAtIndex:0] objectAtIndex:row];
             board.row = [NSNumber numberWithInt:board.row.intValue + 1];
         }

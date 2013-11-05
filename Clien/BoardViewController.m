@@ -2,8 +2,19 @@
 //  BoardViewController.m
 //  Clien
 //
-//  Created by 안창범 on 12. 8. 21..
-//  Copyright (c) 2012년 안창범. All rights reserved.
+// Copyright 2013 Changbeom Ahn
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
 
 #import "BoardViewController.h"
@@ -19,6 +30,8 @@
 #import "AppDelegate.h"
 #import "ComposeViewController.h"
 #import "AFNetworking.h"
+#import "SettingsViewController.h"
+#import "UIViewController+URL.h"
 
 @interface BoardViewController () {
     UIView* view;
@@ -29,7 +42,9 @@
     NSString* responseString;
     NSString* lastArticleId;
     UISearchDisplayController* _searchDisplayController;
-    NSArray* _searchResults;
+    NSMutableArray* _searchResults;
+    UIPopoverController* _popover;
+    BOOL shouldLoadMore;
 }
 
 @end
@@ -42,32 +57,39 @@
     if (self) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(compose:)];
         UIBarButtonItem* searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(activateSearch:)];
-        self.toolbarItems = @[searchItem];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+            [infoButton addTarget:self action:@selector(openSettings:) forControlEvents:UIControlEventTouchUpInside];
+            infoButton.frame = UIEdgeInsetsInsetRect(infoButton.frame, UIEdgeInsetsMake(0, -10, 0, -10));
+            UIBarButtonItem* settingsItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+            self.toolbarItems = @[settingsItem, searchItem];
+        } else {
+            self.toolbarItems = @[searchItem];
+        }
     }
     return self;
 }
 
+- (IBAction)openSettings:(id)sender {
+    SettingsViewController* vc = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    _popover = [[UIPopoverController alloc] initWithContentViewController:nc];
+    [_popover presentPopoverFromBarButtonItem:self.toolbarItems[0] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
 - (void)activateSearch:(id)sender {
-    if (!_searchDisplayController) {
-        UISearchBar* searchBar = [[UISearchBar alloc] init];
-        searchBar.delegate = self;
-        searchBar.scopeButtonTitles = @[@"a", @"b"];
-        _searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
-        _searchDisplayController.delegate = self;
-        _searchDisplayController.searchResultsDataSource = self;
-        _searchDisplayController.searchResultsDelegate = self;
-        _searchResults = [NSMutableArray array];
-    }
+    // fixme save current content offset?
+    [self.tableView scrollRectToVisible:_searchDisplayController.searchBar.frame animated:NO]; // iOS 7
     [_searchDisplayController setActive:YES animated:YES];
 }
 
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
-    [self.view addSubview:controller.searchBar];
     [controller.searchBar becomeFirstResponder];
 }
 
-- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
-    [controller.searchBar removeFromSuperview];
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
+    // fixme restore saved content offset?
+    [self.tableView setContentOffset:CGPointMake(0, controller.searchBar.bounds.size.height) animated:YES];
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
@@ -75,6 +97,7 @@
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+    [self reload];
     return NO;
 }
 
@@ -83,28 +106,74 @@
 }
 
 - (void)compose:(id)sender {
-    NSString* identifier;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        identifier = @"Compose";
+    if ([self canWrite]) {
+        [self presentComposeViewControllerWithBlock:^(ComposeViewController *vc) {
+            vc.url = [NSURL URLWithString:@"./write_update.php" relativeToURL:_URL];
+            vc.successBlock = ^{
+                [self dismissViewControllerAnimated:YES completion:NULL];
+                [self reload];
+            };
+            NSString* url = [responseString substringFrom:@"write_button\">\n	<a href=\"" to:@"\""];
+            NSURL* baseURL = [NSURL URLWithString:url relativeToURL:_URL];
+            [[AFHTTPClient clientWithBaseURL:baseURL] getPath:@"" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                NSString* response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+                //                    NSLog(@"%@", response);
+                NSString* options = [response substringFrom:@"<option value=\"\">선택하세요" to:@"\n</select>"];
+                if (options) {
+                    NSArray* array = [options componentsSeparatedByString:@"\n"];
+                    NSMutableArray* categories = [NSMutableArray array];
+                    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                        [categories addObject:[obj substringFrom:@"'" to:@"'"]];
+                    }];
+                    vc.categories = categories;
+                } else {
+                    NSString* message = [response substringFrom:@"'javascript'>alert('" to:@"');"];
+                    if (message) {
+                        [self dismissViewControllerAnimated:NO completion:^{
+                            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"확인", nil];
+                            [alertView show];
+                        }];
+                    }
+                }
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"%@", error);
+                // fixme
+            }];
+            vc.title = @"글쓰기";
+        }];
     } else {
-        identifier = @"ComposePad";
+        // fixme other restrictions?
+        [self showLoginAlertViewWithMessage:@"로그인이 필요한 기능입니다." completionBlock:NULL];
     }
-    ComposeViewController* vc = [[UIStoryboard storyboardWithName:@"SharedStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:identifier];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        self.navigationController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    } else {
-        vc.modalPresentationStyle = UIModalPresentationFormSheet;
-    }
-    [self presentViewController:vc animated:YES completion:NULL];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        vc.view.superview.bounds = CGRectMake(0, 0, 300, 225);
-    }
+}
+
+- (BOOL)canWrite {
+    return [responseString rangeOfString:@"<a href=\"./write.php?"].length;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
+    BOOL isSearchResults = [_URL.query rangeOfString:@"stx="].length;
+    if (isSearchResults) {
+        self.navigationItem.rightBarButtonItem = nil;
+        self.toolbarItems = nil; // fixme
+    }
+    
+    if (!isSearchResults && !_searchDisplayController) {
+        UISearchBar* searchBar = [[UISearchBar alloc] init];
+        searchBar.delegate = self;
+        searchBar.scopeButtonTitles = @[@"제목", @"내용", @"제+내", @"ID", @"ID/코", @"이름", @"이름/코"];
+        [searchBar sizeToFit];
+        self.tableView.tableHeaderView = searchBar;
+        _searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+        _searchDisplayController.delegate = self;
+        _searchDisplayController.searchResultsDataSource = self;
+        _searchDisplayController.searchResultsDelegate = self;
+        _searchResults = [NSMutableArray array];
+    }
+    
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
     
@@ -130,10 +199,29 @@
     isLoading = YES;
 
     NSURL* URL;
-    if (self.searchDisplayController.active) {
-        NSString* stx = self.searchDisplayController.searchBar.text.precomposedStringWithCanonicalMapping;
-        stx = [stx stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        URL = [NSURL URLWithString:[_URL.absoluteString stringByAppendingFormat:@"&sca=&sfl=wr_subject&stx=%@", stx]];
+    if (self.searchDisplayController.active || (more && [_URL.query rangeOfString:@"stx="].length)) {
+        if (more) {
+            NSString* x = [responseString substringFrom:@"<div class=\"paging\">" to:@"*다음검색*"];
+            NSRange range = [x rangeOfString:@"<a class='cur_page'>"];
+            if (range.length) {
+                x = [x substringFromIndex:range.location + range.length];
+            } else {
+                range = [x rangeOfString:@"*이전검색*"];
+                if (range.length) {
+                    x = [x substringFromIndex:range.location + range.length];
+                }
+                // 다음검색은 1페이지에서 시작
+                x = [x stringByReplacingOccurrencesOfString:@"page=" withString:@"xxx="];
+            }
+            x = [x substringFrom:@" href='" to:@"'"];
+            URL = [NSURL URLWithString:x relativeToURL:_URL];
+        } else {
+            NSString* stx = self.searchDisplayController.searchBar.text.precomposedStringWithCanonicalMapping;
+            stx = [stx stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSArray* sfls = @[@"wr_subject", @"wr_content", @"wr_subject||wr_content", @"mb_id,1", @"mb_id,0", @"wr_name,1", @"wr_name,0"];
+            NSString* sfl = [sfls[_searchDisplayController.searchBar.selectedScopeButtonIndex] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            URL = [NSURL URLWithString:[_URL.absoluteString stringByAppendingFormat:@"&sca=&sfl=%@&stx=%@", sfl, stx]];
+        }
     } else {
         if (more) {
             URL = [NSURL URLWithString:[_URL.absoluteString stringByAppendingFormat:@"&page=%d", page + 1]];
@@ -143,7 +231,7 @@
         }
     }
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:URL];
-    if (self.searchDisplayController.active) {
+    if (self.searchDisplayController.active || [_URL.query rangeOfString:@"&stx="].length /* fixme */) {
         [request addValue:_URL.absoluteString forHTTPHeaderField:@"Referer"];
     }
     [[[AFHTTPClient clientWithBaseURL:URL] HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -151,29 +239,34 @@
             ++page;
         }
         responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        // fixme
         if ([_URL.query rangeOfString:@"bo_table=image"].location == NSNotFound) {
             [self parseNonImage];
         } else {
             [self parseImage];
         }
-        responseString = nil;
+//        responseString = nil;
         
         // fixme only do when needed
         AppDelegate* appDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
         [appDelegate.popoverController dismissPopoverAnimated:YES];
+        shouldLoadMore = YES;
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%s: %@", __func__, error);
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:operation.request.URL.description message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"확인", nil];
         [alert show];
         [self setRefreshButton];
+        shouldLoadMore = NO;
     }] start];
 }
 
 - (void)setRefreshButton {
     isLoading = NO;
-//    self.navigationItem.rightBarButtonItem.enabled = YES;
     [indicator stopAnimating];
     [self.refreshControl endRefreshing];
+    if (!isLoadingMore && !_searchDisplayController.active) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
 }
 
 - (void)reload {
@@ -187,25 +280,36 @@
     int overlapCount = 0;
     while (!scanner.isAtEnd) {
         Article* article = [[Article alloc] init];
-        [scanner skip:@"<tr class=\"mytr\">"];
-        [scanner skip:@"<td>"];
+        [scanner skip:@"<tr"];
+        // 공지사항
+        BOOL isNotice = [scanner scanString:@"class=\"post_notice\"" intoString:NULL];
+        [scanner skip:@"<td"];
+        // 체험단 사용기 광고
+        if (![scanner scanString:@">" intoString:NULL]) {
+            continue;
+        }
         NSString* articleId;
-        if (![scanner scanUpToString:@"<" intoString:&articleId]) {
+        if (!isNotice && ![scanner scanUpToString:@"<" intoString:&articleId]) {
             break;
         }
-        if (isLoadingMore && [articleId compare:lastArticleId] != NSOrderedAscending) {
+        if (isLoadingMore && !_searchDisplayController.active && [articleId compare:lastArticleId] != NSOrderedAscending) {
             ++overlapCount;
             continue;
         }
         article.ID = articleId;
-        [scanner skip:@"<td class=\"post_subject\">"];
-        [scanner skip:@"href='"];
-        NSString* href;
-        [scanner scanUpToString:@"'" intoString:&href];
-        article.URL = [NSURL URLWithString:href relativeToURL:_URL];
-        [scanner skip:@">"];
+        [scanner skip:@"class=\"post_subject\">"];
         NSString* title;
-        [scanner scanUpToString:@"</a>" intoString:&title];
+        if ([scanner scanString:@"<span " intoString:NULL]) {
+            [scanner skip:@"'>"];
+            [scanner scanUpToString:@"</span>" intoString:&title];
+        } else {
+            [scanner skip:@"href='"];
+            NSString* href;
+            [scanner scanUpToString:@"'" intoString:&href];
+            article.URL = [NSURL URLWithString:href relativeToURL:_URL];
+            [scanner skip:@">"];
+            [scanner scanUpToString:@"</a>" intoString:&title];
+        }
         if (self.searchDisplayController.active) {
             // fixme use attributed string
             title = [title stringByReplacingOccurrencesOfString:@"<span class='search_text'>" withString:@""];
@@ -245,8 +349,11 @@
     }
     NSLog(@"%d overlaps", overlapCount);
     if (self.searchDisplayController.active) {
-        // fixme more results
-        _searchResults = array;
+        if (isLoadingMore) {
+            [_searchResults addObjectsFromArray:array];
+        } else {
+            _searchResults = array;
+        }
         [self.searchDisplayController.searchResultsTableView reloadData];
     } else {
         if (isLoadingMore) {
@@ -274,6 +381,9 @@
         Article* article = [[Article alloc] init];
         [scanner skip:@"<p class=\"user_info"];
         [scanner skip:@">"];
+        if ([scanner scanString:@"<a href=\"javascript:;\"" intoString:NULL]) {
+            [scanner skip:@">"];
+        }
         NSString* name;
         if ([scanner scanString:@"<span class='member'>" intoString:NULL]) {
             [scanner scanUpToString:@"</span>" intoString:&name];
@@ -338,7 +448,6 @@
     BoardCell* cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
         cell = [[BoardCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     Article* article;
     if (tableView == self.tableView) {
@@ -354,6 +463,11 @@
     }
 //    cell.detailTextLabel.text = [cell.detailTextLabel.text stringByAppendingFormat:@" 댓글: %d %@ %d hits", article.numberOfComments, article.timestamp, article.numberOfHits];
     cell.numberOfComments = article.numberOfComments;
+    if (article.URL) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     return cell;
 }
 
@@ -365,10 +479,14 @@
         article = _searchResults[indexPath.row];
     }
     NSLog(@"%s: %@", __func__, article.URL);
-    ArticleViewController* controller = [[ArticleViewController alloc] initWithNibName:nil bundle:nil];
-    controller.URL = article.URL;
-    controller.title = article.title;
-    [self push:controller];
+    if (article.URL) {
+        ArticleViewController* controller = [[ArticleViewController alloc] initWithNibName:nil bundle:nil];
+        controller.URL = article.URL;
+        controller.title = article.title;
+        [self push:controller];
+    } else {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
 
 - (void)viewDidUnload
@@ -385,10 +503,21 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (!isLoading && scrollView.contentSize.height - scrollView.contentOffset.y - scrollView.bounds.size.height < scrollView.contentSize.height * .1f) {
-        NSLog(@"%s: content height=%f offset=%f view height=%f", __func__, scrollView.contentSize.height, scrollView.contentOffset.y, scrollView.bounds.size.height);
+    NSArray* array;
+    if (scrollView == self.tableView) {
+        array = articles;
+    } else {
+        array = _searchResults;
+    }
+    CGFloat height = scrollView.contentSize.height;
+    if (shouldLoadMore && !isLoading && array.count && height - scrollView.contentOffset.y - scrollView.bounds.size.height < 0) {
+        NSLog(@"%s: content height=%f offset=%f view height=%f", __func__, height, scrollView.contentOffset.y, scrollView.bounds.size.height);
         [self loadMore:YES];
     }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    shouldLoadMore = YES;
 }
 
 @end

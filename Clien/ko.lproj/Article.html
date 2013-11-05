@@ -3,23 +3,29 @@
         <meta name="viewport" content="width = device-width">
         <style>
             body { word-break: break-all }
-            img, object, embed { max-width: 100% }
+            * { max-width: 100% }
             div.view_head p { display: inline }
+            p.user_info a { text-decoration: none; background-color: #ddd; line-height: 16px; padding: 2px; font-size: 100% }
+            .user_info a img { vertical-align: text-top }
             p.post_info { font-size: small }
-            h3.category { display: none }
-            h4 span { font-size: 15pt }
+            h3.category { display: inline; font: normal small sans-serif }
+            .view_title h4 { font: medium serif bold; display: inline }
             hr { clear: both }
             div.ccl { float: right }
+            div.reply_head { margin-bottom: -5px }
             ul.reply_info { list-style-type: none; padding-left: 0 }
             ul.reply_info li { display: inline }
             ul.reply_info li:nth-child(2) { margin-left: 1ex; font-size: small }
-            ul.reply_info a { text-decoration: none }
+            ul.reply_info a { text-decoration: none; background-color: #ddd; line-height: 16px; padding: 2px; font-size: 100% }
+            .reply_info a img { vertical-align: text-top }
             ul.reply_btn { display: none }
             div.reply_content:before { content: ""; border-left: solid transparent 5px; border-right: solid transparent 5px; border-bottom: solid #ccc 10px; display: block; width: 0; top: -10px; left: 10px; position: absolute }
-            div.reply_content { background-color: #ccc; -webkit-border-radius: 10px; position: relative; padding: 10px; -webkit-box-shadow: 3px 3px 5px 1px #333 }
-            .view_title { border-bottom: solid gray 1px; margin-bottom: 5px }
+            div.reply_content { background-color: #ccc; -webkit-border-radius: 10px; position: relative; padding: 10px; -webkit-box-shadow: 3px 3px 5px 1px #333; display: inline-block }
+            .view_title { border-bottom: solid gray 1px; margin-bottom: 1ex; margin-top: 1ex; padding-bottom: 1ex }
+            .view_content_btn { display: none }
+            .reply_head1 { background-color: #ddd; display: inline-block; font-size: small; margin-top: 1em }
         </style>
-        <script>
+        <script><!--
             var iframe;
             
             function onLoad() {
@@ -43,18 +49,29 @@
                         this._log('INFO', objects);
                         },
                     _log: function(level, objects) {
-//                        this._logs.push(level + ' ' + objects);
-//                        iframe.src = 'clien:log';
+                        this._logs.push(level + ' ' + objects);
+                        iframe.src = 'clien:log';
                         },
                     _logs: []
                 };
 
                 var a = document.getElementsByTagName('img');
                 console.log(a);
+                var imageNamePattern = new RegExp('^http://www\.clien\.net/cs2/data/member/');
+                var editorPattern = new RegExp('^http://www\.clien\.net/cs2/skin/board/cheditor/img/');
                 for (var i = 0; i < a.length; ++i) {
 //                    var width = parseInt(document.defaultView.getComputedStyle(a[i], null)['width']);
 //                    console.log(i + ': ' + width);
+                    if (imageNamePattern.test(a[i].src) || editorPattern.test(a[i].src)) {
+                        continue; // skip
+                    }
+                    console.log('src=' + a[i].src);
                     a[i].addEventListener('click', onImageClick, false);
+                }
+                
+                var comments = document.getElementsByClassName('reply_content');
+                for (var i = 0; i < comments.length; ++i) {
+                    comments[i].addEventListener('click', onCommentClick, false);
                 }
             }
                     
@@ -63,7 +80,65 @@
                 event.preventDefault();
             }
             
+            function onCommentClick(event) {
+                if (event.target != this) { // 댓글 속 링크 클릭
+                    return;
+                }
+                var id = this.parentNode.getElementsByTagName('textarea')[0].id.split('_')[2];
+                var buttons = this.parentNode.getElementsByClassName('reply_btn')[0].getElementsByTagName('img');
+                var alts = [];
+                for (var i = 0; i < buttons.length; ++i) {
+                    alts.push(buttons[i].alt);
+                }
+                open('clien:comment?' + id + ',' + alts.join('/'));
+            }
+            
+            function showSideView(a, id, name, hash, homePage) {
+                console.log('showSideView: ' + a + ' ' + id + ' ' + name + ' ' + hash + ' "' + homePage + '"');
+                open('clien:user?' + [a, id, name, hash, homePage].join());
+            }
+            
+            function loadScript(src, attributes) {
+                if (!attributes) {
+                    attributes = {};
+                }
+                attributes.src = src;
+                appendElement('script', attributes);
+            }
+            
+            function loadStyleSheet(href) {
+                appendElement('link', {'href': href, 'rel': 'stylesheet'});
+            }
+            
+            function appendElement(tag, attributes) {
+                var e = document.createElement(tag);
+                for (var attribute in attributes) {
+                    e[attribute] = attributes[attribute];
+                }
+                document.body.appendChild(e);
+            }
+            
+            // fixme plugin?
+            function openClienxxx() {
+                if (typeof getClienLegoDB == 'undefined') {
+                    // fixme extract from html?
+                    loadStyleSheet('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/blitzer/jquery-ui.css');
+                    loadStyleSheet('http://minuki.github.io/css/clien.lego.css');
+                    loadScript('http://code.jquery.com/jquery-1.7.1.min.js');
+                    loadScript('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js');
+                    loadScript('http://minuki.github.io/js/clien.lego.js', {'onload': openClienxxx});
+                    return;
+                }
+                    
+                var selection = getSelection().toString();
+                getClienLegoDB(selection, 'dbclick');
+            }
+            
+            function openClienCanxxx() {
+                return getSelection().toString().match(/^\d+$/) != null;
+            }
+            
             window.addEventListener('load', onLoad, false);
-        </script>
+        --></script>
     </head>
-    <body>
+    <body class="board_main">

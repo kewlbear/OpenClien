@@ -2,12 +2,29 @@
 //  AppDelegate.m
 //  Clien
 //
-//  Created by 안창범 on 12. 8. 21..
-//  Copyright (c) 2012년 안창범. All rights reserved.
+// Copyright 2013 Changbeom Ahn
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+
+#ifdef __IPHONE_7_0
+
+#import <JavaScriptCore/JavaScriptCore.h>
+
+#endif
 
 @implementation AppDelegate
 
@@ -48,6 +65,21 @@
             [_popoverController presentPopoverFromBarButtonItem:barButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];
         }
     }
+    
+#ifdef __IPHONE_7_0
+    
+    if ([application respondsToSelector:@selector(setMinimumBackgroundFetchInterval:)]) {
+        [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    }
+
+    if ([JSContext class]) {
+        JSContext* c = [[JSContext alloc] init];
+        JSValue* v = [c evaluateScript:@"2 + 2"];
+        NSLog(@"%d", [v toInt32]);
+    }
+    
+#endif
+    
     return YES;
 }
 
@@ -195,5 +227,15 @@
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
+
+#ifdef __IPHONE_7_0
+
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    NSLog(@"%s", __func__);
+    // fixme
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+#endif
 
 @end
