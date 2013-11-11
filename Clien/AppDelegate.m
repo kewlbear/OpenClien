@@ -19,6 +19,7 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "GAI.h"
 
 #ifdef __IPHONE_7_0
 
@@ -34,6 +35,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [self initializeGoogleAnalytics];
+    
     NSManagedObjectContext* context = self.managedObjectContext;
     if (!context) {
         NSLog(@"%s: context is nil", __func__);
@@ -237,5 +240,19 @@
 }
 
 #endif
+
+- (void)initializeGoogleAnalytics {
+    // Optional: automatically send uncaught exceptions to Google Analytics.
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+//    [GAI sharedInstance].dispatchInterval = 20;
+    
+    // Optional: set Logger to VERBOSE for debug information.
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    
+    // Initialize tracker.
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-45616617-1"];
+}
 
 @end
