@@ -20,8 +20,9 @@
 #import <UIKit/UIKit.h>
 #import "Article.h"
 #import <StoreKit/StoreKit.h>
+#import "GAITrackedViewController.h"
 
-@interface ArticleViewController : UIViewController <NSURLConnectionDataDelegate, UIWebViewDelegate, UIAlertViewDelegate, SKStoreProductViewControllerDelegate, UIActionSheetDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
+@interface ArticleViewController : GAITrackedViewController <NSURLConnectionDataDelegate, UIWebViewDelegate, UIAlertViewDelegate, SKStoreProductViewControllerDelegate, UIActionSheetDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
     NSMutableData* receivedData;
 }
 
