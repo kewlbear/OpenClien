@@ -309,7 +309,7 @@ static Section sections[] = {
         if (row->url) {
             NSString* url = [NSString stringWithUTF8String:row->url];
             if ([url hasSuffix:@"mb_id="]) { // fixme
-                url = [url stringByAppendingString:[[NSUserDefaults standardUserDefaults] objectForKey:SettingsMemberIDKey]];
+                url = [url stringByAppendingString:[[NSUserDefaults standardUserDefaults] objectForKey:SettingsMemberIDKey] ?: @""];
             }
             vc.URL = [NSURL URLWithString:url];
         } else {
