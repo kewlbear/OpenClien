@@ -24,6 +24,7 @@
 #import "WebViewController.h"
 #import "AFHTTPClient.h"
 #import "UIViewController+URL.h"
+#import "UIViewController+GAI.h"
 
 typedef enum {
     SwitchRow,
@@ -80,6 +81,7 @@ static Section sections[] = {
         self.title = @"설정";
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss)];
         self.contentSizeForViewInPopover = CGSizeMake(320, 400);
+        [self sendHitWithScreenName:@"Settings"];
     }
     return self;
 }

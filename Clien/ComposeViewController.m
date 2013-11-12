@@ -21,6 +21,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "AFHTTPClient.h"
 #import "NSScanner+Skip.h"
+#import "UIViewController+GAI.h"
 
 @interface ComposeViewController ()
 
@@ -36,6 +37,7 @@
     if (self) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismiss)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"보내기" style:UIBarButtonItemStylePlain target:self action:@selector(submit:)];
+        [self sendHitWithScreenName:@"Compose"];
     }
     return self;
 }

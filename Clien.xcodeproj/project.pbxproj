@@ -63,6 +63,7 @@
 		4C6E241A183067A40002B141 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6E2419183067A40002B141 /* libz.dylib */; };
 		4C8F66A515E7423400D4ACF1 /* BoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8F66A415E7423400D4ACF1 /* BoardCell.m */; };
 		4CB116E117C43F1F00FD11DE /* UIViewController+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB116E017C43F1F00FD11DE /* UIViewController+URL.m */; };
+		4CB7770F1831AF8400B15B77 /* UIViewController+GAI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB7770E1831AF8400B15B77 /* UIViewController+GAI.m */; };
 		4CC039D1177BE04F00956F4D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CC039D0177BE04F00956F4D /* Accelerate.framework */; };
 		4CD28513164CDC5700ECEAC9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CD28512164CDC5700ECEAC9 /* Default-568h@2x.png */; };
 		4CD4FFBB164CFFDC00727748 /* UIViewController+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD4FFBA164CFFDC00727748 /* UIViewController+Stack.m */; };
@@ -195,6 +196,8 @@
 		4C8F66A415E7423400D4ACF1 /* BoardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardCell.m; sourceTree = "<group>"; };
 		4CB116DF17C43F1F00FD11DE /* UIViewController+URL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+URL.h"; sourceTree = "<group>"; };
 		4CB116E017C43F1F00FD11DE /* UIViewController+URL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+URL.m"; sourceTree = "<group>"; };
+		4CB7770D1831AF8400B15B77 /* UIViewController+GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+GAI.h"; sourceTree = "<group>"; };
+		4CB7770E1831AF8400B15B77 /* UIViewController+GAI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+GAI.m"; sourceTree = "<group>"; };
 		4CC039D0177BE04F00956F4D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		4CD28512164CDC5700ECEAC9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		4CD4FFB9164CFFDC00727748 /* UIViewController+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Stack.h"; sourceTree = "<group>"; };
@@ -254,6 +257,8 @@
 				4C49F8E415E364EB00E929B4 /* NSScanner+Skip.m */,
 				4CB116DF17C43F1F00FD11DE /* UIViewController+URL.h */,
 				4CB116E017C43F1F00FD11DE /* UIViewController+URL.m */,
+				4CB7770D1831AF8400B15B77 /* UIViewController+GAI.h */,
+				4CB7770E1831AF8400B15B77 /* UIViewController+GAI.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -614,6 +619,7 @@
 				4C3BDD941828793D0086C8EB /* SDWebImageDownloader.m in Sources */,
 				4C3BDD8D1828793D0086C8EB /* UIImageView+AFNetworking.m in Sources */,
 				4CD4FFF41650E61800727748 /* ArticleViewController.m in Sources */,
+				4CB7770F1831AF8400B15B77 /* UIViewController+GAI.m in Sources */,
 				4C3BDD8E1828793D0086C8EB /* GTMNSString+HTML.m in Sources */,
 				4C3BDD921828793D0086C8EB /* SDWebImageCompat.m in Sources */,
 				4CFE664F17950A0800CF6AC3 /* ComposeViewController.m in Sources */,

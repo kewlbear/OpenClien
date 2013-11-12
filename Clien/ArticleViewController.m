@@ -91,7 +91,7 @@ enum {
     if (self) {
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"logo"] landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:nil action:NULL];
         [self updateToolbarItems];
-        self.screenName = @"Article Screen";
+        self.screenName = @"Article";
     }
     return self;
 }

@@ -29,6 +29,7 @@
 #import "SettingsViewController.h"
 #import "UIViewController+URL.h"
 #import "Settings.h"
+#import "UIViewController+GAI.h"
 
 @interface MainViewController ()
 
@@ -63,6 +64,8 @@
     _URL = [NSURL URLWithString:@"http://www.clien.net/"];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    [self sendHitWithScreenName:@"Main"];
 }
 
 - (IBAction)openSettings:(id)sender {

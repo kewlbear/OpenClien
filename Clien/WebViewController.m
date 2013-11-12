@@ -20,6 +20,7 @@
 #import "WebViewController.h"
 #import "UIViewController+Stack.h"
 #import "UIViewController+URL.h"
+#import "UIViewController+GAI.h"
 
 @interface WebViewController () {
     UIActivityIndicatorView* indicator;
@@ -40,6 +41,7 @@
         self.navigationItem.titleView = indicator;
         self.contentSizeForViewInPopover = CGSizeMake(1024, 1024);
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"웹" style:UIBarButtonItemStylePlain target:nil action:NULL];
+        [self sendHitWithScreenName:@"Web"];
     }
     return self;
 }

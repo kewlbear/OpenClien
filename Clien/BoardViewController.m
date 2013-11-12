@@ -32,6 +32,7 @@
 #import "AFNetworking.h"
 #import "SettingsViewController.h"
 #import "UIViewController+URL.h"
+#import "UIViewController+GAI.h"
 
 @interface BoardViewController () {
     UIView* view;
@@ -66,6 +67,7 @@
         } else {
             self.toolbarItems = @[searchItem];
         }
+        [self sendHitWithScreenName:@"Board"];
     }
     return self;
 }
