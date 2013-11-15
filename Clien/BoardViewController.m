@@ -189,6 +189,8 @@
         [self setGestureRecognizer];
     }
     
+    self.tableView.separatorInset = UIEdgeInsetsZero;
+    
     [self loadMore:NO];
 }
 
@@ -242,10 +244,10 @@
         }
         responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         // fixme
-        if ([_URL.query rangeOfString:@"bo_table=image"].location == NSNotFound) {
-            [self parseNonImage];
-        } else {
+        if ([self isImageBoard]) {
             [self parseImage];
+        } else {
+            [self parseNonImage];
         }
 //        responseString = nil;
         
@@ -260,6 +262,10 @@
         [self setRefreshButton];
         shouldLoadMore = NO;
     }] start];
+}
+
+- (BOOL)isImageBoard {
+    return [_URL.query rangeOfString:@"bo_table=image"].length;
 }
 
 - (void)setRefreshButton {
@@ -420,10 +426,12 @@
         [scanner scanUpToString:@"<" intoString:&title];
         NSLog(@"%s: title=%@", __func__, title);
         article.title = title.gtm_stringByUnescapingFromHTML;
-        [scanner skip:@"src=\""];
+        [scanner skip:@"src="];
+        [scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\"'"] intoString:&quote];
         NSString* src;
-        [scanner scanUpToString:@"\"" intoString:&src];
+        [scanner scanUpToString:quote intoString:&src];
         NSLog(@"%s: src=%@", __func__, src);
+        article.imageURL = [NSURL URLWithString:src relativeToURL:_URL];
         [scanner skip:@"span id=\"writeContents\""];
         [scanner skip:@">"];
         NSString* content;
@@ -433,6 +441,9 @@
         //        NSLog(@"%s: %@ %@", __func__, href, title);
     }
     articles = array;
+    if (!isLoadingMore) {
+        self.tableView.rowHeight = ceilf(self.tableView.bounds.size.height / array.count);
+    }
     [self.tableView reloadData];
     [self setRefreshButton];
 }
@@ -450,6 +461,9 @@
     BoardCell* cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
         cell = [[BoardCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell.isImageBoard = [self isImageBoard];
+        cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        [cell.contentView sendSubviewToBack:cell.imageView];
     }
     Article* article;
     if (tableView == self.tableView) {
@@ -458,10 +472,14 @@
         article = _searchResults[indexPath.row];
     }
     cell.textLabel.text = article.title;
-    if ([article.name rangeOfString:@"http://"].location == 0) {
-        [cell.imageView setImageWithURL:[NSURL URLWithString:article.name] placeholderImage:[[UIImage alloc] init] options:0];
+    if (article.imageURL) {
+        [cell.imageView setImageWithURL:article.imageURL placeholderImage:[[UIImage alloc] init]];
     } else {
-        cell.detailTextLabel.text = article.name;
+        if ([article.name rangeOfString:@"http://"].location == 0) {
+            [cell.imageView setImageWithURL:[NSURL URLWithString:article.name] placeholderImage:[[UIImage alloc] init] options:0];
+        } else {
+            cell.detailTextLabel.text = article.name;
+        }
     }
 //    cell.detailTextLabel.text = [cell.detailTextLabel.text stringByAppendingFormat:@" 댓글: %d %@ %d hits", article.numberOfComments, article.timestamp, article.numberOfHits];
     cell.numberOfComments = article.numberOfComments;

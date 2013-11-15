@@ -24,5 +24,6 @@
 }
 
 @property (nonatomic) int numberOfComments;
+@property (nonatomic) BOOL isImageBoard;
 
 @end

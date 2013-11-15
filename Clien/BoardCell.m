@@ -49,13 +49,24 @@
 }
 
 - (void)layoutSubviews {
+    self.imageView.frame = CGRectZero;
+    
     [super layoutSubviews];
     
-    self.imageView.frame = UIEdgeInsetsInsetRect(self.contentView.bounds, UIEdgeInsetsMake(3, self.contentView.bounds.size.width - 70, self.contentView.bounds.size.height - 19, 10));// CGRectMake(10, 14, 60, 16);
-    self.textLabel.frame = UIEdgeInsetsInsetRect(self.contentView.bounds, UIEdgeInsetsMake(5, 10, 5, 80));
-    CGFloat dx = (self.imageView.frame.size.width - [commentsLabel sizeThatFits:CGSizeZero].width) / 2 - 8;
-    commentsLabel.frame = UIEdgeInsetsInsetRect(self.contentView.bounds, UIEdgeInsetsMake(25, self.contentView.bounds.size.width - 70 + dx, 3, 10 + dx));
-    self.detailTextLabel.frame = self.imageView.frame;
+    if (_isImageBoard) {
+        self.imageView.frame = self.bounds;
+        CGSize size = self.contentView.bounds.size;
+        size.width -= 20;
+        size = [self.textLabel sizeThatFits:size];
+        self.textLabel.frame = CGRectMake(10, self.contentView.bounds.size.height - size.height - 10, size.width, size.height);
+        self.textLabel.backgroundColor = [UIColor colorWithWhite:1 alpha:.5];
+    } else {
+        self.imageView.frame = UIEdgeInsetsInsetRect(self.contentView.bounds, UIEdgeInsetsMake(3, self.contentView.bounds.size.width - 70, self.contentView.bounds.size.height - 19, 10));// CGRectMake(10, 14, 60, 16);
+        self.textLabel.frame = UIEdgeInsetsInsetRect(self.contentView.bounds, UIEdgeInsetsMake(5, 10, 5, 80));
+        CGFloat dx = (self.imageView.frame.size.width - [commentsLabel sizeThatFits:CGSizeZero].width) / 2 - 8;
+        commentsLabel.frame = UIEdgeInsetsInsetRect(self.contentView.bounds, UIEdgeInsetsMake(25, self.contentView.bounds.size.width - 70 + dx, 3, 10 + dx));
+        self.detailTextLabel.frame = self.imageView.frame;
+    }
 }
 
 - (void)setNumberOfComments:(int)numberOfComments {

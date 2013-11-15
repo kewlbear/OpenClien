@@ -29,5 +29,6 @@
 @property (nonatomic) int numberOfHits;
 @property (strong, nonatomic) NSArray* content;
 @property (copy, nonatomic) NSString* ID;
+@property (strong, nonatomic) NSURL* imageURL;
 
 @end
