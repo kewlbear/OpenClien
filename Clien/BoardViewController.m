@@ -189,7 +189,9 @@
         [self setGestureRecognizer];
     }
     
-    self.tableView.separatorInset = UIEdgeInsetsZero;
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        self.tableView.separatorInset = UIEdgeInsetsZero;
+    }
     
     [self loadMore:NO];
 }

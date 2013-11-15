@@ -84,4 +84,11 @@
     self.detailTextLabel.text = nil;
 }
 
+- (void)setIsImageBoard:(BOOL)isImageBoard {
+    _isImageBoard = isImageBoard;
+    if (isImageBoard && ![self respondsToSelector:@selector(separatorInset)]) { // iOS 6.x
+        self.clipsToBounds = YES;
+    }
+}
+
 @end
