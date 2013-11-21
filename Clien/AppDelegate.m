@@ -52,6 +52,22 @@
         UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
         navigationController.delegate = self;
         navigationController.toolbarHidden = NO;
+        if ([navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
+            UIColor* color = [UIColor colorWithRed:0 green:145/255.f blue:233/255.f alpha:1];
+            _window.tintColor = color;
+            [UINavigationBar appearance].barTintColor = color;
+            [UINavigationBar appearance].tintColor = [UIColor whiteColor];
+            [UINavigationBar appearance].titleTextAttributes = @{UITextAttributeTextColor: [UIColor whiteColor]};
+            [UIToolbar appearance].barTintColor = color;
+            [UIToolbar appearance].tintColor = [UIColor whiteColor];
+            [UISearchBar appearance].barTintColor = color;
+            [UISearchBar appearance].tintColor = [UIColor whiteColor];
+            // http://stackoverflow.com/questions/19022210/preferredstatusbarstyle-doesnt-to-get-called/19513714#19513714
+            navigationController.navigationBar.barStyle = UIBarStyleBlack;
+        } else {
+            [UINavigationBar appearance].tintColor = [UIColor orangeColor];
+            [UIToolbar appearance].tintColor = [UIColor orangeColor];
+        }
         
         self.window.rootViewController = navigationController;
         [self.window makeKeyAndVisible];
