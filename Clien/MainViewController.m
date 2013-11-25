@@ -30,6 +30,7 @@
 #import "UIViewController+URL.h"
 #import "Settings.h"
 #import "UIViewController+GAI.h"
+#import "WebViewController.h"
 
 @interface MainViewController ()
 
@@ -281,9 +282,13 @@
     UITableViewCell* cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     Board* board = [[sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    if ([board.url rangeOfString:@"bo_table=park"].length) {
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     if (indexPath.section == 0) {
         cell.editingAccessoryView = nil;
     } else {
@@ -296,7 +301,6 @@
         [(UISwitch*) cell.editingAccessoryView setOn:!board.hidden.boolValue];
     }
     cell.textLabel.text = board.title;
-//    cell.imageView.image = [UIImage imageNamed:@"glyphicons_114_list"];
     return cell;
 }
 
@@ -319,6 +323,18 @@
     controller.URL = [NSURL URLWithString:board.url];
     controller.title = board.title;
 //    [self.navigationController pushViewController:controller animated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self push:controller];
+    } else {
+        UINavigationController* nc = (UINavigationController*) self.splitViewController.viewControllers[1];
+        controller.navigationItem.leftBarButtonItem = nc.navigationBar.topItem.leftBarButtonItem;
+        nc.viewControllers = @[controller];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    WebViewController* controller = [[WebViewController alloc] init];
+    controller.URL = [NSURL URLWithString:@"http://www.mqoo.com/etc/best.php"];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self push:controller];
     } else {
