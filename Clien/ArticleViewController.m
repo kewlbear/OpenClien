@@ -578,10 +578,10 @@ enum {
         return;
     }
     
-    NSString* comments = [_response substringFrom:@"<div class=\"reply_head\"" to:@"<script"];
+    NSString* comments = [_response substringFrom:@"<div class=\"reply_base\"" to:@"<script"];
     if (comments) {
         [html appendString:@"<hr />"];
-        [html appendString:@"<div class=\"reply_head\""];
+        [html appendString:@"<div class=\"reply_base\""];
         [html appendString:comments];
     } else {
         NSLog(@"%s: comments not found", __func__);
