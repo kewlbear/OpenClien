@@ -334,7 +334,7 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     WebViewController* controller = [[WebViewController alloc] init];
-    controller.URL = [NSURL URLWithString:@"http://www.mqoo.com/etc/best.php"];
+    controller.URL = [NSURL URLWithString:@"http://best.mqoo.com/?site=clien&time=3&orderby=hit"];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self push:controller];
     } else {
