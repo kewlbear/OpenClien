@@ -571,6 +571,17 @@ enum {
         if (range.location != NSNotFound) {
             content = [content substringToIndex:range.location];
         }
+        range = [content rangeOfString:@"<embed"];
+        if (range.length) {
+            NSRange location = [content rangeOfString:@"<object" options:NSBackwardsSearch range:NSMakeRange(0, range.location)];
+            range = [content rangeOfString:@"</object>" options:0 range:NSMakeRange(range.location, content.length - range.location)];
+            location = NSUnionRange(location, range);
+            NSString* object = [content substringWithRange:location];
+            NSString* src = [object substringFrom:@" src=\"" to:@"\""];
+            src = [src stringByReplacingOccurrencesOfString:@"/v/" withString:@"/embed/"];
+            NSString* iframe = [NSString stringWithFormat:@"<iframe src=\"http:%@\" frameborder=\"0\"></iframe>", src];
+            content = [content stringByReplacingCharactersInRange:location withString:iframe];
+        }
         [html appendString:content];
     } else {
         NSLog(@"%s: no content", __func__);
