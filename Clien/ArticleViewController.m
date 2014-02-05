@@ -574,7 +574,14 @@ enum {
         range = [content rangeOfString:@"<embed"];
         if (range.length) {
             NSRange location = [content rangeOfString:@"<object" options:NSBackwardsSearch range:NSMakeRange(0, range.location)];
-            range = [content rangeOfString:@"</object>" options:0 range:NSMakeRange(range.location, content.length - range.location)];
+            NSString* endTag;
+            if (location.length) {
+                endTag = @"</object>";
+            } else {
+                endTag = @">";
+                location = range;
+            }
+            range = [content rangeOfString:endTag options:0 range:NSMakeRange(range.location, content.length - range.location)];
             location = NSUnionRange(location, range);
             NSString* object = [content substringWithRange:location];
             NSString* src = [object substringFrom:@" src=\"" to:@"\""];
