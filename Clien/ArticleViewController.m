@@ -586,7 +586,8 @@ enum {
             NSString* object = [content substringWithRange:location];
             NSString* src = [object substringFrom:@" src=\"" to:@"\""];
             src = [src stringByReplacingOccurrencesOfString:@"/v/" withString:@"/embed/"];
-            NSString* iframe = [NSString stringWithFormat:@"<iframe src=\"http:%@\" frameborder=\"0\"></iframe>", src];
+            NSString* iframe = [NSString stringWithFormat:@"<iframe src=\"%@\" frameborder=\"0\"></iframe>", src];
+            // fixme should prefix http: ?
             content = [content stringByReplacingCharactersInRange:location withString:iframe];
         }
         [html appendString:content];
