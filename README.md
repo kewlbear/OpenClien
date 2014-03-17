@@ -1,5 +1,7 @@
 # OpenClien
 
+[![Build Status](https://travis-ci.org/kewlbear/OpenClien.png?branch=master)](https://travis-ci.org/kewlbear/OpenClien)
+
 iOS용 클리앙 앱입니다.
 CLiOS, ClienS, ClienKit 등의 훌륭한 앱과 비교할 수는 없지만 비슷한 앱을 직접 만들고 싶은 분에게는 참고가 될 수 있을 것 같아서 소스를 공개합니다.
 
