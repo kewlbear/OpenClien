@@ -44,7 +44,6 @@
 		4C49F8A815E311F300E929B4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8A715E311F300E929B4 /* main.m */; };
 		4C49F8AC15E311F300E929B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8AB15E311F300E929B4 /* AppDelegate.m */; };
 		4C49F8AF15E311F300E929B4 /* Clien.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8AD15E311F300E929B4 /* Clien.xcdatamodeld */; };
-		4C49F8B715E311F400E929B4 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F8B615E311F400E929B4 /* SenTestingKit.framework */; };
 		4C49F8B815E311F400E929B4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F89915E311F300E929B4 /* UIKit.framework */; };
 		4C49F8B915E311F400E929B4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F89B15E311F300E929B4 /* Foundation.framework */; };
 		4C49F8BA15E311F400E929B4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F89F15E311F300E929B4 /* CoreData.framework */; };
@@ -160,8 +159,7 @@
 		4C49F8AA15E311F300E929B4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4C49F8AB15E311F300E929B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4C49F8AE15E311F300E929B4 /* Clien.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clien.xcdatamodel; sourceTree = "<group>"; };
-		4C49F8B515E311F400E929B4 /* ClienTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClienTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C49F8B615E311F400E929B4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		4C49F8B515E311F400E929B4 /* ClienTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClienTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C49F8BF15E311F400E929B4 /* ClienTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ClienTests-Info.plist"; sourceTree = "<group>"; };
 		4C49F8C315E311F400E929B4 /* ClienTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClienTests.h; sourceTree = "<group>"; };
 		4C49F8C415E311F400E929B4 /* ClienTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClienTests.m; sourceTree = "<group>"; };
@@ -236,7 +234,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C49F8B715E311F400E929B4 /* SenTestingKit.framework in Frameworks */,
 				4C49F8B815E311F400E929B4 /* UIKit.framework in Frameworks */,
 				4C49F8B915E311F400E929B4 /* Foundation.framework in Frameworks */,
 				4C49F8BA15E311F400E929B4 /* CoreData.framework in Frameworks */,
@@ -365,7 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				4C49F89515E311F300E929B4 /* OpenClien.app */,
-				4C49F8B515E311F400E929B4 /* ClienTests.octest */,
+				4C49F8B515E311F400E929B4 /* ClienTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -387,7 +384,6 @@
 				4C49F89B15E311F300E929B4 /* Foundation.framework */,
 				4C49F89D15E311F300E929B4 /* CoreGraphics.framework */,
 				4C49F89F15E311F300E929B4 /* CoreData.framework */,
-				4C49F8B615E311F400E929B4 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -507,8 +503,8 @@
 			);
 			name = ClienTests;
 			productName = ClienTests;
-			productReference = 4C49F8B515E311F400E929B4 /* ClienTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 4C49F8B515E311F400E929B4 /* ClienTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -516,7 +512,8 @@
 		4C49F88C15E311F300E929B4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastTestingUpgradeCheck = 0510;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "안창범";
 				TargetAttributes = {
 					4C49F89415E311F300E929B4 = {
@@ -737,7 +734,6 @@
 		4C49F8C915E311F400E929B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Clien/Clien-Prefix.pch";
@@ -757,7 +753,6 @@
 		4C49F8CA15E311F400E929B4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Clien/Clien-Prefix.pch";
@@ -781,13 +776,13 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/SDWebImage-ahdturmuqqgsadcfulnmrmsxxend/Build/Products/Debug-iphoneos\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Clien/Clien-Prefix.pch";
 				INFOPLIST_FILE = "ClienTests/ClienTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -799,13 +794,13 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/SDWebImage-ahdturmuqqgsadcfulnmrmsxxend/Build/Products/Debug-iphoneos\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Clien/Clien-Prefix.pch";
 				INFOPLIST_FILE = "ClienTests/ClienTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};

@@ -6,8 +6,8 @@
 //  Copyright (c) 2012년 안창범. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface ClienTests : SenTestCase
+@interface ClienTests : XCTestCase
 
 @end
