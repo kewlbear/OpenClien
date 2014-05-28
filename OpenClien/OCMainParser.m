@@ -18,9 +18,8 @@
 //
 
 #import "OCMainParser.h"
-#import "NSString+SubstringFromTo.h"
-#import "NSScanner+Skip.h"
 #import "OCBoard.h"
+#import "GDataXMLNode+OpenClien.h"
 
 @implementation OCMainParser
 
@@ -40,43 +39,34 @@
 
 - (NSArray*)parse:(NSData *)data
 {
-    NSString* response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//    NSLog(@"%s: %@", __func__, response);
-    NSMutableArray* array = [NSMutableArray array];
-    [array addObject:[self parseSection:[response substringFrom:@"<div id=\"snb_navi1\">" to:@"</div>"] index:1]];
-    [array addObject:[self parseSection:[response substringFrom:@"<div id=\"snb_navi2\">" to:@"</div>"] index:2]];
-    return array;
+    NSError *error;
+    GDataXMLDocument *document = [[GDataXMLDocument alloc] initWithHTMLData:data error:&error];
+    if (document) {
+        return @[[self parseGroup:document.rootElement[@".//div[@id='snb_navi1']//a[contains(@href, 'board.php')]"]],
+                 [self parseGroup:document.rootElement[@".//div[@id='snb_navi2']//a[contains(@href, 'board.php')]"]]
+                 ];
+    } else {
+        NSLog(@"%@", error);
+        // fixme report error
+    }
+    return nil;
 }
 
-- (NSArray*)parseSection:(NSString*)string index:(int)section {
-    NSMutableArray* boards = [NSMutableArray array];
-    NSScanner* scanner = [NSScanner scannerWithString:[string stringByRemovingHTMLComments]];
-    while (!scanner.isAtEnd) {
-        [scanner skip:@"href=\""];
-        NSString* href;
-        if (![scanner scanUpToString:@"\"" intoString:&href]) {
-            break;
-        }
-        [scanner skip:@">"];
-        if ([scanner scanString:@"<img" intoString:NULL]) {
-            [scanner skip:@">"];
-        }
-        if ([scanner scanString:@"<font" intoString:NULL]) {
-            [scanner skip:@">"];
-        }
-        NSString* title;
-        [scanner scanUpToString:@"<" intoString:&title];
-//        NSLog(@"%s: %@ %@", __func__, title, href);
-        if ([href rangeOfString:@"board.php"].location != NSNotFound) {
-            OCBoard* board = [[OCBoard alloc] init];
-            board.URL = [NSURL URLWithString:href relativeToURL:[[self class] URL]];
-            board.title = title;
-            [boards addObject:board];
-        } else {
-            NSLog(@"%s: bad href=%@", __func__, href);
-        }
+- (NSArray *)parseGroup:(NSArray *)array
+{
+    NSMutableArray *boards = [NSMutableArray array];
+    for (GDataXMLElement *a in array) {
+        [boards addObject:[self parseBoard:a]];
     }
     return boards;
+}
+
+- (OCBoard *)parseBoard:(GDataXMLElement *)a
+{
+    OCBoard *board = [[OCBoard alloc] init];
+    board.URL = [NSURL URLWithString:[[a attributeForName:@"href"] stringValue] relativeToURL:[[self class] URL]];
+    board.title = [a stringValue];
+    return board;
 }
 
 @end
