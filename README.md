@@ -20,7 +20,7 @@ OpenClien은 Clien.net 웹페이지를 파싱하는 iOS용 라이브러리입니
 ## 특징
 
 * 데스크탑 버전 클리앙 웹 페이지 파싱
-* [GDataXML-HTML](github.com/graetzer/GDataXML-HTML)을 사용한 파싱
+* [GDataXML-HTML](http://github.com/graetzer/GDataXML-HTML)을 사용한 파싱
 
 ## 사용법
 
