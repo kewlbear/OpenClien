@@ -1,6 +1,6 @@
 # OpenClien
 
-[![Build Status](https://travis-ci.org/kewlbear/OpenClien.png?branch=master)](https://travis-ci.org/kewlbear/OpenClien)
+[![Build Status](https://travis-ci.org/kewlbear/OpenClien.svg?branch=master)](https://travis-ci.org/kewlbear/OpenClien)
 [![Version](https://img.shields.io/cocoapods/v/OpenClien.svg?style=flat)](http://cocoadocs.org/docsets/OpenClien)
 [![License](https://img.shields.io/cocoapods/l/OpenClien.svg?style=flat)](http://cocoadocs.org/docsets/OpenClien)
 [![Platform](https://img.shields.io/cocoapods/p/OpenClien.svg?style=flat)](http://cocoadocs.org/docsets/OpenClien)
