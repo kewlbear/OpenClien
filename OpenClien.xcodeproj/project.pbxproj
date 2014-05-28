@@ -33,6 +33,23 @@
 		4C031D04191C6B3F00E2A7BA /* OpenClien.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031CE5191C65B200E2A7BA /* OpenClien.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C031D0F191C6F6A00E2A7BA /* OCMainParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D0D191C6F6A00E2A7BA /* OCMainParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C031D10191C6F6A00E2A7BA /* OCMainParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D0E191C6F6A00E2A7BA /* OCMainParser.m */; };
+		4C031D6D191CA49500E2A7BA /* NSScanner+Skip.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D69191CA49500E2A7BA /* NSScanner+Skip.h */; };
+		4C031D6E191CA49500E2A7BA /* NSScanner+Skip.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D6A191CA49500E2A7BA /* NSScanner+Skip.m */; };
+		4C031D6F191CA49500E2A7BA /* NSString+SubstringFromTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D6B191CA49500E2A7BA /* NSString+SubstringFromTo.h */; };
+		4C031D70191CA49500E2A7BA /* NSString+SubstringFromTo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D6C191CA49500E2A7BA /* NSString+SubstringFromTo.m */; };
+		4C031D73191CA68A00E2A7BA /* OCBoard.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D71191CA68A00E2A7BA /* OCBoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C031D74191CA68A00E2A7BA /* OCBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D72191CA68A00E2A7BA /* OCBoard.m */; };
+		4C031D7A191CC38E00E2A7BA /* OCBoardParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D78191CC38E00E2A7BA /* OCBoardParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C031D7B191CC38E00E2A7BA /* OCBoardParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D79191CC38E00E2A7BA /* OCBoardParser.m */; };
+		4C031D7E191CC74E00E2A7BA /* OCArticle.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D7C191CC74E00E2A7BA /* OCArticle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C031D7F191CC74E00E2A7BA /* OCArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D7D191CC74E00E2A7BA /* OCArticle.m */; };
+		4C031D80191CCED900E2A7BA /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BDD631828793D0086C8EB /* GTMNSString+HTML.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4C031D881920763700E2A7BA /* OCArticleParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D861920763700E2A7BA /* OCArticleParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C031D891920763700E2A7BA /* OCArticleParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D871920763700E2A7BA /* OCArticleParser.m */; };
+		4C031DB51920D3F900E2A7BA /* GDataXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031DB31920D3F900E2A7BA /* GDataXMLNode.h */; };
+		4C031DB61920D3F900E2A7BA /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031DB41920D3F900E2A7BA /* GDataXMLNode.m */; };
+		4C031DB91921E51500E2A7BA /* OCComment.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031DB71921E51500E2A7BA /* OCComment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C031DBA1921E51500E2A7BA /* OCComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031DB81921E51500E2A7BA /* OCComment.m */; };
 		4C18A43215E3DA9600EA16F9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C18A43015E3DA9600EA16F9 /* WebViewController.m */; };
 		4C3BDD841828793D0086C8EB /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BDD4C1828793D0086C8EB /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4C3BDD851828793D0086C8EB /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BDD4E1828793D0086C8EB /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -90,6 +107,18 @@
 		4CB116E117C43F1F00FD11DE /* UIViewController+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB116E017C43F1F00FD11DE /* UIViewController+URL.m */; };
 		4CB7770F1831AF8400B15B77 /* UIViewController+GAI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB7770E1831AF8400B15B77 /* UIViewController+GAI.m */; };
 		4CC039D1177BE04F00956F4D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CC039D0177BE04F00956F4D /* Accelerate.framework */; };
+		4CCD04681923911F00683848 /* NSURL+OpenClien.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CCD04661923911F00683848 /* NSURL+OpenClien.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CCD04691923911F00683848 /* NSURL+OpenClien.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD04671923911F00683848 /* NSURL+OpenClien.m */; };
+		4CCD04711924A24B00683848 /* GDataXMLNode+OpenClien.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CCD046F1924A24B00683848 /* GDataXMLNode+OpenClien.h */; };
+		4CCD04721924A24B00683848 /* GDataXMLNode+OpenClien.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD04701924A24B00683848 /* GDataXMLNode+OpenClien.m */; };
+		4CCEF438192B14B000848934 /* OCLoginParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CCEF436192B14B000848934 /* OCLoginParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CCEF439192B14B000848934 /* OCLoginParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCEF437192B14B000848934 /* OCLoginParser.m */; };
+		4CCEF43C192B2BF700848934 /* OCLogoutParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CCEF43A192B2BF700848934 /* OCLogoutParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CCEF43D192B2BF700848934 /* OCLogoutParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCEF43B192B2BF700848934 /* OCLogoutParser.m */; };
+		4CCEF449192D873300848934 /* OCRedirectResolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CCEF447192D873300848934 /* OCRedirectResolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CCEF44A192D873300848934 /* OCRedirectResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCEF448192D873300848934 /* OCRedirectResolver.m */; };
+		4CCEF45019332F7900848934 /* OCCommentParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CCEF44E19332F7900848934 /* OCCommentParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CCEF45119332F7900848934 /* OCCommentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCEF44F19332F7900848934 /* OCCommentParser.m */; };
 		4CD28513164CDC5700ECEAC9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CD28512164CDC5700ECEAC9 /* Default-568h@2x.png */; };
 		4CD4FFBB164CFFDC00727748 /* UIViewController+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD4FFBA164CFFDC00727748 /* UIViewController+Stack.m */; };
 		4CD4FFF41650E61800727748 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8EA15E36C5F00E929B4 /* ArticleViewController.m */; };
@@ -148,6 +177,23 @@
 		4C031CFB191C65B200E2A7BA /* OpenClienTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenClienTests.m; sourceTree = "<group>"; };
 		4C031D0D191C6F6A00E2A7BA /* OCMainParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMainParser.h; sourceTree = "<group>"; };
 		4C031D0E191C6F6A00E2A7BA /* OCMainParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCMainParser.m; sourceTree = "<group>"; };
+		4C031D69191CA49500E2A7BA /* NSScanner+Skip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSScanner+Skip.h"; sourceTree = "<group>"; };
+		4C031D6A191CA49500E2A7BA /* NSScanner+Skip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScanner+Skip.m"; sourceTree = "<group>"; };
+		4C031D6B191CA49500E2A7BA /* NSString+SubstringFromTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SubstringFromTo.h"; sourceTree = "<group>"; };
+		4C031D6C191CA49500E2A7BA /* NSString+SubstringFromTo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SubstringFromTo.m"; sourceTree = "<group>"; };
+		4C031D71191CA68A00E2A7BA /* OCBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCBoard.h; sourceTree = "<group>"; };
+		4C031D72191CA68A00E2A7BA /* OCBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCBoard.m; sourceTree = "<group>"; };
+		4C031D78191CC38E00E2A7BA /* OCBoardParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCBoardParser.h; sourceTree = "<group>"; };
+		4C031D79191CC38E00E2A7BA /* OCBoardParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCBoardParser.m; sourceTree = "<group>"; };
+		4C031D7C191CC74E00E2A7BA /* OCArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCArticle.h; sourceTree = "<group>"; };
+		4C031D7D191CC74E00E2A7BA /* OCArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCArticle.m; sourceTree = "<group>"; };
+		4C031D861920763700E2A7BA /* OCArticleParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCArticleParser.h; sourceTree = "<group>"; };
+		4C031D871920763700E2A7BA /* OCArticleParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCArticleParser.m; sourceTree = "<group>"; };
+		4C031DAA1920A41F00E2A7BA /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		4C031DB31920D3F900E2A7BA /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
+		4C031DB41920D3F900E2A7BA /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
+		4C031DB71921E51500E2A7BA /* OCComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCComment.h; sourceTree = "<group>"; };
+		4C031DB81921E51500E2A7BA /* OCComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCComment.m; sourceTree = "<group>"; };
 		4C18A42F15E3DA9600EA16F9 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		4C18A43015E3DA9600EA16F9 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		4C3BDD4B1828793D0086C8EB /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
@@ -211,7 +257,7 @@
 		4C49962617B2445F0027A00C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		4C49962B17B320D80027A00C /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		4C49962C17B320D80027A00C /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
-		4C49F89515E311F300E929B4 /* OpenClien.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenClien.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C49F89515E311F300E929B4 /* OpenClienApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenClienApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C49F89915E311F300E929B4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4C49F89B15E311F300E929B4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4C49F89D15E311F300E929B4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -260,6 +306,18 @@
 		4CB7770D1831AF8400B15B77 /* UIViewController+GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+GAI.h"; sourceTree = "<group>"; };
 		4CB7770E1831AF8400B15B77 /* UIViewController+GAI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+GAI.m"; sourceTree = "<group>"; };
 		4CC039D0177BE04F00956F4D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		4CCD04661923911F00683848 /* NSURL+OpenClien.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+OpenClien.h"; sourceTree = "<group>"; };
+		4CCD04671923911F00683848 /* NSURL+OpenClien.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+OpenClien.m"; sourceTree = "<group>"; };
+		4CCD046F1924A24B00683848 /* GDataXMLNode+OpenClien.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GDataXMLNode+OpenClien.h"; sourceTree = "<group>"; };
+		4CCD04701924A24B00683848 /* GDataXMLNode+OpenClien.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GDataXMLNode+OpenClien.m"; sourceTree = "<group>"; };
+		4CCEF436192B14B000848934 /* OCLoginParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLoginParser.h; sourceTree = "<group>"; };
+		4CCEF437192B14B000848934 /* OCLoginParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCLoginParser.m; sourceTree = "<group>"; };
+		4CCEF43A192B2BF700848934 /* OCLogoutParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLogoutParser.h; sourceTree = "<group>"; };
+		4CCEF43B192B2BF700848934 /* OCLogoutParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCLogoutParser.m; sourceTree = "<group>"; };
+		4CCEF447192D873300848934 /* OCRedirectResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCRedirectResolver.h; sourceTree = "<group>"; };
+		4CCEF448192D873300848934 /* OCRedirectResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCRedirectResolver.m; sourceTree = "<group>"; };
+		4CCEF44E19332F7900848934 /* OCCommentParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCCommentParser.h; sourceTree = "<group>"; };
+		4CCEF44F19332F7900848934 /* OCCommentParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCCommentParser.m; sourceTree = "<group>"; };
 		4CD28512164CDC5700ECEAC9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		4CD4FFB9164CFFDC00727748 /* UIViewController+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Stack.h"; sourceTree = "<group>"; };
 		4CD4FFBA164CFFDC00727748 /* UIViewController+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Stack.m"; sourceTree = "<group>"; };
@@ -329,9 +387,35 @@
 			isa = PBXGroup;
 			children = (
 				4C031CE5191C65B200E2A7BA /* OpenClien.h */,
+				4C031D69191CA49500E2A7BA /* NSScanner+Skip.h */,
+				4C031D6A191CA49500E2A7BA /* NSScanner+Skip.m */,
+				4C031D6B191CA49500E2A7BA /* NSString+SubstringFromTo.h */,
+				4C031D6C191CA49500E2A7BA /* NSString+SubstringFromTo.m */,
 				4C031CE3191C65B200E2A7BA /* Supporting Files */,
 				4C031D0D191C6F6A00E2A7BA /* OCMainParser.h */,
 				4C031D0E191C6F6A00E2A7BA /* OCMainParser.m */,
+				4C031D71191CA68A00E2A7BA /* OCBoard.h */,
+				4C031D72191CA68A00E2A7BA /* OCBoard.m */,
+				4C031D78191CC38E00E2A7BA /* OCBoardParser.h */,
+				4C031D79191CC38E00E2A7BA /* OCBoardParser.m */,
+				4C031D7C191CC74E00E2A7BA /* OCArticle.h */,
+				4C031D7D191CC74E00E2A7BA /* OCArticle.m */,
+				4C031D861920763700E2A7BA /* OCArticleParser.h */,
+				4C031D871920763700E2A7BA /* OCArticleParser.m */,
+				4C031DB71921E51500E2A7BA /* OCComment.h */,
+				4C031DB81921E51500E2A7BA /* OCComment.m */,
+				4CCD04661923911F00683848 /* NSURL+OpenClien.h */,
+				4CCD04671923911F00683848 /* NSURL+OpenClien.m */,
+				4CCD046F1924A24B00683848 /* GDataXMLNode+OpenClien.h */,
+				4CCD04701924A24B00683848 /* GDataXMLNode+OpenClien.m */,
+				4CCEF436192B14B000848934 /* OCLoginParser.h */,
+				4CCEF437192B14B000848934 /* OCLoginParser.m */,
+				4CCEF43A192B2BF700848934 /* OCLogoutParser.h */,
+				4CCEF43B192B2BF700848934 /* OCLogoutParser.m */,
+				4CCEF447192D873300848934 /* OCRedirectResolver.h */,
+				4CCEF448192D873300848934 /* OCRedirectResolver.m */,
+				4CCEF44E19332F7900848934 /* OCCommentParser.h */,
+				4CCEF44F19332F7900848934 /* OCCommentParser.m */,
 			);
 			path = OpenClien;
 			sourceTree = "<group>";
@@ -362,6 +446,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		4C031DB21920D3F900E2A7BA /* GDataXML-HTML */ = {
+			isa = PBXGroup;
+			children = (
+				4C031DB31920D3F900E2A7BA /* GDataXMLNode.h */,
+				4C031DB41920D3F900E2A7BA /* GDataXMLNode.m */,
+			);
+			path = "GDataXML-HTML";
+			sourceTree = "<group>";
+		};
 		4C2EDEED165B279A008FEFBF /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,6 +475,7 @@
 		4C3BDD491828793D0086C8EB /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4C031DB21920D3F900E2A7BA /* GDataXML-HTML */,
 				4C6E240E183061C60002B141 /* GAI */,
 				4C3BDD4A1828793D0086C8EB /* AFNetworking */,
 				4C3BDD601828793D0086C8EB /* GTM */,
@@ -482,7 +576,7 @@
 		4C49F89615E311F300E929B4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4C49F89515E311F300E929B4 /* OpenClien.app */,
+				4C49F89515E311F300E929B4 /* OpenClienApp.app */,
 				4C49F8B515E311F400E929B4 /* OpenClienTests.xctest */,
 				4C031CE0191C65B200E2A7BA /* libOpenClien.a */,
 				4C031CED191C65B200E2A7BA /* OpenClienTests.xctest */,
@@ -493,6 +587,7 @@
 		4C49F89815E311F300E929B4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C031DAA1920A41F00E2A7BA /* libxml2.dylib */,
 				4C6E2419183067A40002B141 /* libz.dylib */,
 				4C6E24171830679B0002B141 /* SystemConfiguration.framework */,
 				4C6E2415183061D90002B141 /* libGoogleAnalyticsServices.a */,
@@ -600,8 +695,22 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CCEF438192B14B000848934 /* OCLoginParser.h in Headers */,
+				4CCD04681923911F00683848 /* NSURL+OpenClien.h in Headers */,
+				4CCEF449192D873300848934 /* OCRedirectResolver.h in Headers */,
 				4C031D0F191C6F6A00E2A7BA /* OCMainParser.h in Headers */,
 				4C031D04191C6B3F00E2A7BA /* OpenClien.h in Headers */,
+				4C031DB91921E51500E2A7BA /* OCComment.h in Headers */,
+				4C031D881920763700E2A7BA /* OCArticleParser.h in Headers */,
+				4C031D6D191CA49500E2A7BA /* NSScanner+Skip.h in Headers */,
+				4CCD04711924A24B00683848 /* GDataXMLNode+OpenClien.h in Headers */,
+				4CCEF45019332F7900848934 /* OCCommentParser.h in Headers */,
+				4C031D73191CA68A00E2A7BA /* OCBoard.h in Headers */,
+				4C031D7E191CC74E00E2A7BA /* OCArticle.h in Headers */,
+				4C031D7A191CC38E00E2A7BA /* OCBoardParser.h in Headers */,
+				4C031DB51920D3F900E2A7BA /* GDataXMLNode.h in Headers */,
+				4C031D6F191CA49500E2A7BA /* NSString+SubstringFromTo.h in Headers */,
+				4CCEF43C192B2BF700848934 /* OCLogoutParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,7 +768,7 @@
 			);
 			name = OpenClienApp;
 			productName = Clien;
-			productReference = 4C49F89515E311F300E929B4 /* OpenClien.app */;
+			productReference = 4C49F89515E311F300E929B4 /* OpenClienApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 		4C49F8B415E311F400E929B4 /* OpenClienAppTests */ = {
@@ -807,7 +916,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CCEF43D192B2BF700848934 /* OCLogoutParser.m in Sources */,
+				4C031D80191CCED900E2A7BA /* GTMNSString+HTML.m in Sources */,
+				4C031D7B191CC38E00E2A7BA /* OCBoardParser.m in Sources */,
+				4C031D70191CA49500E2A7BA /* NSString+SubstringFromTo.m in Sources */,
+				4C031D7F191CC74E00E2A7BA /* OCArticle.m in Sources */,
+				4C031D6E191CA49500E2A7BA /* NSScanner+Skip.m in Sources */,
+				4C031DB61920D3F900E2A7BA /* GDataXMLNode.m in Sources */,
+				4CCEF439192B14B000848934 /* OCLoginParser.m in Sources */,
+				4C031D74191CA68A00E2A7BA /* OCBoard.m in Sources */,
+				4CCD04721924A24B00683848 /* GDataXMLNode+OpenClien.m in Sources */,
+				4CCD04691923911F00683848 /* NSURL+OpenClien.m in Sources */,
+				4C031DBA1921E51500E2A7BA /* OCComment.m in Sources */,
+				4CCEF44A192D873300848934 /* OCRedirectResolver.m in Sources */,
 				4C031D10191C6F6A00E2A7BA /* OCMainParser.m in Sources */,
+				4CCEF45119332F7900848934 /* OCCommentParser.m in Sources */,
+				4C031D891920763700E2A7BA /* OCArticleParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -936,6 +1060,11 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_MASTER_OBJECT_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/include/libxml2,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -960,6 +1089,11 @@
 				GCC_PREFIX_HEADER = "OpenClien/OpenClien-Prefix.pch";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_MASTER_OBJECT_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/include/libxml2,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1189,6 +1323,7 @@
 				4C031CFF191C65B200E2A7BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4C031D00191C65B200E2A7BA /* Build configuration list for PBXNativeTarget "OpenClienTests" */ = {
 			isa = XCConfigurationList;
@@ -1197,6 +1332,7 @@
 				4C031D02191C65B200E2A7BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4C031D07191C6D8000E2A7BA /* Build configuration list for PBXAggregateTarget "Framework" */ = {
 			isa = XCConfigurationList;
@@ -1205,6 +1341,7 @@
 				4C031D09191C6D8000E2A7BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4C49F88F15E311F300E929B4 /* Build configuration list for PBXProject "OpenClien" */ = {
 			isa = XCConfigurationList;

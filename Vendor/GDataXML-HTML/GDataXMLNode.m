@@ -24,7 +24,7 @@
 
 
 static const int kGDataXMLParseOptions = (XML_PARSE_NOCDATA | XML_PARSE_NOBLANKS);
-static const int kGDataHTMLParseOptions = (HTML_PARSE_NOWARNING | HTML_PARSE_NOERROR);
+static const int kGDataHTMLParseOptions = (HTML_PARSE_RECOVER /* kewlbear */ | HTML_PARSE_NOWARNING | HTML_PARSE_NOERROR);
 
 // dictionary key callbacks for string cache
 static const void *StringCacheKeyRetainCallBack(CFAllocatorRef allocator, const void *str);

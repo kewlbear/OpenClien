@@ -1,39 +1,41 @@
 # OpenClien
 
 [![Build Status](https://travis-ci.org/kewlbear/OpenClien.png?branch=master)](https://travis-ci.org/kewlbear/OpenClien)
+[![Version](https://img.shields.io/cocoapods/v/OpenClien.svg?style=flat)](http://cocoadocs.org/docsets/OpenClien)
+[![License](https://img.shields.io/cocoapods/l/OpenClien.svg?style=flat)](http://cocoadocs.org/docsets/OpenClien)
+[![Platform](https://img.shields.io/cocoapods/p/OpenClien.svg?style=flat)](http://cocoadocs.org/docsets/OpenClien)
 
-iOS용 클리앙 앱입니다.
-CLiOS, ClienS, ClienKit 등의 훌륭한 앱과 비교할 수는 없지만 비슷한 앱을 직접 만들고 싶은 분에게는 참고가 될 수 있을 것 같아서 소스를 공개합니다.
+OpenClien은 Clien.net 웹페이지를 파싱하는 iOS용 라이브러리입니다.
 
 ## 기능
 
 * 게시판, 소모임 목록
-* 글 목록 (검색 포함)
+* 글 목록
 * 글, 댓글 보기
 * 로그인, 로그아웃
-* 글, 댓글, 대댓글 쓰기, 수정, 삭제 (첨부 파일, 링크 포함)
-* 스크랩
-
-### 부가기능
-
-* 게시판, 소모임 즐겨찾기
+* 댓글 쓰기
 
 미구현된 기능 또는 버그 수정 등 어떤 pull request도 환영합니다.
 
 ## 특징
 
 * 데스크탑 버전 클리앙 웹 페이지 파싱
-* NSScanner, NSString을 사용한 파싱
+* [GDataXML-HTML](github.com/graetzer/GDataXML-HTML)을 사용한 파싱
 
-## 생각중인 것들
+## 사용법
 
-* UI 개선
-* 이미지 뷰어
-* Xpath (libxml) 사용 파싱
-* 파싱 라이브러리 분리
-* 스크립팅 지원
-* 미구현된 클리앙 기능 추가구현
+예제 프로젝트를 실행하려면 이 저장소를 복제(clone)하고 Example 디렉터리에서 `pod install`을 먼저 실행하세요.
 
-## 라이센스
+## 설치
 
-아파치 라이센스 2.0
+OpenClien은 [CocoaPods](http://cocoapods.org)로도 사용가능합니다. 설치하려면 Podfile에 아래 내용을 추가하세요:
+
+    pod "OpenClien"
+
+## 만든이
+
+안창범, kewlbear@gmail.com
+
+## License
+
+OpenClien is available under the Apache license version 2.0. See the LICENSE file for more info.
