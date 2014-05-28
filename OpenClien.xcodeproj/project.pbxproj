@@ -6,7 +6,33 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		4C031D06191C6D8000E2A7BA /* Framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 4C031D07191C6D8000E2A7BA /* Build configuration list for PBXAggregateTarget "Framework" */;
+			buildPhases = (
+				4C031D0C191C6DB600E2A7BA /* ShellScript */,
+			);
+			dependencies = (
+				4C031D0B191C6D9000E2A7BA /* PBXTargetDependency */,
+			);
+			name = Framework;
+			productName = Framework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
+		4C031CE1191C65B200E2A7BA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F89B15E311F300E929B4 /* Foundation.framework */; };
+		4C031CE6191C65B200E2A7BA /* OpenClien.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C031CE5191C65B200E2A7BA /* OpenClien.h */; };
+		4C031CEF191C65B200E2A7BA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C031CEE191C65B200E2A7BA /* XCTest.framework */; };
+		4C031CF0191C65B200E2A7BA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F89B15E311F300E929B4 /* Foundation.framework */; };
+		4C031CF1191C65B200E2A7BA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49F89915E311F300E929B4 /* UIKit.framework */; };
+		4C031CF4191C65B200E2A7BA /* libOpenClien.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C031CE0191C65B200E2A7BA /* libOpenClien.a */; };
+		4C031CFA191C65B200E2A7BA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C031CF8191C65B200E2A7BA /* InfoPlist.strings */; };
+		4C031CFC191C65B200E2A7BA /* OpenClienTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031CFB191C65B200E2A7BA /* OpenClienTests.m */; };
+		4C031D04191C6B3F00E2A7BA /* OpenClien.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031CE5191C65B200E2A7BA /* OpenClien.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C031D0F191C6F6A00E2A7BA /* OCMainParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D0D191C6F6A00E2A7BA /* OCMainParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C031D10191C6F6A00E2A7BA /* OCMainParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D0E191C6F6A00E2A7BA /* OCMainParser.m */; };
 		4C18A43215E3DA9600EA16F9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C18A43015E3DA9600EA16F9 /* WebViewController.m */; };
 		4C3BDD841828793D0086C8EB /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BDD4C1828793D0086C8EB /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4C3BDD851828793D0086C8EB /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BDD4E1828793D0086C8EB /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -75,6 +101,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4C031CF2191C65B200E2A7BA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C49F88C15E311F300E929B4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C031CDF191C65B100E2A7BA;
+			remoteInfo = OpenClien;
+		};
+		4C031D0A191C6D9000E2A7BA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C49F88C15E311F300E929B4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C031CDF191C65B100E2A7BA;
+			remoteInfo = OpenClien;
+		};
 		4C49F8BB15E311F400E929B4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4C49F88C15E311F300E929B4 /* Project object */;
@@ -84,7 +124,30 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4C031CDE191C65B100E2A7BA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				4C031CE6191C65B200E2A7BA /* OpenClien.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		4C031CE0191C65B200E2A7BA /* libOpenClien.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOpenClien.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C031CE4191C65B200E2A7BA /* OpenClien-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenClien-Prefix.pch"; sourceTree = "<group>"; };
+		4C031CE5191C65B200E2A7BA /* OpenClien.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenClien.h; sourceTree = "<group>"; };
+		4C031CED191C65B200E2A7BA /* OpenClienTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenClienTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C031CEE191C65B200E2A7BA /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		4C031CF7191C65B200E2A7BA /* OpenClienTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenClienTests-Info.plist"; sourceTree = "<group>"; };
+		4C031CF9191C65B200E2A7BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4C031CFB191C65B200E2A7BA /* OpenClienTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenClienTests.m; sourceTree = "<group>"; };
+		4C031D0D191C6F6A00E2A7BA /* OCMainParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMainParser.h; sourceTree = "<group>"; };
+		4C031D0E191C6F6A00E2A7BA /* OCMainParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCMainParser.m; sourceTree = "<group>"; };
 		4C18A42F15E3DA9600EA16F9 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		4C18A43015E3DA9600EA16F9 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		4C3BDD4B1828793D0086C8EB /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
@@ -153,14 +216,14 @@
 		4C49F89B15E311F300E929B4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4C49F89D15E311F300E929B4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		4C49F89F15E311F300E929B4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		4C49F8A315E311F300E929B4 /* Clien-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Clien-Info.plist"; sourceTree = "<group>"; };
+		4C49F8A315E311F300E929B4 /* OpenClien-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenClien-Info.plist"; sourceTree = "<group>"; };
 		4C49F8A715E311F300E929B4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4C49F8A915E311F300E929B4 /* Clien-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Clien-Prefix.pch"; sourceTree = "<group>"; };
+		4C49F8A915E311F300E929B4 /* OpenClien-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenClien-Prefix.pch"; sourceTree = "<group>"; };
 		4C49F8AA15E311F300E929B4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4C49F8AB15E311F300E929B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4C49F8AE15E311F300E929B4 /* Clien.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clien.xcdatamodel; sourceTree = "<group>"; };
-		4C49F8B515E311F400E929B4 /* ClienTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClienTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C49F8BF15E311F400E929B4 /* ClienTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ClienTests-Info.plist"; sourceTree = "<group>"; };
+		4C49F8B515E311F400E929B4 /* OpenClienTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenClienTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C49F8BF15E311F400E929B4 /* OpenClienTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenClienTests-Info.plist"; sourceTree = "<group>"; };
 		4C49F8C315E311F400E929B4 /* ClienTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClienTests.h; sourceTree = "<group>"; };
 		4C49F8C415E311F400E929B4 /* ClienTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClienTests.m; sourceTree = "<group>"; };
 		4C49F8CE15E3124500E929B4 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
@@ -210,6 +273,25 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4C031CDD191C65B100E2A7BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C031CE1191C65B200E2A7BA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C031CEA191C65B200E2A7BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C031CEF191C65B200E2A7BA /* XCTest.framework in Frameworks */,
+				4C031CF4191C65B200E2A7BA /* libOpenClien.a in Frameworks */,
+				4C031CF1191C65B200E2A7BA /* UIKit.framework in Frameworks */,
+				4C031CF0191C65B200E2A7BA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C49F89215E311F300E929B4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -243,6 +325,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C031CE2191C65B200E2A7BA /* OpenClien */ = {
+			isa = PBXGroup;
+			children = (
+				4C031CE5191C65B200E2A7BA /* OpenClien.h */,
+				4C031CE3191C65B200E2A7BA /* Supporting Files */,
+				4C031D0D191C6F6A00E2A7BA /* OCMainParser.h */,
+				4C031D0E191C6F6A00E2A7BA /* OCMainParser.m */,
+			);
+			path = OpenClien;
+			sourceTree = "<group>";
+		};
+		4C031CE3191C65B200E2A7BA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4C031CE4191C65B200E2A7BA /* OpenClien-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4C031CF5191C65B200E2A7BA /* OpenClienTests */ = {
+			isa = PBXGroup;
+			children = (
+				4C031CFB191C65B200E2A7BA /* OpenClienTests.m */,
+				4C031CF6191C65B200E2A7BA /* Supporting Files */,
+			);
+			path = OpenClienTests;
+			sourceTree = "<group>";
+		};
+		4C031CF6191C65B200E2A7BA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4C031CF7191C65B200E2A7BA /* OpenClienTests-Info.plist */,
+				4C031CF8191C65B200E2A7BA /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		4C2EDEED165B279A008FEFBF /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,8 +470,10 @@
 			isa = PBXGroup;
 			children = (
 				4C3BDD491828793D0086C8EB /* Vendor */,
-				4C49F8A115E311F300E929B4 /* Clien */,
-				4C49F8BD15E311F400E929B4 /* ClienTests */,
+				4C49F8A115E311F300E929B4 /* OpenClienApp */,
+				4C49F8BD15E311F400E929B4 /* OpenClienAppTests */,
+				4C031CE2191C65B200E2A7BA /* OpenClien */,
+				4C031CF5191C65B200E2A7BA /* OpenClienTests */,
 				4C49F89815E311F300E929B4 /* Frameworks */,
 				4C49F89615E311F300E929B4 /* Products */,
 			);
@@ -362,7 +483,9 @@
 			isa = PBXGroup;
 			children = (
 				4C49F89515E311F300E929B4 /* OpenClien.app */,
-				4C49F8B515E311F400E929B4 /* ClienTests.xctest */,
+				4C49F8B515E311F400E929B4 /* OpenClienTests.xctest */,
+				4C031CE0191C65B200E2A7BA /* libOpenClien.a */,
+				4C031CED191C65B200E2A7BA /* OpenClienTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -384,11 +507,12 @@
 				4C49F89B15E311F300E929B4 /* Foundation.framework */,
 				4C49F89D15E311F300E929B4 /* CoreGraphics.framework */,
 				4C49F89F15E311F300E929B4 /* CoreData.framework */,
+				4C031CEE191C65B200E2A7BA /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4C49F8A115E311F300E929B4 /* Clien */ = {
+		4C49F8A115E311F300E929B4 /* OpenClienApp */ = {
 			isa = PBXGroup;
 			children = (
 				4C2EDEED165B279A008FEFBF /* Categories */,
@@ -420,6 +544,7 @@
 				4C49962B17B320D80027A00C /* Settings.h */,
 				4C49962C17B320D80027A00C /* Settings.m */,
 			);
+			name = OpenClienApp;
 			path = Clien;
 			sourceTree = "<group>";
 		};
@@ -427,29 +552,30 @@
 			isa = PBXGroup;
 			children = (
 				4CD28512164CDC5700ECEAC9 /* Default-568h@2x.png */,
-				4C49F8A315E311F300E929B4 /* Clien-Info.plist */,
+				4C49F8A315E311F300E929B4 /* OpenClien-Info.plist */,
 				4C49F8A715E311F300E929B4 /* main.m */,
-				4C49F8A915E311F300E929B4 /* Clien-Prefix.pch */,
+				4C49F8A915E311F300E929B4 /* OpenClien-Prefix.pch */,
 				4CEC6E27165C5BB7003E1D0A /* Article.html */,
 				4C4977641772E6260061106E /* Main-iPad.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		4C49F8BD15E311F400E929B4 /* ClienTests */ = {
+		4C49F8BD15E311F400E929B4 /* OpenClienAppTests */ = {
 			isa = PBXGroup;
 			children = (
 				4C49F8C315E311F400E929B4 /* ClienTests.h */,
 				4C49F8C415E311F400E929B4 /* ClienTests.m */,
 				4C49F8BE15E311F400E929B4 /* Supporting Files */,
 			);
+			name = OpenClienAppTests;
 			path = ClienTests;
 			sourceTree = "<group>";
 		};
 		4C49F8BE15E311F400E929B4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4C49F8BF15E311F400E929B4 /* ClienTests-Info.plist */,
+				4C49F8BF15E311F400E929B4 /* OpenClienTests-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -469,10 +595,59 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		4C031D03191C6B2200E2A7BA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C031D0F191C6F6A00E2A7BA /* OCMainParser.h in Headers */,
+				4C031D04191C6B3F00E2A7BA /* OpenClien.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		4C49F89415E311F300E929B4 /* OpenClien */ = {
+		4C031CDF191C65B100E2A7BA /* OpenClien */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4C49F8C815E311F400E929B4 /* Build configuration list for PBXNativeTarget "OpenClien" */;
+			buildConfigurationList = 4C031CFD191C65B200E2A7BA /* Build configuration list for PBXNativeTarget "OpenClien" */;
+			buildPhases = (
+				4C031CDC191C65B100E2A7BA /* Sources */,
+				4C031CDD191C65B100E2A7BA /* Frameworks */,
+				4C031CDE191C65B100E2A7BA /* CopyFiles */,
+				4C031D03191C6B2200E2A7BA /* Headers */,
+				4C031D05191C6C2B00E2A7BA /* Prepare Framework */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenClien;
+			productName = OpenClien;
+			productReference = 4C031CE0191C65B200E2A7BA /* libOpenClien.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		4C031CEC191C65B200E2A7BA /* OpenClienTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C031D00191C65B200E2A7BA /* Build configuration list for PBXNativeTarget "OpenClienTests" */;
+			buildPhases = (
+				4C031CE9191C65B200E2A7BA /* Sources */,
+				4C031CEA191C65B200E2A7BA /* Frameworks */,
+				4C031CEB191C65B200E2A7BA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4C031CF3191C65B200E2A7BA /* PBXTargetDependency */,
+			);
+			name = OpenClienTests;
+			productName = OpenClienTests;
+			productReference = 4C031CED191C65B200E2A7BA /* OpenClienTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4C49F89415E311F300E929B4 /* OpenClienApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C49F8C815E311F400E929B4 /* Build configuration list for PBXNativeTarget "OpenClienApp" */;
 			buildPhases = (
 				4C49F89115E311F300E929B4 /* Sources */,
 				4C49F89215E311F300E929B4 /* Frameworks */,
@@ -482,14 +657,14 @@
 			);
 			dependencies = (
 			);
-			name = OpenClien;
+			name = OpenClienApp;
 			productName = Clien;
 			productReference = 4C49F89515E311F300E929B4 /* OpenClien.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4C49F8B415E311F400E929B4 /* ClienTests */ = {
+		4C49F8B415E311F400E929B4 /* OpenClienAppTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4C49F8CB15E311F400E929B4 /* Build configuration list for PBXNativeTarget "ClienTests" */;
+			buildConfigurationList = 4C49F8CB15E311F400E929B4 /* Build configuration list for PBXNativeTarget "OpenClienAppTests" */;
 			buildPhases = (
 				4C49F8B015E311F400E929B4 /* Sources */,
 				4C49F8B115E311F400E929B4 /* Frameworks */,
@@ -501,9 +676,9 @@
 			dependencies = (
 				4C49F8BC15E311F400E929B4 /* PBXTargetDependency */,
 			);
-			name = ClienTests;
+			name = OpenClienAppTests;
 			productName = ClienTests;
-			productReference = 4C49F8B515E311F400E929B4 /* ClienTests.xctest */;
+			productReference = 4C49F8B515E311F400E929B4 /* OpenClienTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -516,6 +691,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "안창범";
 				TargetAttributes = {
+					4C031CEC191C65B200E2A7BA = {
+						TestTargetID = 4C49F89415E311F300E929B4;
+					};
 					4C49F89415E311F300E929B4 = {
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -523,9 +701,12 @@
 							};
 						};
 					};
+					4C49F8B415E311F400E929B4 = {
+						TestTargetID = 4C49F89415E311F300E929B4;
+					};
 				};
 			};
-			buildConfigurationList = 4C49F88F15E311F300E929B4 /* Build configuration list for PBXProject "Clien" */;
+			buildConfigurationList = 4C49F88F15E311F300E929B4 /* Build configuration list for PBXProject "OpenClien" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -538,13 +719,24 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4C49F89415E311F300E929B4 /* OpenClien */,
-				4C49F8B415E311F400E929B4 /* ClienTests */,
+				4C49F89415E311F300E929B4 /* OpenClienApp */,
+				4C49F8B415E311F400E929B4 /* OpenClienAppTests */,
+				4C031CDF191C65B100E2A7BA /* OpenClien */,
+				4C031CEC191C65B200E2A7BA /* OpenClienTests */,
+				4C031D06191C6D8000E2A7BA /* Framework */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4C031CEB191C65B200E2A7BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C031CFA191C65B200E2A7BA /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C49F89315E311F300E929B4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -566,6 +758,35 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4C031D05191C6C2B00E2A7BA /* Prepare Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Prepare Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\n# Link the \"Current\" version to \"A\"\n/bin/ln -sfh A \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/Current\"\n/bin/ln -sfh Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Headers\"\n/bin/ln -sfh \"Versions/Current/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/${PRODUCT_NAME}\"\n\n# The -a ensures that the headers maintain the source modification date so that we don't constantly\n# cause propagating rebuilds of files that import these headers.\n/bin/cp -a \"${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4C031D0C191C6DB600E2A7BA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nset +u\n# Avoid recursively calling this script.\nif [[ $SF_MASTER_SCRIPT_RUNNING ]]\nthen\nexit 0\nfi\nset -u\nexport SF_MASTER_SCRIPT_RUNNING=1\n\nSF_TARGET_NAME=${PROJECT_NAME}\nSF_EXECUTABLE_PATH=\"lib${SF_TARGET_NAME}.a\"\nSF_WRAPPER_NAME=\"${SF_TARGET_NAME}.framework\"\n\n# The following conditionals come from\n# https://github.com/kstenerud/iOS-Universal-Framework\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nSF_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\nSF_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SF_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\nSF_OTHER_PLATFORM=iphonesimulator\nelse\nSF_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$SF_SDK_PLATFORM$ ]]\nthen\nSF_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${SF_OTHER_PLATFORM}\"\nelse\necho \"Could not find platform name from build products directory: $BUILT_PRODUCTS_DIR\"\nexit 1\nfi\n\n# Build the other platform.\nxcrun xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${SF_OTHER_PLATFORM}${SF_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\n# Smash the two static libraries into one fat binary and store it in the .framework\nxcrun lipo -create \"${BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}\" \"${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}\" -output \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\"\n\n# Copy the binary to the other architecture folder to have a complete framework in both.\ncp -a \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\" \"${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4C49F8B315E311F400E929B4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -582,6 +803,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4C031CDC191C65B100E2A7BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C031D10191C6F6A00E2A7BA /* OCMainParser.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C031CE9191C65B200E2A7BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C031CFC191C65B200E2A7BA /* OpenClienTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C49F89115E311F300E929B4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -644,14 +881,32 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4C031CF3191C65B200E2A7BA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C031CDF191C65B100E2A7BA /* OpenClien */;
+			targetProxy = 4C031CF2191C65B200E2A7BA /* PBXContainerItemProxy */;
+		};
+		4C031D0B191C6D9000E2A7BA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C031CDF191C65B100E2A7BA /* OpenClien */;
+			targetProxy = 4C031D0A191C6D9000E2A7BA /* PBXContainerItemProxy */;
+		};
 		4C49F8BC15E311F400E929B4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4C49F89415E311F300E929B4 /* OpenClien */;
+			target = 4C49F89415E311F300E929B4 /* OpenClienApp */;
 			targetProxy = 4C49F8BB15E311F400E929B4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4C031CF8191C65B200E2A7BA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4C031CF9191C65B200E2A7BA /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		4CEC6E27165C5BB7003E1D0A /* Article.html */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -663,6 +918,128 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4C031CFE191C65B200E2A7BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DSTROOT = /tmp/OpenClien.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenClien/OpenClien-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
+				SKIP_INSTALL = YES;
+				STRIP_STYLE = "non-global";
+			};
+			name = Debug;
+		};
+		4C031CFF191C65B200E2A7BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DSTROOT = /tmp/OpenClien.dst;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenClien/OpenClien-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
+				SKIP_INSTALL = YES;
+				STRIP_STYLE = "non-global";
+			};
+			name = Release;
+		};
+		4C031D01191C65B200E2A7BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OpenClienApp.app/OpenClienApp";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenClien/OpenClien-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "OpenClienTests/OpenClienTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		4C031D02191C65B200E2A7BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OpenClienApp.app/OpenClienApp";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenClien/OpenClien-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "OpenClienTests/OpenClienTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		4C031D08191C6D8000E2A7BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4C031D09191C6D8000E2A7BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		4C49F8C615E311F400E929B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -736,9 +1113,9 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Clien/Clien-Prefix.pch";
+				GCC_PREFIX_HEADER = "Clien/OpenClien-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "Clien/Clien-Info.plist";
+				INFOPLIST_FILE = "Clien/OpenClien-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -755,9 +1132,9 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Clien/Clien-Prefix.pch";
+				GCC_PREFIX_HEADER = "Clien/OpenClien-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "Clien/Clien-Info.plist";
+				INFOPLIST_FILE = "Clien/OpenClien-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -771,17 +1148,16 @@
 		4C49F8CC15E311F400E929B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Clien.app/Clien";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OpenClienApp.app/OpenClienApp";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/SDWebImage-ahdturmuqqgsadcfulnmrmsxxend/Build/Products/Debug-iphoneos\"",
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Clien/Clien-Prefix.pch";
-				INFOPLIST_FILE = "ClienTests/ClienTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Clien/OpenClien-Prefix.pch";
+				INFOPLIST_FILE = "ClienTests/OpenClienTests-Info.plist";
+				PRODUCT_NAME = OpenClienTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
@@ -789,17 +1165,16 @@
 		4C49F8CD15E311F400E929B4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Clien.app/Clien";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OpenClienApp.app/OpenClienApp";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/SDWebImage-ahdturmuqqgsadcfulnmrmsxxend/Build/Products/Debug-iphoneos\"",
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Clien/Clien-Prefix.pch";
-				INFOPLIST_FILE = "ClienTests/ClienTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Clien/OpenClien-Prefix.pch";
+				INFOPLIST_FILE = "ClienTests/OpenClienTests-Info.plist";
+				PRODUCT_NAME = OpenClienTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Release;
@@ -807,7 +1182,31 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4C49F88F15E311F300E929B4 /* Build configuration list for PBXProject "Clien" */ = {
+		4C031CFD191C65B200E2A7BA /* Build configuration list for PBXNativeTarget "OpenClien" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C031CFE191C65B200E2A7BA /* Debug */,
+				4C031CFF191C65B200E2A7BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		4C031D00191C65B200E2A7BA /* Build configuration list for PBXNativeTarget "OpenClienTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C031D01191C65B200E2A7BA /* Debug */,
+				4C031D02191C65B200E2A7BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		4C031D07191C6D8000E2A7BA /* Build configuration list for PBXAggregateTarget "Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C031D08191C6D8000E2A7BA /* Debug */,
+				4C031D09191C6D8000E2A7BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		4C49F88F15E311F300E929B4 /* Build configuration list for PBXProject "OpenClien" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C49F8C615E311F400E929B4 /* Debug */,
@@ -816,7 +1215,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4C49F8C815E311F400E929B4 /* Build configuration list for PBXNativeTarget "OpenClien" */ = {
+		4C49F8C815E311F400E929B4 /* Build configuration list for PBXNativeTarget "OpenClienApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C49F8C915E311F400E929B4 /* Debug */,
@@ -825,7 +1224,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4C49F8CB15E311F400E929B4 /* Build configuration list for PBXNativeTarget "ClienTests" */ = {
+		4C49F8CB15E311F400E929B4 /* Build configuration list for PBXNativeTarget "OpenClienAppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C49F8CC15E311F400E929B4 /* Debug */,
