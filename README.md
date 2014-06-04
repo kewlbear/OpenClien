@@ -1,11 +1,11 @@
 # OpenClien
 
-[![Build Status](https://travis-ci.org/kewlbear/OpenClien.png?branch=master)](https://travis-ci.org/kewlbear/OpenClien)
+[![Build Status](https://travis-ci.org/kewlbear/OpenClien.svg?branch=master)](https://travis-ci.org/kewlbear/OpenClien)
 [![Version](https://img.shields.io/cocoapods/v/OpenClien.svg?style=flat)](http://cocoadocs.org/docsets/OpenClien)
 [![License](https://img.shields.io/cocoapods/l/OpenClien.svg?style=flat)](http://cocoadocs.org/docsets/OpenClien)
 [![Platform](https://img.shields.io/cocoapods/p/OpenClien.svg?style=flat)](http://cocoadocs.org/docsets/OpenClien)
 
-OpenClien은 Clien.net 웹페이지를 파싱하는 iOS용 라이브러리입니다.
+OpenClien은 [Clien.net](http://clien.net) 웹페이지를 파싱하는 iOS용 라이브러리입니다.
 
 ## 기능
 
@@ -23,6 +23,8 @@ OpenClien은 Clien.net 웹페이지를 파싱하는 iOS용 라이브러리입니
 * [GDataXML-HTML](http://github.com/graetzer/GDataXML-HTML)을 사용한 파싱
 
 ## 사용법
+
+`pod try OpenClien`을 실행하고 "Example-Pods" scheme을 선택해서 예제 프로그램을 실행할 수 있습니다.
 
 예제 프로젝트를 실행하려면 이 저장소를 복제(clone)하고 Example 디렉터리에서 `pod install`을 먼저 실행하세요.
 
