@@ -123,7 +123,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
         cell.imageNameView.image = nil;
         cell.nameLabel.text = [article.name stringByAppendingString:@"님"];
     } else {
-        [cell.imageNameView setImageWithURL:article.imageURL];
+        [cell.imageNameView setImageWithURL:article.imageNameURL];
         cell.nameLabel.text = @"님";
     }
     cell.nameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
@@ -134,6 +134,12 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     }
     if (article.category) {
         cell.nameLabel.text = [cell.nameLabel.text stringByAppendingFormat:@" - %@", article.category];
+    }
+    
+    if (_board.isImage) {
+        [cell.imageView setImageWithURL:article.images[0]];
+        cell.detailTextLabel.text = article.content;
+        cell.commentCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[article.comments count]];
     }
 }
 

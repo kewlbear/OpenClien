@@ -24,6 +24,7 @@
 #import "OCWebViewController.h"
 #import "OCSession.h"
 #import "Board.h"
+#import "OCImageBoardViewController.h"
 
 static NSString *kBoard = @"board";
 
@@ -178,6 +179,21 @@ static NSString *kBoard = @"board";
 
 #pragma mark - Navigation
 
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"board"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        Board *board = _boards[indexPath.section][indexPath.row];
+        NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:board.data];
+        OCBoard *b = [decoder decodeObjectForKey:kBoard];
+        if (b.isImage) {
+            [self performSegueWithIdentifier:@"image" sender:b];
+            return NO;
+        }
+    }
+    return YES;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"board"]) {
@@ -192,6 +208,9 @@ static NSString *kBoard = @"board";
     } else if ([segue.identifier isEqualToString:@"scrap"]) {
         OCWebViewController *vc = [segue destinationViewController];
         vc.URL = [NSURL URLWithString:@"http://m.clien.net/cs3/scrap"];
+    } else if ([segue.identifier isEqualToString:@"image"]) {
+        OCImageBoardViewController *vc = segue.destinationViewController;
+        vc.board = sender;
     } else {
         OCWebViewController *vc = [segue destinationViewController];
         vc.URL = [NSURL URLWithString:@"http://best.mqoo.com/?site=clien&time=3&orderby=hit"];

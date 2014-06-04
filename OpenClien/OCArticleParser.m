@@ -140,11 +140,12 @@
                 }
             }
             
-            _content = [@[head.XMLString, title.stringValue, content.XMLString] componentsJoinedByString:@""];
+            _content = content.XMLString;
+            
             // fixme 위에서 제대로 처리
-            if ([flashs count]) {
-                _content = [_content stringByAppendingString:@"<script src=\"http://iamghost.kr/d/iOSBookmarklets/video.js\"></script>"];
-            }
+//            if ([flashs count]) {
+//                _content = [_content stringByAppendingString:@"<script src=\"http://iamghost.kr/d/iOSBookmarklets/video.js\"></script>"];
+//            }
             
             NSArray *replyHeads = node[@".//div[contains(@class, 'reply_head')]"];
             NSArray *saveComments = node[@".//textarea[contains(@id, 'save_comment_')]"];
@@ -241,6 +242,21 @@
 - (BOOL)canComment
 {
     return [_document.rootElement[@".//div[@class='reply_write']"] count];
+}
+
+- (NSString *)title
+{
+    return _title;
+}
+
+- (NSString *)name
+{
+    return _username;
+}
+
+- (NSURL *)imageNameURL
+{
+    return _imageNameURL;
 }
 
 @end

@@ -52,6 +52,21 @@
 @property (readonly, nonatomic) BOOL canComment;
 
 /**
+ 글 제목
+ */
+@property (readonly, nonatomic) NSString *title;
+
+/**
+ 글쓴이 닉네임
+ */
+@property (readonly, nonatomic) NSString *name;
+
+/**
+ 글쓴이 이미지네임
+ */
+@property (readonly, nonatomic) NSURL *imageNameURL;
+
+/**
  글 HTML data를 분석하여 content와 comments을 추출한다.
  */
 - (void)parse:(NSData *)data article:(OCArticle *)article;

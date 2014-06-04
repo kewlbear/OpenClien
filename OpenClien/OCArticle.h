@@ -27,32 +27,37 @@
 /**
  제목
  */
-@property (nonatomic, copy) NSString *title; // fixme readonly
+@property (nonatomic, copy) NSString *title;
 
 /**
  글 ID
  */
-@property (nonatomic, copy) NSString *ID; // fixme readonly, rename?
+@property (nonatomic, copy) NSString *ID;
 
 /**
  글 URL
  */
-@property (nonatomic, strong) NSURL *URL; // fixme readonly
+@property (nonatomic, strong) NSURL *URL;
 
 /**
  글쓴이 닉네임
  */
-@property (nonatomic, copy) NSString *name; // fixme readonly
+@property (nonatomic, copy) NSString *name;
+
+/**
+ 글쓴이 이미지네임 URL
+ */
+@property (copy, nonatomic) NSURL *imageNameURL;
 
 /**
  댓글 개수
  */
-@property (nonatomic, assign) int numberOfComments; // fixme readonly
+@property (nonatomic, assign) int numberOfComments;
 
 /**
  사진 게시판 글의 사진 URL
  */
-@property (nonatomic, strong) NSURL *imageURL; // fixme readonly
+@property (nonatomic, strong) NSArray *images;
 
 /**
  작성일
@@ -65,6 +70,11 @@
 @property (nonatomic, assign) int hit;
 
 /**
+ 추천수 (사진게시판)
+ */
+@property (nonatomic) int vote;
+
+/**
  공지사항 여부
  */
 @property (nonatomic, assign) BOOL isNotice;
@@ -73,5 +83,15 @@
  카테고리
  */
 @property (nonatomic, copy) NSString *category;
+
+/**
+ 내용 (사진게시판)
+ */
+@property (copy, nonatomic) NSString *content;
+
+/**
+ (대)댓글 (사진게시판)
+ */
+@property (strong, nonatomic) NSArray *comments;
 
 @end

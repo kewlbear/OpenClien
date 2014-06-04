@@ -23,7 +23,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"#%@ %@ %@ %@ [%d] %@ %@ %d", _ID, _category, [_URL absoluteURL], _title, _numberOfComments, _name ? _name : [_imageURL absoluteURL], _date, _hit];
+    return [NSString stringWithFormat:@"#%@ %@ %@ %@ [%d] %@ %@ %d", _ID, _category, [_URL absoluteURL], _title, _numberOfComments, _name ? _name : [_imageNameURL absoluteURL], _date, _hit];
 }
 
 @end

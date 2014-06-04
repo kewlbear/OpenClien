@@ -31,11 +31,16 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 
 @interface OCArticleTableViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *imageNameView;
+@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
+@property (weak, nonatomic) IBOutlet UIWebView *contentView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentHeightConstraint;
+
 @end
 
 @implementation OCArticleTableViewController
 {
-    UIWebView *_webView;
     OCArticleParser *_parser;
     NSArray *_comments;
     OCArticleTableViewCell *_sizingCell;
@@ -88,7 +93,7 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 
 - (void)dealloc
 {
-    _webView.delegate = nil;
+    _contentView.delegate = nil;
 }
 
 - (void)viewDidLoad
@@ -101,11 +106,10 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 100)];
-    _webView.delegate = self;
-    _webView.scrollView.scrollsToTop = NO;
-    _webView.scrollView.scrollEnabled = NO;
-    self.tableView.tableHeaderView = _webView;
+    _contentView.superview.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    _contentView.scrollView.scrollsToTop = NO;
+    _contentView.scrollView.scrollEnabled = NO;
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
@@ -282,7 +286,7 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         NSString *html = [NSString stringWithFormat:
                           @"<html><head>"\
                           "<meta name=\"viewport\" content=\"width=device-width\">"\
-                          "<style>body{word-break:break-all;"\
+                          "<style>body{word-break:break-all;margin-top:0;"\
                           "%@}"\
                           " *{max-width:100%%}</style></head>"\
                           "<script>function image_window3(s,w,h){"\
@@ -293,7 +297,14 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
                           _parser.content];
         _comments = _parser.comments;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_webView loadHTMLString:html baseURL:_article.URL];
+            _titleLabel.text = _parser.title;
+            if (_parser.imageNameURL) {
+                [_imageNameView setImageWithURL:_parser.imageNameURL];
+                _infoLabel.text = @"님";
+            } else {
+                _infoLabel.text = _parser.name;                
+            }
+            [_contentView loadHTMLString:html baseURL:_article.URL];
             [self.tableView reloadData];
         });
     });
@@ -314,7 +325,7 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     }
     if ([request.URL.scheme isEqualToString:@"ready"]) {
         NSLog(@"ready");
-        [self resizeWebView:[request.URL.host intValue]];
+        [self resizeTableHeaderView:[request.URL.host intValue]];
         [self.refreshControl endRefreshing];
         return NO;
     }
@@ -333,15 +344,21 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    [self resizeWebView:webView.scrollView.contentSize.height];
+    [self resizeTableHeaderView:webView.scrollView.contentSize.height];
 }
 
-- (void)resizeWebView:(int)height
+- (void)resizeTableHeaderView:(int)height
 {
-    NSLog(@"height=%d", height);
-    _webView.frame = CGRectMake(0, 0, _webView.frame.size.width, height);
-//    self.tableView.tableHeaderView = nil;
-    self.tableView.tableHeaderView = _webView;
+    _contentHeightConstraint.constant = height;
+    
+    [_contentView.superview layoutIfNeeded];
+
+    UIView *header = self.tableView.tableHeaderView;
+    CGRect frame = header.frame;
+    frame.size.height = _contentView.superview.frame.size.height;
+    header.frame = frame;
+    
+    self.tableView.tableHeaderView = header;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -372,8 +389,8 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    CGSize size = [textView sizeThatFits:textView.bounds.size];
-    // fixme
+//    CGSize size = [textView sizeThatFits:textView.bounds.size];
+    // fixme 댓글 입력창 높이 조절
 }
 
 - (void)tap:(UITapGestureRecognizer *)gestureRecognizer

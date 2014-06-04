@@ -10,14 +10,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = 'OpenClien'
+  s.source_files = 'OpenClien', 'Vendor/GDataXML-HTML'
   s.private_header_files = 'Vendor/*'
   s.compiler_flags = '-I/usr/include/libxml2'
-
-  s.dependency 'GDataXML-HTML'
-
-  s.subspec 'GTM' do |gtm|
-    gtm.source_files = 'Vendor/GTM'
-    gtm.requires_arc = false
-  end
 end

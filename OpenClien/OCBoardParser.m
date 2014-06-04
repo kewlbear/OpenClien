@@ -24,11 +24,12 @@
 #import "NSScanner+Skip.h"
 #import "GTMNSString+HTML.h"
 #import "GDataXMLNode+OpenClien.h"
+#import "OCComment.h"
 
 @implementation OCBoardParser
 {
     OCBoard *_board;
-    NSString *responseString;
+    NSString *responseString; // fixme 제거
     int _page;
     NSString *_lastArticleId;
 }
@@ -45,20 +46,11 @@
 
 - (NSArray *)parse:(NSData *)data
 {
-//    if (isLoadingMore) {
-//        ++page;
-//    }
-    NSArray *array;
     if ([_board isImage]) {
-        responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        array = [self parseImage];
+        return [self parseImage:data];
     } else {
-        array = [self parseNonImage:data];
+        return [self parseNonImage:data];
     }
-    //        responseString = nil;
-    
-//    shouldLoadMore = YES;
-    return array;
 }
 
 - (NSArray *)parseNonImage:(NSData *)data {
@@ -126,7 +118,7 @@
                     }
                     if ([name.name isEqualToString:@"img"]) { // 이미지네임
                         NSString* src = [(GDataXMLElement *) name attributeForName:@"src"].stringValue;
-                        article.imageURL = [NSURL URLWithString:src relativeToURL:_board.URL];
+                        article.imageNameURL = [NSURL URLWithString:src relativeToURL:_board.URL];
                     } else {
                         article.name = name.stringValue;
                     }
@@ -254,7 +246,94 @@
     return array;
 }
 
-- (NSArray *)parseImage {
+- (NSArray *)parseImage:(NSData *)data {
+    NSError *error;
+    GDataXMLDocument *document = [[GDataXMLDocument alloc] initWithHTMLData:data error:&error];
+    if (document) {
+        // fixme
+        NSLog(@"%@", document);
+        GDataXMLNode *node = document.rootElement[@"//div[@class='board_main']/table/form"][0];
+        if (node) {
+            //            NSLog(@"%@", node.XMLString);
+            GDataXMLNode *page = node[@"./input[@name='page']/@value"][0];
+            int p = [page.stringValue intValue];
+            if (p != _page + 1) {
+                _lastArticleId = nil;
+            }
+            _page = p;
+            
+            NSMutableArray* articles = [NSMutableArray array];
+            int overlapCount = 0;
+            
+            NSArray *trs = node[@"./tbody/tr"];
+            for (int i = 0; i < [trs count]; ++i) {
+                GDataXMLElement *tr = trs[i];
+                OCArticle *article = [[OCArticle alloc] init];
+
+                NSArray *array = tr[@".//div[@class='view_title']//a"];
+                if ([array count]) {
+                    ++i; // NOTE
+                    
+                    GDataXMLElement *viewTitle = array[0];
+                    NSString *href = [[viewTitle attributeForName:@"href"] stringValue];
+                    article.ID = [[href componentsSeparatedByString:@"="] lastObject];
+                    if (/*isLoadingMore && !_searchDisplayController.active &&*/ _lastArticleId && [article.ID compare:_lastArticleId] != NSOrderedAscending) {
+                        ++overlapCount;
+                        continue;
+                    }
+                    article.URL = [NSURL URLWithString:href relativeToURL:_board.URL];
+                    
+                    article.title = [viewTitle stringValue];
+                    
+                    [self parseContent:trs[i] ofImageArticle:article];
+                } else {
+                    array = tr[@".//div[@class='view_head']/span"];
+                    article.title = [array[0] stringValue];
+                    article.ID = [[array[1] attributeForName:@"wr_id"] stringValue];
+                }
+                
+                GDataXMLElement *head = tr[@".//div[@class='view_head']"][0];
+                GDataXMLNode *src = [head firstNodeForXPath:@".//@src" error:&error];
+                if (src) {
+                    article.imageNameURL = [NSURL URLWithString:src.stringValue relativeToURL:_board.URL];
+                    NSLog(@"이미지네임 %@", article.imageNameURL);
+                } else {
+                    GDataXMLNode *user = [head firstNodeForXPath:@".//span[@class='member']" error:&error];
+                    article.name = user.stringValue;
+                    NSLog(@"user %@", article.name);
+                }
+                
+                GDataXMLNode* info = [head firstNodeForXPath:@".//p[@class='post_info']" error:&error];
+                NSScanner *scanner = [NSScanner scannerWithString:info.stringValue];
+                NSString *date;
+                int hit;
+                int vote;
+                [scanner scanUpToString:@" ," intoString:&date] &&
+                [scanner scanString:@", Hit :" intoString:NULL] &&
+                [scanner scanInt:&hit] &&
+                [scanner scanString:@", Vote :" intoString:NULL] &&
+                [scanner scanInt:&vote];
+                NSLog(@"%@ h=%d v=%d", date, hit, vote);
+                article.date = date;
+                article.hit = hit;
+                article.vote = vote;
+                
+                NSLog(@"%@", article);
+                
+                [articles addObject:article];
+            }
+            
+            OCArticle* lastArticle = [articles lastObject];
+            _lastArticleId = lastArticle.ID;
+            
+            return articles;
+        }
+    } else {
+        // fixme 오류 보고
+        NSLog(@"%@", error);
+    }
+    return nil;
+    
     NSScanner* scanner = [NSScanner scannerWithString:[responseString substringFrom:@"<form name=\"fboardlist\"" to:@"</tbody>"]];
     NSLog(@"%s: %@", __func__, scanner.string);
     NSMutableArray* array = [NSMutableArray array];
@@ -304,7 +383,7 @@
         NSString* src;
         [scanner scanUpToString:quote intoString:&src];
         NSLog(@"%s: src=%@", __func__, src);
-        article.imageURL = [NSURL URLWithString:src relativeToURL:_board.URL];
+        article.imageNameURL = [NSURL URLWithString:src relativeToURL:_board.URL];
         [scanner skip:@"span id=\"writeContents\""];
         [scanner skip:@">"];
         NSString* content;
@@ -320,6 +399,81 @@
 //    [self.tableView reloadData];
 //    [self setRefreshButton];
     return array;
+}
+
+- (void)parseContent:(GDataXMLElement *)content ofImageArticle:(OCArticle *)article
+{
+    // fixme
+    GDataXMLElement *viewContent = content[@".//div[@class='view_content']"][0];
+
+    NSArray *imgs = viewContent[@"./img"];
+    NSMutableArray *images = [NSMutableArray array];
+    for (GDataXMLElement *img in imgs) {
+        NSURL *URL = [NSURL URLWithString:[[img attributeForName:@"src"] stringValue]];
+        [images addObject:URL];
+    }
+    article.images = images;
+    
+    article.content = [viewContent[@"./span[@id='writeContents']"][0] stringValue];
+    
+    NSArray *replyHeads = viewContent[@".//div[contains(@class, 'reply_head')]"];
+    NSArray *saveComments = viewContent[@".//textarea[contains(@id, 'save_comment_')]"];
+    NSMutableArray *comments = [NSMutableArray array];
+    int j = 0;
+    for (int i = 0; i < [replyHeads count]; ++i) {
+        OCComment *comment = [[OCComment alloc] init];
+        GDataXMLElement *head = replyHeads[i];
+        NSArray *li = head[@"./ul[@class='reply_info']/li"];
+        if ([li count]) {
+            comment.isNested = [li[0][@"./img[contains(@src, '/blet_re2.gif')]"] count];
+            NSArray *array = li[0][@".//a"];
+            if ([array count]) {
+                GDataXMLElement *e = array[0];
+                array = [[e attributeForName:@"onclick"].stringValue componentsSeparatedByString:@"'"];
+                comment.memberId = array[1];
+                comment.name = array[3];
+                comment.home = array[7];
+            }
+            
+            NSArray *img = li[0][@".//img[contains(@src, '/member/')]"];
+            if ([img count]) {
+                GDataXMLElement *e = img[0];
+                comment.imageNameURL = [NSURL URLWithString:[e attributeForName:@"src"].stringValue relativeToURL:article.URL];
+                //                        NSLog(@"이미지네임 %@", comment.imageNameURL);
+            } else if (!comment.name) {
+                GDataXMLNode *member = li[0][@".//span[@class='member']"][0];
+                comment.name = member.stringValue;
+                //                        NSLog(@"%@", member.stringValue);
+            }
+
+            NSString *date;
+            NSScanner *scanner = [NSScanner scannerWithString:[li[1] stringValue]];
+            [scanner scanString:@"(" intoString:NULL] &&
+            [scanner scanUpToString:@")" intoString:&date];
+            comment.date = date;
+            
+            array = head[@".//li[@class='ip']"];
+            if ([array count]) {
+                comment.IP = [array[0] stringValue];
+            }
+            
+            comment.repliable = [head[@".//img[@alt='답변']"] count];
+            comment.editable = [head[@".//img[@alt='수정']"] count];
+            comment.deletable = [head[@".//img[alt='삭제']"] count];
+            comment.reportable = [head[@".//img[alt='신고']"] count];
+            
+            comment.content = [saveComments[j] stringValue];
+            comment.commentId = [[[saveComments[j] attributeForName:@"id"] stringValue] componentsSeparatedByString:@"_"][2];
+            ++j;
+        } else {
+            comment.content = [head[@"./text()"][0] stringValue];
+            // fixme 관리자가 삭제한 댓글은 bullet 이미지가 없음
+            comment.isNested = [head[@"../../@style[contains(., '30px')]"] count];
+            comment.commentId = [head[@"./span/@wr_id"][0] stringValue];
+        }
+        [comments addObject:comment];
+    }
+    article.comments = comments;
 }
 
 - (NSURL *)URLForNextPage
