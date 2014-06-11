@@ -67,6 +67,11 @@
 @property (readonly, nonatomic) NSURL *imageNameURL;
 
 /**
+ 링크 NSURL
+ */
+@property (readonly, nonatomic) NSArray *links;
+
+/**
  글 HTML data를 분석하여 content와 comments을 추출한다.
  */
 - (void)parse:(NSData *)data article:(OCArticle *)article;

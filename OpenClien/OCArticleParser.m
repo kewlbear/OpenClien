@@ -23,6 +23,7 @@
 #import <GDataXMLNode+OpenClien.h>
 #import "OCArticle.h"
 #import "OCComment.h"
+#import "OCLink.h"
 
 @implementation OCArticleParser
 {
@@ -36,6 +37,7 @@
     int _hit;
     int _vote;
     GDataXMLDocument *_document;
+    NSMutableArray *_links;
 }
 
 - (void)parse:(NSData *)data article:(OCArticle *)article
@@ -70,12 +72,14 @@
             NSLog(@"%@", _title);
             GDataXMLNode *content = [node firstNodeForXPath:@".//div[@class='view_content']" error:&error];
             
-            NSArray *links = [content nodesForXPath:@".//a[contains(@href, 'link.php')]" error:&error];
-            if (links) {
-                NSLog(@"links: %@", links);
-                for (GDataXMLNode *link in links) {
-                    GDataXMLNode *href = [link firstNodeForXPath:@".//@href" error:&error];
-                    GDataXMLNode *text = [link firstNodeForXPath:@".//text()" error:&error];
+            NSArray *elements = [content nodesForXPath:@".//a[contains(@href, 'link.php')]" error:&error];
+            if (elements) {
+                NSLog(@"links: %@", elements);
+                _links = [NSMutableArray array];
+                for (GDataXMLNode *element in elements) {
+                    OCLink *link = [[OCLink alloc] init];
+                    GDataXMLNode *href = [element firstNodeForXPath:@".//@href" error:&error];
+                    GDataXMLNode *text = [element firstNodeForXPath:@".//text()" error:&error];
                     NSScanner *scanner = [NSScanner scannerWithString:text.stringValue];
                     NSString *direct;
                     int count = -1;
@@ -85,6 +89,10 @@
                     NSURL *URL = [NSURL URLWithString:href.stringValue relativeToURL:article.URL];
                     NSLog(@"link %d %@ %@", count, URL, direct);
                     // fixme 링크 정보 제공
+                    link.URL = URL;
+                    link.text = direct;
+                    link.hitCount = count;
+                    [_links addObject:link];
                 }
             }
             

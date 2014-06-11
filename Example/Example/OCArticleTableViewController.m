@@ -277,20 +277,30 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         NSData* data = [NSData dataWithContentsOfURL:_article.URL];
         [_parser parse:data article:_article];
 
+        NSArray *links = _parser.links;
+        NSString *linkHTML = @"";
+        if (links) {
+            for (OCLink *link in links) {
+                linkHTML = [linkHTML stringByAppendingFormat:@"<li><a href=\"%@\">%@</a> (%d)", link.URL, link.text, link.hitCount];
+            }
+            linkHTML = [NSString stringWithFormat:@"<ul style=\"list-style-type:none;padding:10px\">%@</ul>", linkHTML];
+        }
+        
         UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         NSString *fontStyle = [NSString stringWithFormat:@"font-size:%.0fpx", font.pointSize];
         
         NSString *html = [NSString stringWithFormat:
                           @"<html><head>"\
                           "<meta name=\"viewport\" content=\"width=device-width\">"\
-                          "<style>body{word-break:break-all;margin:0;"\
+                          "<style>body{word-break:break-all;margin:0;border-bottom:solid .5px;"\
                           "%@}"\
                           " *{max-width:100%%} #writeContents{margin:10px;display:block}</style></head>"\
                           "<script>function image_window3(s,w,h){"\
                           "go('image://'+encodeURIComponent(s))}"\
                           " function go(h){location.href=h}</script>"\
-                          "<body onload=\"go('ready://'+document.height)\">%@</body></html>",
+                          "<body onload=\"go('ready://'+document.height)\">%@%@</body></html>",
                           fontStyle,
+                          linkHTML,
                           _parser.content];
         _comments = _parser.comments;
         dispatch_async(dispatch_get_main_queue(), ^{

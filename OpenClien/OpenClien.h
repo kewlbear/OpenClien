@@ -31,6 +31,7 @@
 #import <OpenClien/OCBoard.h>
 #import <OpenClien/OCArticle.h>
 #import <OpenClien/OCComment.h>
+#import <OpenClien/OCLink.h>
 
 // 카테고리
 #import <OpenClien/NSURL+OpenClien.h>
