@@ -1,5 +1,5 @@
 //
-//  OpenClien.h
+//  OCFile.m
 //  OpenClien
 //
 // Copyright 2014 Changbeom Ahn
@@ -17,25 +17,8 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "OCFile.h"
 
-// 파서
-#import <OpenClien/OCMainParser.h>
-#import <OpenClien/OCBoardParser.h>
-#import <OpenClien/OCArticleParser.h>
-#import <OpenClien/OCLoginParser.h>
-#import <OpenClien/OCLogoutParser.h>
-#import <OpenClien/OCCommentParser.h>
+@implementation OCFile
 
-// 모델
-#import <OpenClien/OCBoard.h>
-#import <OpenClien/OCArticle.h>
-#import <OpenClien/OCComment.h>
-#import <OpenClien/OCLink.h>
-#import <OpenClien/OCFile.h>
-
-// 카테고리
-#import <OpenClien/NSURL+OpenClien.h>
-
-// 유틸리티
-#import <OpenClien/OCRedirectResolver.h>
+@end

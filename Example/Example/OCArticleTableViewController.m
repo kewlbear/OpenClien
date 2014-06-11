@@ -277,11 +277,20 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         NSData* data = [NSData dataWithContentsOfURL:_article.URL];
         [_parser parse:data article:_article];
 
+        NSArray *files = _parser.files;
+        NSString *fileHTML = @"";
+        if (files) {
+            for (OCFile *file in files) {
+                fileHTML = [fileHTML stringByAppendingFormat:@"<li>📄 <a href=\"%@\">%@</a> %@ (%d)", file.URL, file.name, file.size, file.downloadCount];
+            }
+            fileHTML = [NSString stringWithFormat:@"<ul style=\"list-style-type:none;padding:10px\">%@</ul>", fileHTML];
+        }
+        
         NSArray *links = _parser.links;
         NSString *linkHTML = @"";
         if (links) {
             for (OCLink *link in links) {
-                linkHTML = [linkHTML stringByAppendingFormat:@"<li><a href=\"%@\">%@</a> (%d)", link.URL, link.text, link.hitCount];
+                linkHTML = [linkHTML stringByAppendingFormat:@"<li>🔗 <a href=\"%@\">%@</a> (%d)", link.URL, link.text, link.hitCount];
             }
             linkHTML = [NSString stringWithFormat:@"<ul style=\"list-style-type:none;padding:10px\">%@</ul>", linkHTML];
         }
@@ -298,8 +307,9 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
                           "<script>function image_window3(s,w,h){"\
                           "go('image://'+encodeURIComponent(s))}"\
                           " function go(h){location.href=h}</script>"\
-                          "<body onload=\"go('ready://'+document.height)\">%@%@</body></html>",
+                          "<body onload=\"go('ready://'+document.height)\">%@%@%@</body></html>",
                           fontStyle,
+                          fileHTML,
                           linkHTML,
                           _parser.content];
         _comments = _parser.comments;

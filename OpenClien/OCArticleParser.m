@@ -24,6 +24,7 @@
 #import "OCArticle.h"
 #import "OCComment.h"
 #import "OCLink.h"
+#import "OCFile.h"
 
 @implementation OCArticleParser
 {
@@ -72,7 +73,36 @@
             NSLog(@"%@", _title);
             GDataXMLNode *content = [node firstNodeForXPath:@".//div[@class='view_content']" error:&error];
             
-            NSArray *elements = [content nodesForXPath:@".//a[contains(@href, 'link.php')]" error:&error];
+            NSArray *elements = content[@".//a[contains(@href, 'file_download')]"];
+            if (elements) {
+                NSMutableArray *files = [NSMutableArray array];
+                for (GDataXMLElement *element in elements) {
+                    OCFile *file = [[OCFile alloc] init];
+                    NSLog(@"%@", element);
+                    NSString *href = [[element attributeForName:@"href"] stringValue];
+                    NSArray *components = [href componentsSeparatedByString:@"'"];
+                    file.URL = [NSURL URLWithString:components[1] relativeToURL:article.URL];
+                    file.name = components[3];
+                    NSString *text = [element stringValue];
+                    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@".* \\((.*)\\), Down : (.*), (.*)" options:0 error:&error];
+                    if (regex) {
+                        NSRange range = NSMakeRange(0, [text length]);
+                        [regex enumerateMatchesInString:text options:0 range:range usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+                            // fixme result, flags 확인
+                            file.size = [text substringWithRange:[result rangeAtIndex:1]];
+                            file.downloadCount = [[text substringWithRange:[result rangeAtIndex:2]] intValue];
+                            file.date = [text substringWithRange:[result rangeAtIndex:3]];
+                            *stop = YES;
+                        }];
+                    } else {
+                        NSLog(@"%@", error);
+                    }
+                    [files addObject:file];
+                }
+                _files = files;
+            }
+            
+            elements = [content nodesForXPath:@".//a[contains(@href, 'link.php')]" error:&error];
             if (elements) {
                 NSLog(@"links: %@", elements);
                 _links = [NSMutableArray array];
