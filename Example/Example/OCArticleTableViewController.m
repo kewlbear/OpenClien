@@ -100,16 +100,13 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
     _contentView.superview.translatesAutoresizingMaskIntoConstraints = NO;
     
     _contentView.scrollView.scrollsToTop = NO;
     _contentView.scrollView.scrollEnabled = NO;
+    
+    _titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    _infoLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
@@ -286,9 +283,9 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         NSString *html = [NSString stringWithFormat:
                           @"<html><head>"\
                           "<meta name=\"viewport\" content=\"width=device-width\">"\
-                          "<style>body{word-break:break-all;margin-top:0;"\
+                          "<style>body{word-break:break-all;margin:0;"\
                           "%@}"\
-                          " *{max-width:100%%}</style></head>"\
+                          " *{max-width:100%%} #writeContents{margin:10px;display:block}</style></head>"\
                           "<script>function image_window3(s,w,h){"\
                           "go('image://'+encodeURIComponent(s))}"\
                           " function go(h){location.href=h}</script>"\

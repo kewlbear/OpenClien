@@ -140,12 +140,20 @@
                 }
             }
             
+            // iframe 이하 내용이 누락되는 문제 우회
+            array = content[@".//iframe"]; // fixme 자식 노드가 없는 iframe만 선택
+            for (GDataXMLElement *iframe in array) {
+                if (iframe.childCount == 0) {
+                    [iframe addChild:[GDataXMLNode textWithStringValue:@" "]];
+                }
+            }
+            
             _content = content.XMLString;
             
             // fixme 위에서 제대로 처리
-//            if ([flashs count]) {
-//                _content = [_content stringByAppendingString:@"<script src=\"http://iamghost.kr/d/iOSBookmarklets/video.js\"></script>"];
-//            }
+            if ([flashs count]) {
+                _content = [_content stringByAppendingString:@"<script src=\"http://iamghost.kr/d/iOSBookmarklets/video.js\"></script>"];
+            }
             
             NSArray *replyHeads = node[@".//div[contains(@class, 'reply_head')]"];
             NSArray *saveComments = node[@".//textarea[contains(@id, 'save_comment_')]"];
