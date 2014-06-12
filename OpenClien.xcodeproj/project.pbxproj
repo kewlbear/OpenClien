@@ -118,6 +118,10 @@
 		4CD4FFBB164CFFDC00727748 /* UIViewController+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD4FFBA164CFFDC00727748 /* UIViewController+Stack.m */; };
 		4CD4FFF41650E61800727748 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C49F8EA15E36C5F00E929B4 /* ArticleViewController.m */; };
 		4CDBED0315E91F5E0092B03E /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDBED0215E91F5E0092B03E /* Comment.m */; };
+		4CE4806519498565007B8F03 /* OCScrapParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE4806319498565007B8F03 /* OCScrapParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CE4806619498565007B8F03 /* OCScrapParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE4806319498565007B8F03 /* OCScrapParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CE4806719498565007B8F03 /* OCScrapParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE4806419498565007B8F03 /* OCScrapParser.m */; };
+		4CE4806819498565007B8F03 /* OCScrapParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE4806419498565007B8F03 /* OCScrapParser.m */; };
 		4CE647B317AF2BAF00513CFA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE647B217AF2BAF00513CFA /* StoreKit.framework */; };
 		4CE647B717AF93EE00513CFA /* SharedStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CE647B617AF93EE00513CFA /* SharedStoryboard.storyboard */; };
 		4CE9D25D193EEAD20044109A /* Clien.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D25C193EEAD20044109A /* Clien.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -411,6 +415,8 @@
 		4CD4FFBA164CFFDC00727748 /* UIViewController+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Stack.m"; sourceTree = "<group>"; };
 		4CDBED0115E91F5E0092B03E /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		4CDBED0215E91F5E0092B03E /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		4CE4806319498565007B8F03 /* OCScrapParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCScrapParser.h; sourceTree = "<group>"; };
+		4CE4806419498565007B8F03 /* OCScrapParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCScrapParser.m; sourceTree = "<group>"; };
 		4CE647B217AF2BAF00513CFA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4CE647B617AF93EE00513CFA /* SharedStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SharedStoryboard.storyboard; sourceTree = "<group>"; };
 		4CE9D258193EEAD20044109A /* Clien.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Clien.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -860,6 +866,8 @@
 				4CCEF44E19332F7900848934 /* OCCommentParser.h */,
 				4CCEF44F19332F7900848934 /* OCCommentParser.m */,
 				4CE9D25A193EEAD20044109A /* Supporting Files */,
+				4CE4806319498565007B8F03 /* OCScrapParser.h */,
+				4CE4806419498565007B8F03 /* OCScrapParser.m */,
 			);
 			path = Clien;
 			sourceTree = "<group>";
@@ -910,6 +918,7 @@
 				4C031D881920763700E2A7BA /* OCArticleParser.h in Headers */,
 				4C031D6D191CA49500E2A7BA /* NSScanner+Skip.h in Headers */,
 				4CE9D2C0193EF52C0044109A /* OCArticle.h in Headers */,
+				4CE4806519498565007B8F03 /* OCScrapParser.h in Headers */,
 				4C4ABDCA194831D8001EAB5C /* OCFile.h in Headers */,
 				4C031DB51920D3F900E2A7BA /* GDataXMLNode.h in Headers */,
 				4C031D6F191CA49500E2A7BA /* NSString+SubstringFromTo.h in Headers */,
@@ -934,6 +943,7 @@
 				4CE9D288193EECCE0044109A /* OCLoginParser.h in Headers */,
 				4C62B8EC194808F80026F101 /* OCLink.h in Headers */,
 				4CE9D289193EECCE0044109A /* OCLogoutParser.h in Headers */,
+				4CE4806619498565007B8F03 /* OCScrapParser.h in Headers */,
 				4CE9D28A193EECCE0044109A /* OCRedirectResolver.h in Headers */,
 				4CE9D28B193EECCE0044109A /* OCCommentParser.h in Headers */,
 			);
@@ -1208,6 +1218,7 @@
 			files = (
 				4CCEF43D192B2BF700848934 /* OCLogoutParser.m in Sources */,
 				4C031D7B191CC38E00E2A7BA /* OCBoardParser.m in Sources */,
+				4CE4806719498565007B8F03 /* OCScrapParser.m in Sources */,
 				4CE9D2D3193EF52C0044109A /* OCRedirectResolver.m in Sources */,
 				4C031D7F191CC74E00E2A7BA /* OCArticle.m in Sources */,
 				4C031DB61920D3F900E2A7BA /* GDataXMLNode.m in Sources */,
@@ -1297,6 +1308,7 @@
 			files = (
 				4CE9D299193EF32E0044109A /* GDataXMLNode.m in Sources */,
 				4CE9D28C193EF2B20044109A /* OCMainParser.m in Sources */,
+				4CE4806819498565007B8F03 /* OCScrapParser.m in Sources */,
 				4CE9D28D193EF2B20044109A /* OCBoard.m in Sources */,
 				4CE9D28E193EF2B20044109A /* OCBoardParser.m in Sources */,
 				4CE9D28F193EF2B20044109A /* OCArticle.m in Sources */,

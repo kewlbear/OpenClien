@@ -46,6 +46,9 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     OCArticleTableViewCell *_sizingCell;
     UIToolbar *_toolbar;
     UITextView *_textView;
+    __weak UITextField *_memoTextField;
+    NSArray *_memos;
+    OCScrapParser *_scrapParser;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -384,8 +387,19 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 }
 
 - (IBAction)scrap:(id)sender {
-    if ([_parser canScrap]) {
-        // fixme
+    if (_parser.scrapURL) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:nil delegate:self cancelButtonTitle:@"취소" otherButtonTitles:@"확인", nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        _memoTextField = [alert textFieldAtIndex:0];
+        _memoTextField.placeholder = @"메모";
+        UIToolbar *toolbar = [[UIToolbar alloc] init];
+        UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"입력", @"선택"]];
+        segmentedControl.selectedSegmentIndex = 0;
+        [segmentedControl addTarget:self action:@selector(changeMemoInputView:) forControlEvents:UIControlEventValueChanged];
+        UIBarButtonItem *segmentedItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+        toolbar.items = @[segmentedItem];
+        _memoTextField.inputAccessoryView = toolbar;
+        [alert show];
     } else {
         [[OCSession defaultSession] showLoginAlertView:^(NSError *error) {
             if (error) {
@@ -396,6 +410,69 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
             }
         } URL:_article.URL];
     }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[self scrapParser] prepareSubmitWithMemo:_memoTextField.text block:^(NSURL *URL, NSDictionary *parameters) {
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+                [manager POST:URL.absoluteString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    [[self scrapParser] parseSubmitResponse:responseObject];
+                    // fixme
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"%@", error);
+                    OCAlert([error localizedDescription]);
+                }];
+            }];
+        });
+    }
+}
+
+- (void)changeMemoInputView:(id)sender {
+    [_memoTextField resignFirstResponder];
+    UISegmentedControl *segmentedControl = sender;
+    if (segmentedControl.selectedSegmentIndex == 0) {
+        _memoTextField.inputView = nil;
+    } else {
+        UIPickerView *picker = [[UIPickerView alloc] init];
+        picker.dataSource = self;
+        picker.delegate = self;
+        _memoTextField.inputView = picker;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            _memos = [self scrapParser].memos;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [(UIPickerView *) _memoTextField.inputView reloadAllComponents];
+            });
+        });
+    }
+    [_memoTextField becomeFirstResponder];
+}
+
+- (OCScrapParser *)scrapParser {
+    if (!_scrapParser) {
+        _scrapParser = [[OCScrapParser alloc] initWithURL:_parser.scrapURL];
+        NSData *data = [NSData dataWithContentsOfURL:_parser.scrapURL]; // NOTE will block here!
+        [_scrapParser parse:data];
+    }
+    return _scrapParser;
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return [_memos count];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return _memos[row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    _memoTextField.text = _memos[row];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange

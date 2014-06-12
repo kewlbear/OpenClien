@@ -213,7 +213,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 {
     if ([segue.identifier isEqualToString:@"article"]) {
         OCArticleTableViewController *vc = segue.destinationViewController;
-        vc.article = [[self activeModel] objectAtIndex:[self.searchDisplayController.searchResultsTableView indexPathForSelectedRow].row];
+        vc.article = [[self activeModel] objectAtIndex:[[self activeTableView] indexPathForSelectedRow].row];
     } else {
         OCWebViewController *vc = segue.destinationViewController;
         vc.URL = _board.URL;

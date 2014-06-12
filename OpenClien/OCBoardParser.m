@@ -395,7 +395,10 @@
         NSLog(@"next page: %@", href);
         NSURL *URL = [NSURL URLWithString:href relativeToURL:_board.URL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+        
+        // fixme 카테고리와 검색어가 없는 경우는 불필요?
         [request setValue:_board.URL.absoluteString forHTTPHeaderField:@"Referer"];
+        
         return request;
     }
     

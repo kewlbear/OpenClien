@@ -39,6 +39,7 @@
     int _vote;
     GDataXMLDocument *_document;
     NSMutableArray *_links;
+    NSURL *_URL;
 }
 
 - (void)parse:(NSData *)data article:(OCArticle *)article
@@ -250,6 +251,9 @@
                 [comments addObject:comment];
             }
             _comments = comments;
+            
+            _URL = article.URL;
+            
             return;
         } else {
             node = [_document.rootElement firstNodeForXPath:@"//script[last()]" error:&error]; // fixme
@@ -303,6 +307,18 @@
 - (NSURL *)imageNameURL
 {
     return _imageNameURL;
+}
+
+- (NSURL *)scrapURL {
+    NSArray *onclicks = _document.rootElement[@"//a[contains(@onclick,'win_scrap')][1]/@onclick"];
+    if ([onclicks count]) {
+        NSString *onclick = [onclicks[0] stringValue];
+        NSArray *components = [onclick componentsSeparatedByString:@"'"];
+        if ([components count] > 1) {
+            return [NSURL URLWithString:components[1] relativeToURL:_URL];
+        }
+    }
+    return nil;
 }
 
 @end

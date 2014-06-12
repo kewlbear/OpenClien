@@ -77,6 +77,11 @@
 @property (readonly, nonatomic) NSArray *files;
 
 /**
+ 스크랩 URL
+ */
+@property (readonly, nonatomic) NSURL *scrapURL;
+
+/**
  글 HTML data를 분석하여 content와 comments을 추출한다.
  */
 - (void)parse:(NSData *)data article:(OCArticle *)article;
