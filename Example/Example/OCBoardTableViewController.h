@@ -21,7 +21,7 @@
 
 @class OCBoard;
 
-@interface OCBoardTableViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate>
+@interface OCBoardTableViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, strong) OCBoard *board;
 

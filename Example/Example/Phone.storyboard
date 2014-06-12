@@ -9,7 +9,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="main" id="sb3-SM-ckQ" customClass="OCMainTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="fiq-Ut-uHy">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -84,7 +84,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="board" id="bNi-DT-gix" customClass="OCBoardTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="Pim-0n-XfV">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -163,7 +163,17 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="PsD-um-XNu"/>
+                    <navigationItem key="navigationItem" id="PsD-um-XNu">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" id="Vpe-nX-ZgG" userLabel="카테고리">
+                            <connections>
+                                <action selector="showCategoryView:" destination="bNi-DT-gix" id="cCp-4O-NKp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="_categoryItem" destination="Vpe-nX-ZgG" id="Tth-bz-imd"/>
+                        <outlet property="categoryItem" destination="Vpe-nX-ZgG" id="xUX-Tc-RHN"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fmM-ux-sad" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -178,7 +188,7 @@
                         <viewControllerLayoutGuide type="bottom" id="VMQ-a1-ftd"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="zHl-gj-IZb">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WRS-F5-Cgb">
@@ -227,7 +237,7 @@
             <objects>
                 <collectionViewController autoresizesArchivedViewToFullSize="NO" id="8g7-CE-195" customClass="OCImageBoardViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="ocx-Nm-c7r">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="q18-Tn-KYh">
                             <size key="itemSize" width="50" height="50"/>
@@ -293,11 +303,11 @@
             <objects>
                 <tableViewController storyboardIdentifier="article" id="k3D-Gd-Kxc" customClass="OCArticleTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="67" sectionHeaderHeight="22" sectionFooterHeight="22" id="Dj4-Jh-29N">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="ZGi-WH-qYL" userLabel="헤더">
-                            <rect key="frame" x="0.0" y="64" width="320" height="210"/>
+                            <rect key="frame" x="0.0" y="64" width="320" height="122"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FCP-WU-TLo" userLabel="글">
@@ -471,7 +481,7 @@
                         <viewControllerLayoutGuide type="bottom" id="4Vf-6x-N6V"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="P3g-TL-CtJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PBA-d0-9Wm">
@@ -555,10 +565,10 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="dah-cb-sJT"/>
+        <segue reference="CLh-w2-H3g"/>
         <segue reference="IIi-jM-vKj"/>
     </inferredMetricsTieBreakers>
 </document>

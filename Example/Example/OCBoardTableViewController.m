@@ -38,6 +38,9 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     UIActivityIndicatorView *_moreIndicator;
     UISearchDisplayController *_searchController;
     NSArray *_searchResult;
+    NSArray *_categories;
+    __weak IBOutlet UIBarButtonItem *_categoryItem;
+    OCBoardParser *_searchParser;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -241,24 +244,52 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData* data = [NSData dataWithContentsOfURL:_board.URL];
         _articles = [_parser parse:data];
+        _categories = [_parser categories];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
+            if ([_categories count]) {
+                _categoryItem.title = _categories[0];
+                _categoryItem.enabled = YES;
+            }
         });
     });
 }
 
 - (void)loadMore
 {
+    NSURLRequest *request = [_parser requestForNextPage];
+    if (!request) {
+        if ([_parser requestForNextSearch]) {
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+            [button setTitle:@"*다음검색*" forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(nextSearch) forControlEvents:UIControlEventTouchUpInside];
+            [button sizeToFit];
+            self.tableView.tableFooterView = button;
+            _moreIndicator = nil; // fixme
+        } else {
+            // fixme
+        }
+        return;
+    }
+    
     [[self moreIndicator] startAnimating];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSData *data = [NSData dataWithContentsOfURL:[_parser URLForNextPage]];
-        _articles = [_articles arrayByAddingObjectsFromArray:[_parser parse:data]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-            [[self moreIndicator] stopAnimating];
-        });
-    });
+    
+    [self sendRequest:request completion:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (data) {
+            _articles = [_articles arrayByAddingObjectsFromArray:[_parser parse:data]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+                [[self moreIndicator] stopAnimating];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self moreIndicator] stopAnimating];
+                OCAlert(error.localizedDescription);
+            });
+        }
+    }];
 }
 
 - (UIActivityIndicatorView *)moreIndicator {
@@ -288,32 +319,40 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-    NSURLRequest *request = [_parser requestForSearchString:searchBar.text field:OCSearchFieldTitle];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (!_searchParser) {
+        _searchParser = [[OCBoardParser alloc] initWithBoard:_board];
+    }
+    
+    NSURLRequest *request = [_searchParser requestForSearchString:searchBar.text field:OCSearchFieldTitle];
+    [self sendRequest:request completion:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (data) {
-            _searchResult = [_parser parse:data];
+            _searchResult = [_searchParser parse:data];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.searchDisplayController.searchResultsTableView reloadData];
             });
         } else {
-            OCAlert(error.localizedDescription);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                OCAlert(error.localizedDescription);
+            });
         }
     }];
+}
+
+- (void)sendRequest:(NSURLRequest *)request completion:(void (^)(NSData *data, NSURLResponse *response, NSError *error))block {
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:block];
     [task resume];
 }
 
 - (void)searchMore {
     [[self moreIndicator] startAnimating];
     
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-    NSURLRequest *request = [_parser requestForNextSearch];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSURLRequest *request = [_searchParser requestForNextPage];
+    [self sendRequest:request completion:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (data) {
-            _searchResult = [_searchResult arrayByAddingObjectsFromArray:[_parser parse:data]];
+            _searchResult = [_searchResult arrayByAddingObjectsFromArray:[_searchParser parse:data]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.searchDisplayController.searchResultsTableView reloadData];
@@ -326,7 +365,63 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
             });
         }
     }];
-    [task resume];
+}
+
+- (IBAction)showCategoryView:(id)sender {
+    UIActionSheet *sheet = [[UIActionSheet alloc] init];
+    for (NSString *category in _categories) {
+        [sheet addButtonWithTitle:category];
+    }
+    sheet.cancelButtonIndex = [sheet addButtonWithTitle:@"취소"];
+    sheet.delegate = self;
+    [sheet showFromBarButtonItem:sender animated:YES];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != actionSheet.cancelButtonIndex) {
+        NSString *category = _categories[buttonIndex];
+        _categoryItem.title = category;
+        NSURLRequest *request = [_parser requestForCategory:category];
+        [self sendRequest:request completion:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (data) {
+                _articles = [_parser parse:data];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    OCAlert(error.localizedDescription);
+                });
+            }
+        }];
+    }
+}
+
+- (void)nextSearch {
+    NSURLRequest *request = [_parser requestForNextSearch];
+    if (!request) {
+        // fixme
+        return;
+    }
+    
+    [[self moreIndicator] startAnimating];
+    
+    [self sendRequest:request completion:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (data) {
+            _articles = [_articles arrayByAddingObjectsFromArray:[_parser parse:data]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+                [[self moreIndicator] stopAnimating];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self moreIndicator] stopAnimating];
+                OCAlert(error.localizedDescription);
+            });
+        }
+    }];    
 }
 
 @end

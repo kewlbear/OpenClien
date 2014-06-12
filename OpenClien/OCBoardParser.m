@@ -32,7 +32,6 @@
     NSString *responseString; // fixme 제거
     int _page;
     NSString *_lastArticleId;
-    NSURL *_nextSearchURL;
     GDataXMLDocument *_document;
 }
 
@@ -150,112 +149,12 @@
             OCArticle* lastArticle = [array lastObject];
             _lastArticleId = lastArticle.ID;
 
-            NSArray *next = _document.rootElement[@"//a[@class='cur_page']/following-sibling::a[1]"];
-            if ([next count]) {
-                NSString *href = [[next[0] attributeForName:@"href"] stringValue];
-                _nextSearchURL = [NSURL URLWithString:href relativeToURL:_board.URL];
-            }
-            
             return array;
         }
     } else {
         NSLog(@"%@", error);
     }
     return nil;
-    
-    NSScanner* scanner = [NSScanner scannerWithString:[responseString substringFrom:@"<form name=\"fboardlist\"" to:@"</tbody>"]];
-    //    NSLog(@"%s: %@", __func__, scanner.string);
-    NSMutableArray* array = [NSMutableArray array];
-    int overlapCount = 0;
-    while (!scanner.isAtEnd) {
-        OCArticle* article = [[OCArticle alloc] init];
-        [scanner skip:@"<tr"];
-        // 공지사항
-        BOOL isNotice = [scanner scanString:@"class=\"post_notice\"" intoString:NULL];
-        [scanner skip:@"<td"];
-        // 체험단 사용기 광고
-        if (![scanner scanString:@">" intoString:NULL]) {
-            continue;
-        }
-        NSString* articleId;
-        if (!isNotice && ![scanner scanUpToString:@"<" intoString:&articleId]) {
-            break;
-        }
-//        if (isLoadingMore && !_searchDisplayController.active && [articleId compare:lastArticleId] != NSOrderedAscending) {
-//            ++overlapCount;
-//            continue;
-//        }
-        article.ID = articleId;
-        [scanner skip:@"class=\"post_subject\">"];
-        NSString* title;
-        if ([scanner scanString:@"<span " intoString:NULL]) {
-            [scanner skip:@"'>"];
-            [scanner scanUpToString:@"</span>" intoString:&title];
-        } else {
-            [scanner skip:@"href='"];
-            NSString* href;
-            [scanner scanUpToString:@"'" intoString:&href];
-            article.URL = [NSURL URLWithString:href relativeToURL:_board.URL];
-            [scanner skip:@">"];
-            [scanner scanUpToString:@"</a>" intoString:&title];
-        }
-//        if (self.searchDisplayController.active) {
-//            // fixme use attributed string
-//            title = [title stringByReplacingOccurrencesOfString:@"<span class='search_text'>" withString:@""];
-//            title = [title stringByReplacingOccurrencesOfString:@"</span>" withString:@""];
-//        }
-        article.title = title.gtm_stringByUnescapingFromHTML;
-        [scanner skip:@"</a>"];
-        if ([scanner scanString:@"<span>[" intoString:NULL]) {
-            int numberOfComments;
-            [scanner scanInt:&numberOfComments];
-            article.numberOfComments = numberOfComments;
-        }
-        [scanner skip:@"<td class=\"post_name"];
-        [scanner skip:@">"];
-        if ([scanner scanString:@"<a " intoString:NULL]) {
-            [scanner skip:@">"];
-        }
-        NSString* name;
-        if ([scanner scanString:@"<span class='member'>" intoString:NULL]) {
-            [scanner scanUpToString:@"</span>" intoString:&name];
-        } else {
-            [scanner skip:@"src='"];
-            [scanner scanUpToString:@"'" intoString:&name];
-            name = [[NSURL URLWithString:name relativeToURL:_board.URL] absoluteString];
-        }
-        article.name = name;
-        //        [scanner skip:@"<span title=\""];
-        //        NSString* timestamp;
-        //        [scanner scanUpToString:@"\">" intoString:&timestamp];
-        //        article.timestamp = timestamp;
-        //        [scanner skip:@"<td>"];
-        //        int numberOfHits;
-        //        [scanner scanInt:&numberOfHits];
-        //        article.numberOfHits = numberOfHits;
-        [array addObject:article];
-        //        NSLog(@"%s: %@ %@", __func__, articleId, title);
-    }
-    NSLog(@"%d overlaps", overlapCount);
-//    if (self.searchDisplayController.active) {
-//        if (isLoadingMore) {
-//            [_searchResults addObjectsFromArray:array];
-//        } else {
-//            _searchResults = array;
-//        }
-//        [self.searchDisplayController.searchResultsTableView reloadData];
-//    } else {
-//        if (isLoadingMore) {
-//            [articles addObjectsFromArray:array];
-//        } else {
-//            articles = array;
-//        }
-//        Article* lastArticle = [array lastObject];
-//        lastArticleId = lastArticle.ID;
-//        [self.tableView reloadData];
-//    }
-//    [self setRefreshButton];
-    return array;
 }
 
 - (NSArray *)parseImage:(NSData *)data {
@@ -488,9 +387,19 @@
     article.comments = comments;
 }
 
-- (NSURL *)URLForNextPage
+- (NSURLRequest *)requestForNextPage
 {
-    return [NSURL URLWithString:[_board.URL.absoluteString stringByAppendingFormat:@"&page=%d", _page + 1]];
+    NSArray *next = _document.rootElement[@"//a[@class='cur_page']/following-sibling::a[1]"];
+    if ([next count]) {
+        NSString *href = [[next[0] attributeForName:@"href"] stringValue];
+        NSLog(@"next page: %@", href);
+        NSURL *URL = [NSURL URLWithString:href relativeToURL:_board.URL];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+        [request setValue:_board.URL.absoluteString forHTTPHeaderField:@"Referer"];
+        return request;
+    }
+    
+    return nil;
 }
 
 - (int)page
@@ -508,14 +417,40 @@
     return request;
 }
 
-- (NSURLRequest *)requestForNextSearch {
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_nextSearchURL];
+- (BOOL)canSearch {
+    return [_document.rootElement[@"//input[@id='stx']"] count];
+}
+
+- (NSArray *)categories {
+    NSArray *elements = _document.rootElement[@"//ul[@id='bbs_category']/li"];
+    NSMutableArray *categories = [NSMutableArray array];
+    for (GDataXMLElement *element in elements) {
+        [categories addObject:[element stringValue]];
+    }
+    return categories;
+}
+
+- (NSURLRequest *)requestForCategory:(NSString *)category {
+    category = [category.precomposedStringWithCanonicalMapping stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *string = [_board.URL.absoluteString stringByAppendingFormat:@"&sca=%@", category];
+    NSURL *URL = [NSURL URLWithString:string];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
     [request setValue:_board.URL.absoluteString forHTTPHeaderField:@"Referer"];
     return request;
 }
 
-- (BOOL)canSearch {
-    return [_document.rootElement[@"//input[@id='stx']"] count];
+- (NSURLRequest *)requestForNextSearch {
+    NSArray *next = _document.rootElement[@"//a[text()='*다음검색*'][1]"];
+    if ([next count]) {
+        NSString *href = [[next[0] attributeForName:@"href"] stringValue];
+        NSLog(@"next search: %@", href);
+        NSURL *URL = [NSURL URLWithString:href relativeToURL:_board.URL];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+        [request setValue:_board.URL.absoluteString forHTTPHeaderField:@"Referer"];
+        return request;
+    }
+    
+    return nil;
 }
 
 @end

@@ -60,11 +60,11 @@ typedef enum : NSUInteger {
 - (NSArray *)parse:(NSData *)data;
 
 /**
- 다음 페이지 URL을 반환한다.
+ 다음 페이지를 위한 URL 요청을 반환한다.
  
- @return 다음 페이지 URL
+ @return 다음 페이지를 위한 URL 요청
  */
-- (NSURL *)URLForNextPage;
+- (NSURLRequest *)requestForNextPage;
 
 /**
  이 게시판의 주어진 검색어와 필드에 해당하는 검색 URL 요청을 반환한다.
@@ -77,17 +77,33 @@ typedef enum : NSUInteger {
 - (NSURLRequest *)requestForSearchString:(NSString *)string field:(OCSearchField)field;
 
 /**
- 현재 검색조건과 일치하는 결과를 더 가져올 수 있는 URL 요청을 반환한다.
- 
- @return 현재 검색조건과 일치하는 결과를 더 가져올 수 있는 URL 요청
- */
-- (NSURLRequest *)requestForNextSearch;
-
-/**
  검색이 가능한 상태인지 반환한다.
  
  @return 검색가능 여부
  */
 - (BOOL)canSearch;
+
+/**
+ 카테고리 배열을 반환한다.
+ 
+ @return 카테고리 배열
+ */
+- (NSArray *)categories;
+
+/**
+ 주어진 카테고리의 글 목록을 가져올 수 있는 URL 요청을 반환한다.
+ 
+ @param 카테고리
+ 
+ @return 주어진 카테고리의 글 목록을 가져올 수 있는 URL 요청
+ */
+- (NSURLRequest *)requestForCategory:(NSString *)category;
+
+/**
+ 다음 검색 URL 요청을 반환한다.
+ 
+ @return 다음 검색 URL 요청
+ */
+- (NSURLRequest *)requestForNextSearch;
 
 @end
