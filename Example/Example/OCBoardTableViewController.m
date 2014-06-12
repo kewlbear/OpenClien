@@ -24,6 +24,11 @@
 #import "OCWebViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
+enum {
+    kCategoryActionSheetTag,
+    kSearchFieldActionSheetTag
+};
+
 static NSString* REUSE_IDENTIFIER = @"board cell";
 
 @interface OCBoardTableViewController ()
@@ -41,6 +46,8 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     NSArray *_categories;
     __weak IBOutlet UIBarButtonItem *_categoryItem;
     OCBoardParser *_searchParser;
+    int _searchField;
+    UIBarButtonItem *_searchFieldItem;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -60,6 +67,10 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     
     UISearchBar *searchBar = [[UISearchBar alloc] init];
     searchBar.delegate = self;
+    UIToolbar *toolbar = [[UIToolbar alloc] init];
+    _searchFieldItem = [[UIBarButtonItem alloc] initWithTitle:@"제목" style:UIBarButtonItemStyleBordered target:self action:@selector(showSearchFieldView:)];
+    toolbar.items = @[_searchFieldItem];
+    searchBar.inputAccessoryView = toolbar;
     [searchBar sizeToFit];
     self.tableView.tableHeaderView = searchBar;
     _searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
@@ -306,7 +317,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
         _searchParser = [[OCBoardParser alloc] initWithBoard:_board];
     }
     
-    NSURLRequest *request = [_searchParser requestForSearchString:searchBar.text field:OCSearchFieldTitle];
+    NSURLRequest *request = [_searchParser requestForSearchString:searchBar.text field:_searchField];
     [self sendRequest:request more:NO];
 }
 
@@ -319,6 +330,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 
 - (IBAction)showCategoryView:(id)sender {
     UIActionSheet *sheet = [[UIActionSheet alloc] init];
+    sheet.tag = kCategoryActionSheetTag;
     for (NSString *category in _categories) {
         [sheet addButtonWithTitle:category];
     }
@@ -329,9 +341,16 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {
-        NSString *category = _categories[buttonIndex];
-        _categoryItem.title = category;
-        [self loadCategory];
+        if (actionSheet.tag == kCategoryActionSheetTag) {
+            NSString *category = _categories[buttonIndex];
+            _categoryItem.title = category;
+            [self loadCategory];
+        } else if (actionSheet.tag == kSearchFieldActionSheetTag) {
+            _searchField = (int) buttonIndex;
+            _searchFieldItem.title = [actionSheet buttonTitleAtIndex:buttonIndex];
+        } else {
+            NSLog(@"unknown action sheet!");
+        }
     }
 }
 
@@ -387,6 +406,12 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 
 - (NSArray *)activeModel {
     return self.searchDisplayController.active ? _searchResult : _articles;
+}
+
+- (void)showSearchFieldView:(id)sender {
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"취소" destructiveButtonTitle:nil otherButtonTitles:@"제목", @"내용", @"제목+내용", @"회원아이디", @"회원아이디(코)", @"이름", @"이름(코)", nil];
+    sheet.tag = kSearchFieldActionSheetTag;
+    [sheet showFromBarButtonItem:sender animated:YES];
 }
 
 @end
