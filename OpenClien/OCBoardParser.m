@@ -32,6 +32,8 @@
     NSString *responseString; // fixme 제거
     int _page;
     NSString *_lastArticleId;
+    NSURL *_nextSearchURL;
+    GDataXMLDocument *_document;
 }
 
 - (id)initWithBoard:(OCBoard *)board
@@ -55,17 +57,21 @@
 
 - (NSArray *)parseNonImage:(NSData *)data {
     NSError *error;
-    GDataXMLDocument *document = [[GDataXMLDocument alloc] initWithHTMLData:data error:&error];
-    if (document) {
-        GDataXMLNode *node = document.rootElement[@"//div[@class='board_main']/table/form"][0];
+    _document = [[GDataXMLDocument alloc] initWithHTMLData:data error:&error];
+    if (_document) {
+        GDataXMLNode *node = _document.rootElement[@"//div[@class='board_main']/table/form"][0];
         if (node) {
 //            NSLog(@"%@", node.XMLString);
-            GDataXMLNode *page = node[@"./input[@name='page']/@value"][0];
-            int p = [page.stringValue intValue];
-            if (p != _page + 1) {
-                _lastArticleId = nil;
+            BOOL isSearch = [[node[@"./input[@name='stx'][1]/@value"][0] stringValue] length];
+            
+            if (!isSearch) {
+                GDataXMLNode *page = node[@"./input[@name='page']/@value"][0];
+                int p = [page.stringValue intValue];
+                if (p != _page + 1) {
+                    _lastArticleId = nil;
+                }
+                _page = p;
             }
-            _page = p;
             
             NSMutableArray* array = [NSMutableArray array];
             int overlapCount = 0;
@@ -87,7 +93,7 @@
                 article.isNotice = [[tr attributeForName:@"class"].stringValue isEqualToString:@"post_notice"];
                 
                 article.ID = [tds[0] stringValue];
-                if (/*isLoadingMore && !_searchDisplayController.active &&*/ _lastArticleId && [article.ID compare:_lastArticleId] != NSOrderedAscending) {
+                if (!isSearch && _lastArticleId && [article.ID compare:_lastArticleId] != NSOrderedAscending) {
                     ++overlapCount;
                     continue;
                 }
@@ -144,6 +150,12 @@
             OCArticle* lastArticle = [array lastObject];
             _lastArticleId = lastArticle.ID;
 
+            NSArray *next = _document.rootElement[@"//a[@class='cur_page']/following-sibling::a[1]"];
+            if ([next count]) {
+                NSString *href = [[next[0] attributeForName:@"href"] stringValue];
+                _nextSearchURL = [NSURL URLWithString:href relativeToURL:_board.URL];
+            }
+            
             return array;
         }
     } else {
@@ -248,11 +260,11 @@
 
 - (NSArray *)parseImage:(NSData *)data {
     NSError *error;
-    GDataXMLDocument *document = [[GDataXMLDocument alloc] initWithHTMLData:data error:&error];
-    if (document) {
+    _document = [[GDataXMLDocument alloc] initWithHTMLData:data error:&error];
+    if (_document) {
         // fixme
-        NSLog(@"%@", document);
-        GDataXMLNode *node = document.rootElement[@"//div[@class='board_main']/table/form"][0];
+        NSLog(@"%@", _document);
+        GDataXMLNode *node = _document.rootElement[@"//div[@class='board_main']/table/form"][0];
         if (node) {
             //            NSLog(@"%@", node.XMLString);
             GDataXMLNode *page = node[@"./input[@name='page']/@value"][0];
@@ -484,6 +496,26 @@
 - (int)page
 {
     return _page;
+}
+
+- (NSURLRequest *)requestForSearchString:(NSString *)string field:(OCSearchField)field {
+    NSString* stx = [string.precomposedStringWithCanonicalMapping stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    static NSString* sfls[] = {@"wr_subject", @"wr_content", @"wr_subject||wr_content", @"mb_id,1", @"mb_id,0", @"wr_name,1", @"wr_name,0"};
+    NSString* sfl = [sfls[field] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *URL = [NSURL URLWithString:[_board.URL.absoluteString stringByAppendingFormat:@"&sca=&sfl=%@&stx=%@", sfl, stx]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    [request setValue:_board.URL.absoluteString forHTTPHeaderField:@"Referer"];
+    return request;
+}
+
+- (NSURLRequest *)requestForNextSearch {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_nextSearchURL];
+    [request setValue:_board.URL.absoluteString forHTTPHeaderField:@"Referer"];
+    return request;
+}
+
+- (BOOL)canSearch {
+    return [_document.rootElement[@"//input[@id='stx']"] count];
 }
 
 @end

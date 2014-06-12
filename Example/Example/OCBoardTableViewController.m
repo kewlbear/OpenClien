@@ -36,6 +36,8 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     NSArray *_articles;
     OCBoardTableViewCell *_prototypeCell;
     UIActivityIndicatorView *_moreIndicator;
+    UISearchDisplayController *_searchController;
+    NSArray *_searchResult;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -50,14 +52,16 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
+    
+    UISearchBar *searchBar = [[UISearchBar alloc] init];
+    searchBar.delegate = self;
+    [searchBar sizeToFit];
+    self.tableView.tableHeaderView = searchBar;
+    _searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+    _searchController.delegate = self;
+    _searchController.searchResultsDataSource = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,27 +72,26 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_articles count];
+    return tableView == self.tableView ? [_articles count] : [_searchResult count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OCBoardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSE_IDENTIFIER];
+    OCBoardTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:REUSE_IDENTIFIER];
 //    if (!cell) {
 //        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:REUSE_IDENTIFIER];
 //    }
 
     [self configureCell:cell forRowAtIndexPath:indexPath];
     
-    if (indexPath.row == [_articles count] - 1) {
-        [self loadMore];
+    if (indexPath.row == (self.searchDisplayController.active ? [_searchResult count] - 1 : [_articles count] - 1)) {
+        if (self.searchDisplayController.active) {
+            [self searchMore];
+        } else {
+            [self loadMore];
+        }
     }
     
     return cell;
@@ -108,7 +111,12 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 
 - (void)configureCell:(OCBoardTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OCArticle *article = _articles[indexPath.row];
+    OCArticle *article;
+    if (self.searchDisplayController.active) {
+        article = _searchResult[indexPath.row];
+    } else {
+        article = _articles[indexPath.row];
+    }
     cell.titleLabel.text = article.title;
     cell.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
     if (article.URL) {
@@ -200,7 +208,11 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 {
     if ([segue.identifier isEqualToString:@"article"]) {
         OCArticleTableViewController *vc = segue.destinationViewController;
-        vc.article = _articles[[self.tableView indexPathForSelectedRow].row];
+        if (self.searchDisplayController.active) {
+            vc.article = _searchResult[[self.searchDisplayController.searchResultsTableView indexPathForSelectedRow].row];
+        } else {
+            vc.article = _articles[[self.tableView indexPathForSelectedRow].row];
+        }
     } else {
         OCWebViewController *vc = segue.destinationViewController;
         vc.URL = _board.URL;
@@ -238,25 +250,83 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 
 - (void)loadMore
 {
-    if (!_moreIndicator) {
-        _moreIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [_moreIndicator sizeToFit];
-        self.tableView.tableFooterView = _moreIndicator;
-    }
-    [_moreIndicator startAnimating];
+    [[self moreIndicator] startAnimating];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData *data = [NSData dataWithContentsOfURL:[_parser URLForNextPage]];
         _articles = [_articles arrayByAddingObjectsFromArray:[_parser parse:data]];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
-            [_moreIndicator stopAnimating];
+            [[self moreIndicator] stopAnimating];
         });
     });
+}
+
+- (UIActivityIndicatorView *)moreIndicator {
+    if (!_moreIndicator) {
+        _moreIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [_moreIndicator sizeToFit];
+        self.tableView.tableFooterView = _moreIndicator;
+    }
+    return _moreIndicator;
 }
 
 - (BOOL)shouldAutorotate
 {
     return NO;
+}
+
+- (IBAction)activateSearch:(id)sender {
+    [self.searchDisplayController setActive:YES animated:YES];
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
+    tableView.delegate = self;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+    return NO;
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+    NSURLRequest *request = [_parser requestForSearchString:searchBar.text field:OCSearchFieldTitle];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (data) {
+            _searchResult = [_parser parse:data];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.searchDisplayController.searchResultsTableView reloadData];
+            });
+        } else {
+            OCAlert(error.localizedDescription);
+        }
+    }];
+    [task resume];
+}
+
+- (void)searchMore {
+    [[self moreIndicator] startAnimating];
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+    NSURLRequest *request = [_parser requestForNextSearch];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (data) {
+            _searchResult = [_searchResult arrayByAddingObjectsFromArray:[_parser parse:data]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.searchDisplayController.searchResultsTableView reloadData];
+                [[self moreIndicator] stopAnimating];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self moreIndicator] stopAnimating];
+                OCAlert(error.localizedDescription);
+            });
+        }
+    }];
+    [task resume];
 }
 
 @end

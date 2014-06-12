@@ -19,6 +19,19 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ 검색 기준 필드
+ */
+typedef enum : NSUInteger {
+    OCSearchFieldTitle,             /// 제목
+    OCSearchFieldContent,           /// 내용
+    OCSearchFieldTitleAndContent,   /// 제목+내용
+    OCSearchFieldMemberId,          /// 회원아이디
+    OCSearchFieldMemberIdOfComment, /// 회원아이디(코)
+    OCSearchFieldName,              /// 이름
+    OCSearchFieldNameOfComment      /// 이름(코)
+} OCSearchField;
+
 @class OCBoard;
 
 /**
@@ -29,18 +42,52 @@
 @property (nonatomic, readonly) int page;
 
 /**
- board 게시판을 위한 파서를 초기화합니다.
+ 주어진 게시판을 위해 초기화한 파서를 반환합니다.
+ 
+ @param board 게시판
+ 
+ @return 주어진 게시판을 위해 초기화한 파서
  */
 - (id)initWithBoard:(OCBoard *)board;
 
 /**
- 게시판 HTML data를 분석하여 글 목록을 추출한다.
+ HTML 데이터에 해당하는 OCArticle 배열을 반환한다.
+ 
+ @param data HTML 데이터
+ 
+ @return HTML 데이터에 해당하는 OCArticle 배열
  */
 - (NSArray *)parse:(NSData *)data;
 
 /**
- 다음 페이지 URL
+ 다음 페이지 URL을 반환한다.
+ 
+ @return 다음 페이지 URL
  */
 - (NSURL *)URLForNextPage;
+
+/**
+ 이 게시판의 주어진 검색어와 필드에 해당하는 검색 URL 요청을 반환한다.
+ 
+ @param string 검색어
+ @param field 검색 기준 필드
+ 
+ @return 주어진 검색어와 필드에 해당하는 검색 URL 요청
+ */
+- (NSURLRequest *)requestForSearchString:(NSString *)string field:(OCSearchField)field;
+
+/**
+ 현재 검색조건과 일치하는 결과를 더 가져올 수 있는 URL 요청을 반환한다.
+ 
+ @return 현재 검색조건과 일치하는 결과를 더 가져올 수 있는 URL 요청
+ */
+- (NSURLRequest *)requestForNextSearch;
+
+/**
+ 검색이 가능한 상태인지 반환한다.
+ 
+ @return 검색가능 여부
+ */
+- (BOOL)canSearch;
 
 @end

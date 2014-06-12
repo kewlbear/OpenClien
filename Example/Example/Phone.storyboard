@@ -151,6 +151,11 @@
                         </connections>
                     </tableView>
                     <toolbarItems>
+                        <barButtonItem systemItem="search" id="G8H-Pn-yH2">
+                            <connections>
+                                <action selector="activateSearch:" destination="bNi-DT-gix" id="I7U-rj-qir"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Hqw-er-a3T"/>
                         <barButtonItem systemItem="action" id="yXf-jd-blh">
                             <connections>
