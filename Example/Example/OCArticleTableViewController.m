@@ -26,6 +26,7 @@
 #import "AFHTTPRequestOperationManager.h"
 #import "UIAlertView+AFNetworking.h"
 #import "OCSession.h"
+#import "OCBoardTableViewController.h"
 
 static NSString *REUSE_IDENTIFIER = @"article cell";
 
@@ -197,8 +198,19 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     if (comment.deletable) {
         sheet.destructiveButtonIndex = [sheet addButtonWithTitle:@"삭제"];
     }
+    if (comment.editable) {
+        [sheet addButtonWithTitle:@"수정"];
+    }
+    [sheet addButtonWithTitle:@"쪽지보내기"];
+    [sheet addButtonWithTitle:@"메일보내기"];
+    [sheet addButtonWithTitle:@"자기소개"];
+    [sheet addButtonWithTitle:@"아이디로 검색"];
+    [sheet addButtonWithTitle:@"차단하기"];
+    if (comment.reportable) {
+        [sheet addButtonWithTitle:@"신고"];
+    }
     if (comment.repliable || comment.branch.repliable) {
-        [sheet addButtonWithTitle:@"대댓글"];
+        [sheet addButtonWithTitle:@"답변"];
     }
     sheet.cancelButtonIndex = [sheet addButtonWithTitle:@"취소"];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
@@ -207,10 +219,14 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {
-        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"대댓글"]) {
+        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"답변"]) {
             [self reply:self];
+        } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"아이디로 검색"]) {
+            [self performSegueWithIdentifier:@"search" sender:self];
+        } else {
+            // fixme
+            OCAlert(@"미구현");
         }
-        // fixme
     }
 }
 
@@ -287,6 +303,9 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         UINavigationController *nc = segue.destinationViewController;
         OCComposeViewController *vc = nc.viewControllers[0];
         vc.article = _article;
+    } else if ([segue.identifier isEqualToString:@"search"]) {
+        OCBoardTableViewController *vc = segue.destinationViewController;
+        vc.comment = _comments[[self.tableView indexPathForSelectedRow].row];
     } else {
         NSLog(@"%s segue=%@ sender=%@", __PRETTY_FUNCTION__, segue, sender);
     }

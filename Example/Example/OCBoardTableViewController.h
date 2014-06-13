@@ -20,9 +20,11 @@
 #import <UIKit/UIKit.h>
 
 @class OCBoard;
+@class OCComment;
 
 @interface OCBoardTableViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, strong) OCBoard *board;
+@property (strong, nonatomic) OCComment *comment;
 
 @end

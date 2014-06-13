@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.17" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="h86-3A-CPR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="h86-3A-CPR">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.11"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Main Table View Controller - Open Clien-->
@@ -13,7 +13,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="main cell" id="dh5-WR-Xh2" customClass="OCMainTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="main cell" id="dh5-WR-Xh2" customClass="OCMainTableViewCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dh5-WR-Xh2" id="wod-A6-qKZ">
@@ -88,14 +88,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="board cell" rowHeight="70" id="VBY-uR-ekF" customClass="OCBoardTableViewCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="70"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="board cell" rowHeight="70" id="VBY-uR-ekF" customClass="OCBoardTableViewCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VBY-uR-ekF" id="JbO-FP-g22">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="69"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="244" translatesAutoresizingMaskIntoConstraints="NO" id="ZGx-Yd-ifo" userLabel="제목">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="244" translatesAutoresizingMaskIntoConstraints="NO" id="ZGx-Yd-ifo" userLabel="제목">
                                             <rect key="frame" x="10" y="11" width="244" height="19"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
@@ -108,14 +108,14 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZDN-Jw-qhH" userLabel="이미지네임">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZDN-Jw-qhH" userLabel="이미지네임">
                                             <rect key="frame" x="10" y="41.5" width="60" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" placeholder="YES" id="JHA-Jd-iQm"/>
                                                 <constraint firstAttribute="width" constant="60" placeholder="YES" id="V8B-KC-Scc"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rDW-sG-v5e" userLabel="닉네임">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rDW-sG-v5e" userLabel="닉네임">
                                             <rect key="frame" x="70" y="39.5" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -307,7 +307,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="ZGi-WH-qYL" userLabel="헤더">
-                            <rect key="frame" x="0.0" y="64" width="320" height="122"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="122"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FCP-WU-TLo" userLabel="글">
@@ -376,14 +376,14 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="article cell" rowHeight="67" id="ono-29-wD9" customClass="OCArticleTableViewCell">
-                                <rect key="frame" x="0.0" y="296" width="320" height="67"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="article cell" rowHeight="67" id="ono-29-wD9" customClass="OCArticleTableViewCell">
+                                <rect key="frame" x="0.0" y="144" width="320" height="67"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ono-29-wD9" id="Amt-WM-l5G">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="66"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTe-6N-M5t" userLabel="내용">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTe-6N-M5t" userLabel="내용">
                                             <rect key="frame" x="5" y="0.0" width="305" height="39.5"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -396,14 +396,14 @@
                                                 <outlet property="delegate" destination="k3D-Gd-Kxc" id="cKd-63-iMA"/>
                                             </connections>
                                         </textView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WIP-cw-XGb" userLabel="이미지네임">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WIP-cw-XGb" userLabel="이미지네임">
                                             <rect key="frame" x="10" y="40" width="60" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" placeholder="YES" id="LKN-9g-vbO"/>
                                                 <constraint firstAttribute="height" constant="16" placeholder="YES" id="sca-cc-cMc"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rM-Sp-eWp" userLabel="정보">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rM-Sp-eWp" userLabel="정보">
                                             <rect key="frame" x="70" y="39" width="60" height="19"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" placeholder="YES" id="gfV-9Q-40I"/>
@@ -442,22 +442,14 @@
                                 <action selector="scrap:" destination="k3D-Gd-Kxc" id="KMr-oe-kQn"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="4jf-ML-RA0">
-                            <connections>
-                                <segue destination="k3D-Gd-Kxc" kind="push" identifier="article" id="T30-oW-50d"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="4jf-ML-RA0"/>
                         <barButtonItem systemItem="reply" id="p8I-c3-NVT">
                             <connections>
                                 <action selector="reply:" destination="k3D-Gd-Kxc" id="MxQ-gP-71P"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="SOd-Pf-dHi"/>
-                        <barButtonItem systemItem="action" id="Q5a-bo-qxn">
-                            <connections>
-                                <segue destination="6Hr-Z8-1tW" kind="push" identifier="web" id="BWG-U2-4Zf"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem systemItem="action" id="Q5a-bo-qxn"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="Bd3-s1-0Yu"/>
                     <connections>
@@ -466,6 +458,7 @@
                         <outlet property="imageNameView" destination="oNz-JD-hhc" id="8uj-78-4hG"/>
                         <outlet property="infoLabel" destination="ze1-sc-m7g" id="Wcq-Cd-qj3"/>
                         <outlet property="titleLabel" destination="0Kh-7s-X2h" id="k5y-4T-UnU"/>
+                        <segue destination="bNi-DT-gix" kind="push" identifier="search" id="vAd-WD-RSA"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TRX-Qn-CZ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -532,7 +525,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="qAC-xM-oEM">
-                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="436" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -568,7 +561,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="CLh-w2-H3g"/>
-        <segue reference="IIi-jM-vKj"/>
+        <segue reference="vAd-WD-RSA"/>
+        <segue reference="dah-cb-sJT"/>
     </inferredMetricsTieBreakers>
 </document>

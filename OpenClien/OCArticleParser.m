@@ -20,7 +20,7 @@
 #import "OCArticleParser.h"
 #import <iconv.h>
 #import "NSString+SubstringFromTo.h"
-#import <GDataXMLNode+OpenClien.h>
+#import "GDataXMLNode+OpenClien.h"
 #import "OCArticle.h"
 #import "OCComment.h"
 #import "OCLink.h"
@@ -238,8 +238,8 @@
                     
                     comment.repliable = [head[@".//img[@alt='답변']"] count];
                     comment.editable = [head[@".//img[@alt='수정']"] count];
-                    comment.deletable = [head[@".//img[alt='삭제']"] count];
-                    comment.reportable = [head[@".//img[alt='신고']"] count];
+                    comment.deletable = [head[@".//img[@alt='삭제']"] count];
+                    comment.reportable = [head[@".//img[@alt='신고']"] count];
                     
                     comment.content = [saveComments[j] stringValue];
                     comment.commentId = [[[saveComments[j] attributeForName:@"id"] stringValue] componentsSeparatedByString:@"_"][2];

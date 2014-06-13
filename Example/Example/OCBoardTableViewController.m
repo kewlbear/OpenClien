@@ -79,6 +79,15 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     _searchController.searchResultsDataSource = self;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (_comment) {
+        self.searchDisplayController.active = YES;
+        [self.searchDisplayController.searchBar becomeFirstResponder];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -236,6 +245,11 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     [self reload];
 }
 
+- (void)setComment:(OCComment *)comment {
+    _comment = comment;
+    _board = [comment.article.URL board];
+}
+
 - (void)reload
 {
     if ([_categories count]) {
@@ -314,7 +328,21 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+//    if (_comment) {
+//        _comment = nil;
+//        [self searchBarSearchButtonClicked:controller.searchBar];
+//    }
     return NO;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    if (_comment) {
+        searchBar.text = _comment.memberId;
+        _comment = nil;
+        _searchField = OCSearchFieldMemberId;
+        _searchFieldItem.title = @"회원아이디"; // fixme
+        [self searchBarSearchButtonClicked:searchBar];
+    }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -416,7 +444,8 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 - (void)showSearchFieldView:(id)sender {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"취소" destructiveButtonTitle:nil otherButtonTitles:@"제목", @"내용", @"제목+내용", @"회원아이디", @"회원아이디(코)", @"이름", @"이름(코)", nil];
     sheet.tag = kSearchFieldActionSheetTag;
-    [sheet showFromBarButtonItem:sender animated:YES];
+//    [sheet showFromBarButtonItem:sender animated:YES];
+    [sheet showFromToolbar:self.navigationController.toolbar];
 }
 
 @end

@@ -19,6 +19,7 @@
 
 #import "NSURL+OpenClien.h"
 #import "OCArticle.h"
+#import "OCBoard.h"
 
 @implementation NSURL (OpenClien)
 
@@ -36,6 +37,17 @@
     NSString* url = [self.absoluteString stringByReplacingOccurrencesOfString:@"m.clien.net/cs3/board" withString:@"www.clien.net/cs2/bbs/board.php"];
     article.URL = [NSURL URLWithString:url];
     return article;
+}
+
+- (OCBoard *)board {
+    OCBoard *board = [[OCBoard alloc] init];
+    NSString* url = [self.absoluteString stringByReplacingOccurrencesOfString:@"m.clien.net/cs3/board" withString:@"www.clien.net/cs2/bbs/board.php"];
+    NSRange range = [url rangeOfString:@"&wr_id="];
+    if (range.length) {
+        url = [url substringToIndex:range.location];
+    }
+    board.URL = [NSURL URLWithString:url];
+    return board;
 }
 
 @end

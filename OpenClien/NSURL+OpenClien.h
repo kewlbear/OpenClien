@@ -20,7 +20,11 @@
 #import <Foundation/Foundation.h>
 
 @class OCArticle;
+@class OCBoard;
 
+/**
+ 클리앙 관련 카테고리
+ */
 @interface NSURL (OpenClien)
 
 /**
@@ -32,5 +36,12 @@
  URL에 해당하는 OCArticle을 반환한다.
  */
 - (OCArticle *)article;
+
+/**
+ 수신자(receiver)에 해당하는 OCBoard을 반환한다.
+ 
+ @return 수신자에 해당하는 OCBoard
+ */
+- (OCBoard *)board;
 
 @end
