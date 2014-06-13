@@ -70,6 +70,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     UIToolbar *toolbar = [[UIToolbar alloc] init];
     _searchFieldItem = [[UIBarButtonItem alloc] initWithTitle:@"제목" style:UIBarButtonItemStyleBordered target:self action:@selector(showSearchFieldView:)];
     toolbar.items = @[_searchFieldItem];
+    [toolbar sizeToFit];
     searchBar.inputAccessoryView = toolbar;
     [searchBar sizeToFit];
     self.tableView.tableHeaderView = searchBar;
@@ -98,7 +99,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 //        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:REUSE_IDENTIFIER];
 //    }
 
-    [self configureCell:cell forRowAtIndexPath:indexPath];
+    [self configureCell:cell forRowAtIndexPath:indexPath tableView:tableView];
     
     if (indexPath.row == [[self activeModel] count] - 1) {
         [self loadMoreForce:NO];
@@ -109,7 +110,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self configureCell:[self prototypeCell] forRowAtIndexPath:indexPath];
+    [self configureCell:[self prototypeCell] forRowAtIndexPath:indexPath tableView:tableView];
     [[self prototypeCell] layoutIfNeeded];
     return [[self prototypeCell].contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
 }
@@ -119,9 +120,9 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 //    return UITableViewAutomaticDimension;
 //}
 
-- (void)configureCell:(OCBoardTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)configureCell:(OCBoardTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView
 {
-    OCArticle *article = [[self activeModel] objectAtIndex:indexPath.row];
+    OCArticle *article = [(tableView == self.tableView ? _articles : _searchResult) objectAtIndex:indexPath.row];
     cell.titleLabel.text = article.title;
     cell.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
     if (article.URL) {
@@ -301,7 +302,11 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 }
 
 - (IBAction)activateSearch:(id)sender {
-    [self.searchDisplayController setActive:YES animated:YES];
+    // fixme 검색 막대의 취소 버튼을 터치할 수 없는 문제 회피
+    [self.tableView scrollRectToVisible:self.tableView.tableHeaderView.frame animated:NO];
+    
+//    [self.searchDisplayController setActive:YES animated:YES];
+    [self.searchDisplayController.searchBar becomeFirstResponder];
 }
 
 - (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {

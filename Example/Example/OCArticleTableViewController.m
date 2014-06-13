@@ -145,9 +145,9 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     if (!cell.textView.tag) {
         cell.textView.tag = 1;
         
-        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-        tapGestureRecognizer.delegate = self;
-        [cell.textView addGestureRecognizer:tapGestureRecognizer];
+        UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+        gestureRecognizer.delegate = self;
+        [cell.textView addGestureRecognizer:gestureRecognizer];
         
         cell.textView.scrollsToTop = NO;
     }
@@ -185,6 +185,33 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         _sizingCell = [self.tableView dequeueReusableCellWithIdentifier:REUSE_IDENTIFIER];
     }
     return _sizingCell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self showCommentMenu:indexPath];
+}
+
+- (void)showCommentMenu:(NSIndexPath *)indexPath {
+    OCComment *comment = _comments[indexPath.row];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:comment.memberId delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+    if (comment.deletable) {
+        sheet.destructiveButtonIndex = [sheet addButtonWithTitle:@"삭제"];
+    }
+    if (comment.repliable || comment.branch.repliable) {
+        [sheet addButtonWithTitle:@"대댓글"];
+    }
+    sheet.cancelButtonIndex = [sheet addButtonWithTitle:@"취소"];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    [sheet showFromRect:cell.bounds inView:cell animated:YES];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != actionSheet.cancelButtonIndex) {
+        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"대댓글"]) {
+            [self reply:self];
+        }
+        // fixme
+    }
 }
 
 /*
@@ -286,7 +313,6 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
             for (OCFile *file in files) {
                 fileHTML = [fileHTML stringByAppendingFormat:@"<li>📄 <a href=\"%@\">%@</a> %@ (%d)", file.URL, file.name, file.size, file.downloadCount];
             }
-            fileHTML = [NSString stringWithFormat:@"<ul style=\"list-style-type:none;padding:10px\">%@</ul>", fileHTML];
         }
         
         NSArray *links = _parser.links;
@@ -295,7 +321,6 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
             for (OCLink *link in links) {
                 linkHTML = [linkHTML stringByAppendingFormat:@"<li>🔗 <a href=\"%@\">%@</a> (%d)", link.URL, link.text, link.hitCount];
             }
-            linkHTML = [NSString stringWithFormat:@"<ul style=\"list-style-type:none;padding:10px\">%@</ul>", linkHTML];
         }
         
         UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
@@ -310,7 +335,9 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
                           "<script>function image_window3(s,w,h){"\
                           "go('image://'+encodeURIComponent(s))}"\
                           " function go(h){location.href=h}</script>"\
-                          "<body onload=\"go('ready://'+document.height)\">%@%@%@</body></html>",
+                          "<body onload=\"go('ready://'+document.height)\">"\
+                          "<ul style=\"list-style-type:none;padding-left:10px\">%@%@</ul>"\
+                          "%@</body></html>",
                           fontStyle,
                           fileHTML,
                           linkHTML,
@@ -398,6 +425,7 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         [segmentedControl addTarget:self action:@selector(changeMemoInputView:) forControlEvents:UIControlEventValueChanged];
         UIBarButtonItem *segmentedItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
         toolbar.items = @[segmentedItem];
+        [toolbar sizeToFit];
         _memoTextField.inputAccessoryView = toolbar;
         [alert show];
     } else {
@@ -487,23 +515,31 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     // fixme 댓글 입력창 높이 조절
 }
 
-- (void)tap:(UITapGestureRecognizer *)gestureRecognizer
+- (void)tap:(UIGestureRecognizer *)gestureRecognizer
 {
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    CGPoint point = [touch locationInView:self.tableView];
+//    NSLog(@"%s: %@", __PRETTY_FUNCTION__, gestureRecognizer);
+    CGPoint point = [gestureRecognizer locationInView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
     [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-    return YES;
+    
+    [self showCommentMenu:indexPath];
 }
+
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+//{
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    CGPoint point = [touch locationInView:self.tableView];
+//    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
+//    [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+//    return YES;
+//}
 
 - (IBAction)reply:(id)sender {
     _toolbar = [[UIToolbar alloc] init];
     _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 200, 90)];
     _textView.delegate = self;
     _textView.scrollsToTop = NO;
+    _textView.text = [[self commentToReply].name stringByAppendingFormat:@"님\n"];
     UIBarButtonItem *textViewItem = [[UIBarButtonItem alloc] initWithCustomView:_textView];
     UIBarButtonItem *submitItem = [[UIBarButtonItem alloc] initWithTitle:@"댓글쓰기" style:UIBarButtonItemStylePlain target:self action:@selector(submit)];
     _toolbar.items = @[textViewItem, submitItem];
@@ -516,12 +552,31 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 
 - (void)submit
 {
+    OCComment *comment = [self commentToReply];
+    OCCommentParser *parser = [[OCCommentParser alloc] init];
+    if (comment) {
+        [parser prepareWithContent:_textView.text comment:comment block:^(NSURL *URL, NSDictionary *parameters) {
+            [self submitTo:URL parameters:parameters parser:parser];
+        }];
+    } else {
+        NSDictionary *parameters = [parser parametersForArticle:_article content:_textView.text];
+        [self submitTo:[OCCommentParser URL] parameters:parameters parser:parser];
+    }
+}
+
+- (OCComment *)commentToReply {
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+    if (indexPath) {
+        return _comments[indexPath.row];
+    } else {
+        return nil;
+    }
+}
+
+- (void)submitTo:(NSURL *)URL parameters:(NSDictionary *)parameters parser:(OCCommentParser *)parser {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    NSString *url = [OCCommentParser URL].absoluteString;
-    OCCommentParser *parser = [[OCCommentParser alloc] init];
-    NSDictionary *parameters = [parser parametersForArticle:_article content:_textView.text];
-    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:URL.absoluteString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error;
         if ([parser parse:responseObject error:&error]) {
             [_textView resignFirstResponder];

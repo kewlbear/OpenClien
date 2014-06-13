@@ -32,13 +32,10 @@
 		4C031CFC191C65B200E2A7BA /* OpenClienTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031CFB191C65B200E2A7BA /* OpenClienTests.m */; };
 		4C031D04191C6B3F00E2A7BA /* OpenClien.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031CE5191C65B200E2A7BA /* OpenClien.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C031D0F191C6F6A00E2A7BA /* OCMainParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D0D191C6F6A00E2A7BA /* OCMainParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4C031D6D191CA49500E2A7BA /* NSScanner+Skip.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D69191CA49500E2A7BA /* NSScanner+Skip.h */; };
-		4C031D6F191CA49500E2A7BA /* NSString+SubstringFromTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D6B191CA49500E2A7BA /* NSString+SubstringFromTo.h */; };
 		4C031D74191CA68A00E2A7BA /* OCBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D72191CA68A00E2A7BA /* OCBoard.m */; };
 		4C031D7B191CC38E00E2A7BA /* OCBoardParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D79191CC38E00E2A7BA /* OCBoardParser.m */; };
 		4C031D7F191CC74E00E2A7BA /* OCArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D7D191CC74E00E2A7BA /* OCArticle.m */; };
 		4C031D881920763700E2A7BA /* OCArticleParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031D861920763700E2A7BA /* OCArticleParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4C031DB51920D3F900E2A7BA /* GDataXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031DB31920D3F900E2A7BA /* GDataXMLNode.h */; };
 		4C031DB61920D3F900E2A7BA /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031DB41920D3F900E2A7BA /* GDataXMLNode.m */; };
 		4C031DB91921E51500E2A7BA /* OCComment.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C031DB71921E51500E2A7BA /* OCComment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C18A43215E3DA9600EA16F9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C18A43015E3DA9600EA16F9 /* WebViewController.m */; };
@@ -153,16 +150,15 @@
 		4CE9D297193EF2B20044109A /* OCCommentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCEF44F19332F7900848934 /* OCCommentParser.m */; };
 		4CE9D298193EF2DC0044109A /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C031DAA1920A41F00E2A7BA /* libxml2.dylib */; };
 		4CE9D299193EF32E0044109A /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031DB41920D3F900E2A7BA /* GDataXMLNode.m */; };
-		4CE9D2B8193EF52C0044109A /* GDataXMLNode+OpenClien.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D29A193EF52C0044109A /* GDataXMLNode+OpenClien.h */; };
-		4CE9D2C0193EF52C0044109A /* OCArticle.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D2A2193EF52C0044109A /* OCArticle.h */; };
+		4CE9D2C0193EF52C0044109A /* OCArticle.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D2A2193EF52C0044109A /* OCArticle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CE9D2C3193EF52C0044109A /* OCArticleParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D2A5193EF52C0044109A /* OCArticleParser.m */; };
-		4CE9D2C4193EF52C0044109A /* OCBoard.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D2A6193EF52C0044109A /* OCBoard.h */; };
-		4CE9D2C6193EF52C0044109A /* OCBoardParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D2A8193EF52C0044109A /* OCBoardParser.h */; };
+		4CE9D2C4193EF52C0044109A /* OCBoard.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D2A6193EF52C0044109A /* OCBoard.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CE9D2C6193EF52C0044109A /* OCBoardParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D2A8193EF52C0044109A /* OCBoardParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CE9D2C9193EF52C0044109A /* OCComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D2AB193EF52C0044109A /* OCComment.m */; };
-		4CE9D2CA193EF52C0044109A /* OCCommentParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D2AC193EF52C0044109A /* OCCommentParser.h */; };
+		4CE9D2CA193EF52C0044109A /* OCCommentParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D2AC193EF52C0044109A /* OCCommentParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CE9D2CB193EF52C0044109A /* OCCommentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D2AD193EF52C0044109A /* OCCommentParser.m */; };
 		4CE9D2D1193EF52C0044109A /* OCMainParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D2B3193EF52C0044109A /* OCMainParser.m */; };
-		4CE9D2D2193EF52C0044109A /* OCRedirectResolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D2B4193EF52C0044109A /* OCRedirectResolver.h */; };
+		4CE9D2D2193EF52C0044109A /* OCRedirectResolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE9D2B4193EF52C0044109A /* OCRedirectResolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CE9D2D3193EF52C0044109A /* OCRedirectResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D2B5193EF52C0044109A /* OCRedirectResolver.m */; };
 		4CEC6E25165C5BB7003E1D0A /* Article.html in Resources */ = {isa = PBXBuildFile; fileRef = 4CEC6E27165C5BB7003E1D0A /* Article.html */; };
 		4CFE664F17950A0800CF6AC3 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE664D17950A0800CF6AC3 /* ComposeViewController.m */; };
@@ -261,7 +257,6 @@
 		4C031CED191C65B200E2A7BA /* OpenClienTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenClienTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C031CEE191C65B200E2A7BA /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4C031CF7191C65B200E2A7BA /* OpenClienTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenClienTests-Info.plist"; sourceTree = "<group>"; };
-		4C031CF9191C65B200E2A7BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4C031CFB191C65B200E2A7BA /* OpenClienTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenClienTests.m; sourceTree = "<group>"; };
 		4C031D0D191C6F6A00E2A7BA /* OCMainParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OCMainParser.h; path = ../OpenClien/OCMainParser.h; sourceTree = "<group>"; };
 		4C031D0E191C6F6A00E2A7BA /* OCMainParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OCMainParser.m; path = ../OpenClien/OCMainParser.m; sourceTree = "<group>"; };
@@ -417,6 +412,7 @@
 		4CDBED0215E91F5E0092B03E /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		4CE4806319498565007B8F03 /* OCScrapParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCScrapParser.h; sourceTree = "<group>"; };
 		4CE4806419498565007B8F03 /* OCScrapParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCScrapParser.m; sourceTree = "<group>"; };
+		4CE48070194AC295007B8F03 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4CE647B217AF2BAF00513CFA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4CE647B617AF93EE00513CFA /* SharedStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SharedStoryboard.storyboard; sourceTree = "<group>"; };
 		4CE9D258193EEAD20044109A /* Clien.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Clien.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -906,22 +902,18 @@
 			files = (
 				4CCEF438192B14B000848934 /* OCLoginParser.h in Headers */,
 				4CCD04681923911F00683848 /* NSURL+OpenClien.h in Headers */,
-				4CE9D2D2193EF52C0044109A /* OCRedirectResolver.h in Headers */,
 				4C031D0F191C6F6A00E2A7BA /* OCMainParser.h in Headers */,
 				4CE9D2C6193EF52C0044109A /* OCBoardParser.h in Headers */,
-				4CE9D2C4193EF52C0044109A /* OCBoard.h in Headers */,
-				4CE9D2B8193EF52C0044109A /* GDataXMLNode+OpenClien.h in Headers */,
 				4C62B8EB194808F80026F101 /* OCLink.h in Headers */,
 				4C031D04191C6B3F00E2A7BA /* OpenClien.h in Headers */,
 				4C031DB91921E51500E2A7BA /* OCComment.h in Headers */,
+				4CE9D2D2193EF52C0044109A /* OCRedirectResolver.h in Headers */,
+				4CE9D2C4193EF52C0044109A /* OCBoard.h in Headers */,
 				4CE9D2CA193EF52C0044109A /* OCCommentParser.h in Headers */,
-				4C031D881920763700E2A7BA /* OCArticleParser.h in Headers */,
-				4C031D6D191CA49500E2A7BA /* NSScanner+Skip.h in Headers */,
 				4CE9D2C0193EF52C0044109A /* OCArticle.h in Headers */,
+				4C031D881920763700E2A7BA /* OCArticleParser.h in Headers */,
 				4CE4806519498565007B8F03 /* OCScrapParser.h in Headers */,
 				4C4ABDCA194831D8001EAB5C /* OCFile.h in Headers */,
-				4C031DB51920D3F900E2A7BA /* GDataXMLNode.h in Headers */,
-				4C031D6F191CA49500E2A7BA /* NSString+SubstringFromTo.h in Headers */,
 				4CCEF43C192B2BF700848934 /* OCLogoutParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1392,7 +1384,7 @@
 		4C031CF8191C65B200E2A7BA /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4C031CF9191C65B200E2A7BA /* en */,
+				4CE48070194AC295007B8F03 /* ko */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

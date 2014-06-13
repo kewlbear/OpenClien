@@ -20,6 +20,7 @@
 #import <Foundation/Foundation.h>
 
 @class OCArticle;
+@class OCComment;
 
 /**
  (대)댓글 달기 결과 파서
@@ -31,5 +32,14 @@
 - (NSDictionary *)parametersForArticle:(OCArticle *)article content:(NSString *)content;
 
 - (BOOL)parse:(NSData *)data error:(NSError **)error;
+
+/**
+ 대댓글 쓰기 요청 준비
+ 
+ @param content 대댓글 내용
+ @param comment 대댓글을 달 댓글
+ @param block 요청에 필요한 정보를 받을 블록
+ */
+- (void)prepareWithContent:(NSString *)content comment:(OCComment *)comment block:(void (^)(NSURL *URL, NSDictionary *parameters))block;
 
 @end

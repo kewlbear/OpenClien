@@ -21,7 +21,7 @@
 
 @class OCArticle;
 
-@interface OCArticleTableViewController : UITableViewController <UIWebViewDelegate, UIAlertViewDelegate, UITextViewDelegate, UIGestureRecognizerDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface OCArticleTableViewController : UITableViewController <UIWebViewDelegate, UIAlertViewDelegate, UITextViewDelegate, UIGestureRecognizerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate>
 
 @property (nonatomic, strong) OCArticle *article;
 

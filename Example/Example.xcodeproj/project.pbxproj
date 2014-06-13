@@ -26,7 +26,6 @@
 		4C031D68191C9C5B00E2A7BA /* OCMainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D67191C9C5B00E2A7BA /* OCMainTableViewController.m */; };
 		4C031D77191CBDFB00E2A7BA /* OCBoardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D76191CBDFB00E2A7BA /* OCBoardTableViewController.m */; };
 		4C031D83191CD22800E2A7BA /* OCArticleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031D82191CD22800E2A7BA /* OCArticleTableViewController.m */; };
-		4C031D85191CD54600E2A7BA /* Phone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C031D84191CD54600E2A7BA /* Phone.storyboard */; };
 		4C031D8B19207B8B00E2A7BA /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C031D8A19207B8B00E2A7BA /* libiconv.dylib */; };
 		4C031DA91920A25200E2A7BA /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C031DA81920A25200E2A7BA /* libxml2.dylib */; };
 		4C031DBD1922134A00E2A7BA /* OCMainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031DBC1922134A00E2A7BA /* OCMainTableViewCell.m */; };
@@ -80,7 +79,6 @@
 		4CCEF4D01934A16E00848934 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C031D21191C961100E2A7BA /* UIKit.framework */; };
 		4CCEF4D11934A16E00848934 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CCEF3F11929E3AB00848934 /* SDWebImage.framework */; };
 		4CCEF4D21934A16E00848934 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C031D1D191C961100E2A7BA /* Foundation.framework */; };
-		4CCEF4D51934A16E00848934 /* Phone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C031D84191CD54600E2A7BA /* Phone.storyboard */; };
 		4CCEF4D61934A16E00848934 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C031D28191C961100E2A7BA /* InfoPlist.strings */; };
 		4CCEF4D71934A16E00848934 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C031D34191C961100E2A7BA /* Images.xcassets */; };
 		4CCEF4F7193C600900848934 /* OCImageBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCEF4F6193C600900848934 /* OCImageBoardViewController.m */; };
@@ -89,6 +87,8 @@
 		4CCEF501193C6A7100848934 /* OCImageBoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCEF4FF193C6A7100848934 /* OCImageBoardCell.m */; };
 		4CCEF508193C761300848934 /* OCImageBoardHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCEF507193C761300848934 /* OCImageBoardHeader.m */; };
 		4CCEF509193C761300848934 /* OCImageBoardHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCEF507193C761300848934 /* OCImageBoardHeader.m */; };
+		4CE48071194AC497007B8F03 /* Phone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CE48074194AC497007B8F03 /* Phone.storyboard */; };
+		4CE48072194AC497007B8F03 /* Phone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CE48074194AC497007B8F03 /* Phone.storyboard */; };
 		4CE9D226193DCF3F0044109A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D225193DCF3F0044109A /* AppDelegate.swift */; };
 		4CE9D229193DCF3F0044109A /* Clien8.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D227193DCF3F0044109A /* Clien8.xcdatamodeld */; };
 		4CE9D22B193DCF3F0044109A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D22A193DCF3F0044109A /* Images.xcassets */; };
@@ -210,7 +210,6 @@
 		4C031D21191C961100E2A7BA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4C031D23191C961100E2A7BA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		4C031D27191C961100E2A7BA /* Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Example-Info.plist"; sourceTree = "<group>"; };
-		4C031D29191C961100E2A7BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4C031D2B191C961100E2A7BA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4C031D2D191C961100E2A7BA /* Example-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Example-Prefix.pch"; sourceTree = "<group>"; };
 		4C031D2E191C961100E2A7BA /* OCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCAppDelegate.h; sourceTree = "<group>"; };
@@ -220,7 +219,6 @@
 		4C031D3A191C961100E2A7BA /* ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C031D3B191C961100E2A7BA /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4C031D44191C961100E2A7BA /* ExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExampleTests-Info.plist"; sourceTree = "<group>"; };
-		4C031D46191C961100E2A7BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4C031D48191C961100E2A7BA /* ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleTests.m; sourceTree = "<group>"; };
 		4C031D52191C989000E2A7BA /* OpenClien.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenClien.xcodeproj; path = ../OpenClien.xcodeproj; sourceTree = "<group>"; };
 		4C031D66191C9C5B00E2A7BA /* OCMainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMainTableViewController.h; sourceTree = "<group>"; };
@@ -229,7 +227,6 @@
 		4C031D76191CBDFB00E2A7BA /* OCBoardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCBoardTableViewController.m; sourceTree = "<group>"; };
 		4C031D81191CD22800E2A7BA /* OCArticleTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCArticleTableViewController.h; sourceTree = "<group>"; };
 		4C031D82191CD22800E2A7BA /* OCArticleTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCArticleTableViewController.m; sourceTree = "<group>"; };
-		4C031D84191CD54600E2A7BA /* Phone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Phone.storyboard; sourceTree = "<group>"; };
 		4C031D8A19207B8B00E2A7BA /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		4C031DA81920A25200E2A7BA /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		4C031DBB1922134A00E2A7BA /* OCMainTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMainTableViewCell.h; sourceTree = "<group>"; };
@@ -298,6 +295,9 @@
 		4CCEF4FF193C6A7100848934 /* OCImageBoardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCImageBoardCell.m; sourceTree = "<group>"; };
 		4CCEF506193C761300848934 /* OCImageBoardHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCImageBoardHeader.h; sourceTree = "<group>"; };
 		4CCEF507193C761300848934 /* OCImageBoardHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCImageBoardHeader.m; sourceTree = "<group>"; };
+		4CE4806E194AC295007B8F03 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4CE4806F194AC295007B8F03 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4CE48073194AC497007B8F03 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ko; path = ko.lproj/Phone.storyboard; sourceTree = "<group>"; };
 		4CE9D221193DCF3F0044109A /* Clien8.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clien8.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CE9D224193DCF3F0044109A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CE9D225193DCF3F0044109A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -446,7 +446,7 @@
 				4C031D76191CBDFB00E2A7BA /* OCBoardTableViewController.m */,
 				4C031D81191CD22800E2A7BA /* OCArticleTableViewController.h */,
 				4C031D82191CD22800E2A7BA /* OCArticleTableViewController.m */,
-				4C031D84191CD54600E2A7BA /* Phone.storyboard */,
+				4CE48074194AC497007B8F03 /* Phone.storyboard */,
 				4C031DBB1922134A00E2A7BA /* OCMainTableViewCell.h */,
 				4C031DBC1922134A00E2A7BA /* OCMainTableViewCell.m */,
 				4C031DBE19221D1F00E2A7BA /* OCBoardTableViewCell.h */,
@@ -628,11 +628,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C031D4C191C961100E2A7BA /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
-				198E2E82E81449B2894E8D4E /* Check Pods Manifest.lock */,
 				4C031D16191C961100E2A7BA /* Sources */,
 				4C031D17191C961100E2A7BA /* Frameworks */,
 				4C031D18191C961100E2A7BA /* Resources */,
-				790E63E2E76543F9AA8F42FB /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -748,7 +746,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				ko,
 			);
 			mainGroup = 4C031D11191C961100E2A7BA;
 			productRefGroup = 4C031D1B191C961100E2A7BA /* Products */;
@@ -820,7 +818,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C031D85191CD54600E2A7BA /* Phone.storyboard in Resources */,
+				4CE48071194AC497007B8F03 /* Phone.storyboard in Resources */,
 				4C031D2A191C961100E2A7BA /* InfoPlist.strings in Resources */,
 				4C031D35191C961100E2A7BA /* Images.xcassets in Resources */,
 			);
@@ -838,7 +836,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CCEF4D51934A16E00848934 /* Phone.storyboard in Resources */,
+				4CE48072194AC497007B8F03 /* Phone.storyboard in Resources */,
 				4CCEF4D61934A16E00848934 /* InfoPlist.strings in Resources */,
 				4CCEF4D71934A16E00848934 /* Images.xcassets in Resources */,
 			);
@@ -863,21 +861,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		198E2E82E81449B2894E8D4E /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 		4CCEF4A71934A16E00848934 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -906,21 +889,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-Example-Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		790E63E2E76543F9AA8F42FB /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1067,7 +1035,7 @@
 		4C031D28191C961100E2A7BA /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4C031D29191C961100E2A7BA /* en */,
+				4CE4806E194AC295007B8F03 /* ko */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1075,9 +1043,17 @@
 		4C031D45191C961100E2A7BA /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4C031D46191C961100E2A7BA /* en */,
+				4CE4806F194AC295007B8F03 /* ko */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4CE48074194AC497007B8F03 /* Phone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4CE48073194AC497007B8F03 /* ko */,
+			);
+			name = Phone.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1115,7 +1091,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1148,7 +1124,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1157,7 +1133,6 @@
 		};
 		4C031D4D191C961100E2A7BA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC3E46999455404FAE09D581 /* Pods-Example.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1177,7 +1152,6 @@
 		};
 		4C031D4E191C961100E2A7BA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC3E46999455404FAE09D581 /* Pods-Example.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

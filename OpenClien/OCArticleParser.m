@@ -197,9 +197,11 @@
             NSArray *replyHeads = node[@".//div[contains(@class, 'reply_head')]"];
             NSArray *saveComments = node[@".//textarea[contains(@id, 'save_comment_')]"];
             NSMutableArray *comments = [NSMutableArray array];
+            OCComment *branch = nil;
             int j = 0;
             for (int i = 0; i < [replyHeads count]; ++i) {
                 OCComment *comment = [[OCComment alloc] init];
+                comment.article = article;
                 GDataXMLElement *head = replyHeads[i];
                 NSArray *li = head[@"./ul[@class='reply_info']/li"];
                 if ([li count]) {
@@ -247,6 +249,11 @@
                     // fixme 관리자가 삭제한 댓글은 bullet 이미지가 없음
                     comment.isNested = [head[@"../../@style[contains(., '30px')]"] count];
                     comment.commentId = [head[@"./span/@wr_id"][0] stringValue];
+                }
+                if (comment.isNested) {
+                    comment.branch = branch;
+                } else {
+                    branch = comment;
                 }
                 [comments addObject:comment];
             }

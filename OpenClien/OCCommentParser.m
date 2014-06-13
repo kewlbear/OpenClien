@@ -20,6 +20,7 @@
 #import "OCCommentParser.h"
 #import "OCArticle.h"
 #import "GDataXMLNode+OpenClien.h"
+#import "OCComment.h"
 
 @implementation OCCommentParser
 
@@ -58,6 +59,12 @@
         NSLog(@"%@", *error);
     }
     return NO;
+}
+
+- (void)prepareWithContent:(NSString *)content comment:(OCComment *)comment block:(void (^)(NSURL *, NSDictionary *))block {
+    NSMutableDictionary *parameters = [[self parametersForArticle:comment.article content:content] mutableCopy];
+    parameters[@"comment_id"] = comment.branch ? comment.branch.commentId : comment.commentId;
+    block([[self class] URL], parameters);
 }
 
 @end

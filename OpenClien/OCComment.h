@@ -19,6 +19,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class OCArticle;
+
 /**
  OCComment는 클리앙 게시판 댓글의 모델 클래스입니다.
  */
@@ -88,5 +90,15 @@
  삭제 가능
  */
 @property (nonatomic) BOOL deletable;
+
+/**
+ 이 댓글이 달린 글
+ */
+@property (strong, nonatomic) OCArticle *article;
+
+/**
+ 대댓글일 경우 원래 댓글
+ */
+@property (strong, nonatomic) OCComment *branch;
 
 @end
