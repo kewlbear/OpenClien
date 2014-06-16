@@ -19,8 +19,18 @@
 
 #import "GDataXMLNode.h"
 
+/**
+ 파서 구현을 위한 편의 카테고리이다.
+ */
 @interface GDataXMLNode (OpenClien)
 
+/**
+ 주어진 XPath 질의를 수신자에 적용한 결과를 반환한다.
+ 
+ @param key 수신자에 적용할 XPath 질의
+ 
+ @return 주어진 XPath 질의를 수신자에 적용한 결과
+ */
 - (NSArray *)objectForKeyedSubscript:(id)key;
 
 @end

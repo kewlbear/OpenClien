@@ -22,7 +22,7 @@
 @class OCArticle;
 
 /**
- 게시판 글 페이지 파서입니다.
+ 게시판 글 페이지 HTML을 분석하여 글/댓글 정보를 가져옵니다.
  */
 @interface OCArticleParser : NSObject
 
@@ -83,6 +83,8 @@
 
 /**
  글 HTML data를 분석하여 content와 comments을 추출한다.
+ 
+ @param data 글 HTML
  */
 - (void)parse:(NSData *)data article:(OCArticle *)article;
 

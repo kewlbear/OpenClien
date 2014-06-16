@@ -24,8 +24,18 @@
  */
 @interface OCLogoutParser : NSObject
 
+/**
+ 로그아웃 URL을 반환한다.
+ 
+ @return 로그아웃 URL
+ */
 + (NSURL *)URL;
 
+/**
+ 로그아웃 결과를 분석한다.
+ 
+ @param 로그아웃 결과 HTML
+ */
 - (void)parse:(NSData *)data;
 
 @end

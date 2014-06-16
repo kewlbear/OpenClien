@@ -20,7 +20,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- OCArticle은 클리앙 게시판 글의 모델 클래스입니다.
+ OCArticle은 게시판 글의 모델 클래스입니다.
  */
 @interface OCArticle : NSObject
 

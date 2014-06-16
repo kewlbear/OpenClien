@@ -23,22 +23,26 @@
 @class OCBoard;
 
 /**
- 클리앙 관련 카테고리
+ 이 카테고리는 NSURL 클래스에 OpenClien 관련 메소드를 추가한다.
  */
 @interface NSURL (OpenClien)
 
 /**
- 클리앙 게시판 글 URL인지 확인한다.
+ 수신자의 게시판 글 URL 여부를 반환한다.
+ 
+ @return 수신자가 게시판 글 URL이면 YES, 아니면 NO를 반환한다.
  */
 - (BOOL)isClienURL;
 
 /**
- URL에 해당하는 OCArticle을 반환한다.
+ 수신자에 해당하는 OCArticle을 반환한다.
+ 
+ @return 수신자에 해당하는 OCArticle
  */
 - (OCArticle *)article;
 
 /**
- 수신자(receiver)에 해당하는 OCBoard을 반환한다.
+ 수신자에 해당하는 OCBoard을 반환한다.
  
  @return 수신자에 해당하는 OCBoard
  */

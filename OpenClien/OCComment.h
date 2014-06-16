@@ -22,7 +22,7 @@
 @class OCArticle;
 
 /**
- OCComment는 클리앙 게시판 댓글의 모델 클래스입니다.
+ OCComment는 게시판 댓글의 모델 클래스입니다.
  */
 @interface OCComment : NSObject
 

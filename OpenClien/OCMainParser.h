@@ -20,17 +20,25 @@
 #import <Foundation/Foundation.h>
 
 /**
- 클리앙 메인 페이지 파서입니다.
+ 메인 페이지 HTML을 분석하여 게시판/소모임 정보를 가져옵니다.
  */
 @interface OCMainParser : NSObject
 
 /**
- 클리앙 메인 페이지 URL
+ 메인 페이지 URL을 반환합니다.
+ 
+ @return 메인 페이지 URL
  */
 + (NSURL*)URL;
 
 /**
- 메인 페이지 HTML data를 분석하여 게시판 목록을 추출한다.
+ 메인 페이지 HTML에서 가져온 게시판/소모임 목록을 반환한다.
+ 
+ @param data 메인 페이지 HTML
+ 
+ @return 메인 페이지 HTML에서 가져온 게시판/소모임 목록. 색인 0에는 게시판, 1에는 소모임 OCBoard 배열이 들어간다.
+ 
+ @see +URL
  */
 - (NSArray*)parse:(NSData*)data;
 

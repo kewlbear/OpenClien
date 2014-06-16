@@ -20,7 +20,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- OCBoard는 클리앙 게시판의 모델 클래스입니다.
+ OCBoard는 게시판의 모델 클래스입니다.
  */
 @interface OCBoard : NSObject <NSCoding>
 
