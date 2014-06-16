@@ -146,7 +146,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
         cell.imageNameView.image = nil;
         cell.nameLabel.text = [article.name stringByAppendingString:@"님"];
     } else {
-        [cell.imageNameView setImageWithURL:article.imageNameURL];
+        [cell.imageNameView setImageWithURL:article.imageNameURL completed:NULL];
         cell.nameLabel.text = @"님";
     }
     cell.nameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
