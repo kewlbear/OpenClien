@@ -216,7 +216,9 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
-    return [_articles[[self.tableView indexPathForSelectedRow].row] URL] != nil;
+    NSArray *articles = [self activeModel];
+    NSIndexPath *indexPath = [[self activeTableView] indexPathForSelectedRow];
+    return [articles[indexPath.row] URL] != nil;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
