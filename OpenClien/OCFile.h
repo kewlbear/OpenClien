@@ -49,4 +49,14 @@
  */
 @property (copy, nonatomic) NSString *date;
 
+/**
+ 삭제 (글 수정)
+ */
+@property (nonatomic) BOOL deleted;
+
+/**
+ 부가정보
+ */
+@property (strong, nonatomic) id userInfo;
+
 @end

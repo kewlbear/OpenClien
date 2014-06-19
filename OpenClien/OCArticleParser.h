@@ -52,6 +52,16 @@
 @property (readonly, nonatomic) BOOL canComment;
 
 /**
+ 수정 가능
+ */
+@property (readonly, nonatomic) BOOL canEdit;
+
+/**
+ 삭제 가능
+ */
+@property (readonly, nonatomic) BOOL canDelete;
+
+/**
  글 제목
  */
 @property (readonly, nonatomic) NSString *title;
@@ -80,6 +90,11 @@
  스크랩 URL
  */
 @property (readonly, nonatomic) NSURL *scrapURL;
+
+/**
+ 수정 URL
+ */
+@property (readonly, nonatomic) NSURL *editURL;
 
 /**
  글 HTML data를 분석하여 content와 comments을 추출한다.

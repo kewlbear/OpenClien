@@ -19,16 +19,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class OCBoard;
-@class OCArticle;
-@class OCComment;
+@interface OCComposeViewController : UITableViewController <UIWebViewDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
-@interface OCComposeViewController : UIViewController
-
-@property (strong, nonatomic) OCBoard *board;
-@property (strong, nonatomic) OCArticle *article;
-@property (strong, nonatomic) OCComment *comment;
 @property (strong, nonatomic) NSURL *URL;
-@property (strong, nonatomic) NSDictionary *parameters;
 
 @end

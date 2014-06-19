@@ -27,6 +27,7 @@
 #import <OpenClien/OCLogoutParser.h>
 #import <OpenClien/OCCommentParser.h>
 #import <OpenClien/OCScrapParser.h>
+#import <OpenClien/OCWriteParser.h>
 
 // 모델
 #import <OpenClien/OCBoard.h>

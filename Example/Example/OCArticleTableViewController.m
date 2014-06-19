@@ -299,10 +299,10 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     } else if ([segue.identifier isEqualToString:@"article"]) {
         OCArticleTableViewController *vc = segue.destinationViewController;
         vc.article = sender;
-    } else if ([segue.identifier isEqualToString:@"reply"]) {
+    } else if ([segue.identifier isEqualToString:@"edit"]) {
         UINavigationController *nc = segue.destinationViewController;
         OCComposeViewController *vc = nc.viewControllers[0];
-        vc.article = _article;
+        vc.URL = _parser.editURL;
     } else if ([segue.identifier isEqualToString:@"search"]) {
         OCBoardTableViewController *vc = segue.destinationViewController;
         vc.comment = _comments[[self.tableView indexPathForSelectedRow].row];
@@ -342,26 +342,23 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
             }
         }
         
-        UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-        NSString *fontStyle = [NSString stringWithFormat:@"font-size:%.0fpx", font.pointSize];
-        
         NSString *html = [NSString stringWithFormat:
                           @"<html><head>"\
                           "<meta name=\"viewport\" content=\"width=device-width\">"\
                           "<style>body{word-break:break-all;margin:0;border-bottom:solid .5px;"\
-                          "%@}"\
+                          "font:-apple-system-body}"\
                           " *{max-width:100%%} #writeContents{margin:10px;display:block}</style></head>"\
                           "<script>function image_window3(s,w,h){"\
                           "go('image://'+encodeURIComponent(s))}"\
                           " function go(h){location.href=h}</script>"\
                           "<body onload=\"go('ready://'+document.height)\">"\
-                          "<ul style=\"list-style-type:none;padding-left:10px\">%@%@</ul>"\
+                          "<ul style=\"list-style-type:none;padding-left:10px;font:-apple-system-footnote\">%@%@</ul>"\
                           "%@</body></html>",
-                          fontStyle,
                           fileHTML,
                           linkHTML,
                           _parser.content];
         _comments = _parser.comments;
+        BOOL editable = _parser.canEdit;
         dispatch_async(dispatch_get_main_queue(), ^{
             _titleLabel.text = _parser.title;
             if (_parser.imageNameURL) {
@@ -372,6 +369,9 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
             }
             [_contentView loadHTMLString:html baseURL:_article.URL];
             [self.tableView reloadData];
+            if (editable) {
+                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"수정" style:UIBarButtonItemStyleBordered target:self action:@selector(edit:)];
+            }
         });
     });
 }
@@ -610,6 +610,10 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         // fixme
         OCAlert(error.description);
     }];
+}
+
+- (void)edit:sender {
+    [self performSegueWithIdentifier:@"edit" sender:self];
 }
 
 @end

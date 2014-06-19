@@ -328,4 +328,20 @@
     return nil;
 }
 
+- (BOOL)canEdit {
+    return [_document.rootElement[@"//div[@class='view_content_btn']//img[@title='수정']"] count];
+}
+
+- (NSURL *)editURL {
+    NSArray *hrefs = _document.rootElement[@"//div[@class='view_content_btn']//img[@title='수정']/../@href"];
+    if ([hrefs count]) {
+        return [NSURL URLWithString:[hrefs[0] stringValue] relativeToURL:_URL];
+    }
+    return nil;
+}
+
+- (BOOL)canDelete {
+    return NO; // fixme
+}
+
 @end

@@ -30,6 +30,9 @@
 		4C031DA91920A25200E2A7BA /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C031DA81920A25200E2A7BA /* libxml2.dylib */; };
 		4C031DBD1922134A00E2A7BA /* OCMainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031DBC1922134A00E2A7BA /* OCMainTableViewCell.m */; };
 		4C031DC019221D1F00E2A7BA /* OCBoardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C031DBF19221D1F00E2A7BA /* OCBoardTableViewCell.m */; };
+		4C54CE031950211000212386 /* OCTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C54CE021950211000212386 /* OCTextFieldTableViewCell.m */; };
+		4C54CE041950211000212386 /* OCTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C54CE021950211000212386 /* OCTextFieldTableViewCell.m */; };
+		4C54CE071950212B00212386 /* OCWebViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C54CE061950212B00212386 /* OCWebViewTableViewCell.m */; };
 		4CCD045D1922F24700683848 /* OCArticleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD045C1922F24700683848 /* OCArticleTableViewCell.m */; };
 		4CCD046119238C3000683848 /* OCWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD046019238C3000683848 /* OCWebViewController.m */; };
 		4CCD046B1924464300683848 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CCD046A1924464300683848 /* Security.framework */; };
@@ -233,6 +236,10 @@
 		4C031DBC1922134A00E2A7BA /* OCMainTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCMainTableViewCell.m; sourceTree = "<group>"; };
 		4C031DBE19221D1F00E2A7BA /* OCBoardTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCBoardTableViewCell.h; sourceTree = "<group>"; };
 		4C031DBF19221D1F00E2A7BA /* OCBoardTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCBoardTableViewCell.m; sourceTree = "<group>"; };
+		4C54CE011950211000212386 /* OCTextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCTextFieldTableViewCell.h; sourceTree = "<group>"; };
+		4C54CE021950211000212386 /* OCTextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCTextFieldTableViewCell.m; sourceTree = "<group>"; };
+		4C54CE051950212B00212386 /* OCWebViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCWebViewTableViewCell.h; sourceTree = "<group>"; };
+		4C54CE061950212B00212386 /* OCWebViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCWebViewTableViewCell.m; sourceTree = "<group>"; };
 		4CCD045B1922F24700683848 /* OCArticleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCArticleTableViewCell.h; sourceTree = "<group>"; };
 		4CCD045C1922F24700683848 /* OCArticleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCArticleTableViewCell.m; sourceTree = "<group>"; };
 		4CCD045F19238C3000683848 /* OCWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCWebViewController.h; sourceTree = "<group>"; };
@@ -469,6 +476,10 @@
 				4CCEF4FF193C6A7100848934 /* OCImageBoardCell.m */,
 				4CCEF506193C761300848934 /* OCImageBoardHeader.h */,
 				4CCEF507193C761300848934 /* OCImageBoardHeader.m */,
+				4C54CE011950211000212386 /* OCTextFieldTableViewCell.h */,
+				4C54CE021950211000212386 /* OCTextFieldTableViewCell.m */,
+				4C54CE051950212B00212386 /* OCWebViewTableViewCell.h */,
+				4C54CE061950212B00212386 /* OCWebViewTableViewCell.m */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -911,6 +922,7 @@
 				4CCEF500193C6A7100848934 /* OCImageBoardCell.m in Sources */,
 				4CCEF428192B026A00848934 /* AFNetworkReachabilityManager.m in Sources */,
 				4C031D33191C961100E2A7BA /* Example.xcdatamodeld in Sources */,
+				4C54CE071950212B00212386 /* OCWebViewTableViewCell.m in Sources */,
 				4CCEF432192B026A00848934 /* UIImageView+AFNetworking.m in Sources */,
 				4CCEF433192B026A00848934 /* UIProgressView+AFNetworking.m in Sources */,
 				4CCEF42C192B026A00848934 /* AFURLResponseSerialization.m in Sources */,
@@ -932,6 +944,7 @@
 				4C031D2C191C961100E2A7BA /* main.m in Sources */,
 				4CCEF430192B026A00848934 /* UIAlertView+AFNetworking.m in Sources */,
 				4CCEF508193C761300848934 /* OCImageBoardHeader.m in Sources */,
+				4C54CE031950211000212386 /* OCTextFieldTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -975,6 +988,7 @@
 				4CE9D226193DCF3F0044109A /* AppDelegate.swift in Sources */,
 				4CE9D2DF19407B620044109A /* WebKitViewController.swift in Sources */,
 				4CE9D24F193DD38E0044109A /* BoardsTableViewController.swift in Sources */,
+				4C54CE041950211000212386 /* OCTextFieldTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

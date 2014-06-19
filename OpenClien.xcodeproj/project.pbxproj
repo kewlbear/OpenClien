@@ -93,6 +93,11 @@
 		4C4ABDD5194846FC001EAB5C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C031DAA1920A41F00E2A7BA /* libxml2.dylib */; };
 		4C4D1A9117E0001200C7D8CD /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C762FCD17D882DC00FF3217 /* JavaScriptCore.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4C53BCB717A0D29000C600EE /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53BCB617A0D29000C600EE /* ImageIO.framework */; };
+		4C54CDFC194ED54E00212386 /* OCWriteParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C54CDFA194ED54E00212386 /* OCWriteParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C54CDFD194ED54E00212386 /* OCWriteParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C54CDFA194ED54E00212386 /* OCWriteParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C54CDFE194ED54E00212386 /* OCWriteParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C54CDFB194ED54E00212386 /* OCWriteParser.m */; };
+		4C54CDFF194ED54E00212386 /* OCWriteParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C54CDFB194ED54E00212386 /* OCWriteParser.m */; };
+		4C54CE00194FF13C00212386 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BDD631828793D0086C8EB /* GTMNSString+HTML.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4C62B8EB194808F80026F101 /* OCLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C62B8E9194808F80026F101 /* OCLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C62B8EC194808F80026F101 /* OCLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C62B8E9194808F80026F101 /* OCLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C62B8ED194808F80026F101 /* OCLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C62B8EA194808F80026F101 /* OCLink.m */; };
@@ -373,6 +378,8 @@
 		4C4ABDC8194831D7001EAB5C /* OCFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCFile.h; sourceTree = "<group>"; };
 		4C4ABDC9194831D8001EAB5C /* OCFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCFile.m; sourceTree = "<group>"; };
 		4C53BCB617A0D29000C600EE /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		4C54CDFA194ED54E00212386 /* OCWriteParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCWriteParser.h; sourceTree = "<group>"; };
+		4C54CDFB194ED54E00212386 /* OCWriteParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCWriteParser.m; sourceTree = "<group>"; };
 		4C62B8E9194808F80026F101 /* OCLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLink.h; sourceTree = "<group>"; };
 		4C62B8EA194808F80026F101 /* OCLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCLink.m; sourceTree = "<group>"; };
 		4C6E240F183061D90002B141 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAI.h; path = GAI/GAI.h; sourceTree = "<group>"; };
@@ -557,6 +564,8 @@
 				4C62B8EA194808F80026F101 /* OCLink.m */,
 				4C4ABDC8194831D7001EAB5C /* OCFile.h */,
 				4C4ABDC9194831D8001EAB5C /* OCFile.m */,
+				4C54CDFA194ED54E00212386 /* OCWriteParser.h */,
+				4C54CDFB194ED54E00212386 /* OCWriteParser.m */,
 			);
 			path = OpenClien;
 			sourceTree = "<group>";
@@ -915,6 +924,7 @@
 				4CE4806519498565007B8F03 /* OCScrapParser.h in Headers */,
 				4C4ABDCA194831D8001EAB5C /* OCFile.h in Headers */,
 				4CCEF43C192B2BF700848934 /* OCLogoutParser.h in Headers */,
+				4C54CDFC194ED54E00212386 /* OCWriteParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,6 +937,7 @@
 				4C4ABDCB194831D8001EAB5C /* OCFile.h in Headers */,
 				4CE9D281193EECCE0044109A /* OCBoard.h in Headers */,
 				4CE9D282193EECCE0044109A /* OCBoardParser.h in Headers */,
+				4C54CDFD194ED54E00212386 /* OCWriteParser.h in Headers */,
 				4CE9D283193EECCE0044109A /* OCArticle.h in Headers */,
 				4CE9D284193EECCE0044109A /* OCArticleParser.h in Headers */,
 				4CE9D285193EECCE0044109A /* OCComment.h in Headers */,
@@ -1208,10 +1219,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C54CE00194FF13C00212386 /* GTMNSString+HTML.m in Sources */,
 				4CCEF43D192B2BF700848934 /* OCLogoutParser.m in Sources */,
 				4C031D7B191CC38E00E2A7BA /* OCBoardParser.m in Sources */,
 				4CE4806719498565007B8F03 /* OCScrapParser.m in Sources */,
 				4CE9D2D3193EF52C0044109A /* OCRedirectResolver.m in Sources */,
+				4C54CDFE194ED54E00212386 /* OCWriteParser.m in Sources */,
 				4C031D7F191CC74E00E2A7BA /* OCArticle.m in Sources */,
 				4C031DB61920D3F900E2A7BA /* GDataXMLNode.m in Sources */,
 				4CCEF439192B14B000848934 /* OCLoginParser.m in Sources */,
@@ -1302,6 +1315,7 @@
 				4CE9D28C193EF2B20044109A /* OCMainParser.m in Sources */,
 				4CE4806819498565007B8F03 /* OCScrapParser.m in Sources */,
 				4CE9D28D193EF2B20044109A /* OCBoard.m in Sources */,
+				4C54CDFF194ED54E00212386 /* OCWriteParser.m in Sources */,
 				4CE9D28E193EF2B20044109A /* OCBoardParser.m in Sources */,
 				4CE9D28F193EF2B20044109A /* OCArticle.m in Sources */,
 				4CE9D290193EF2B20044109A /* OCArticleParser.m in Sources */,
