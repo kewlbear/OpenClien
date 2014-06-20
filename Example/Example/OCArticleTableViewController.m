@@ -108,6 +108,7 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     
     _contentView.scrollView.scrollsToTop = NO;
     _contentView.scrollView.scrollEnabled = NO;
+    [_contentView.scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
     
     _titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     _infoLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
@@ -155,6 +156,12 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     
     return cell;
 }
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"댓글";
+}
+
+#pragma mark - Table view delegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -345,7 +352,7 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         NSString *html = [NSString stringWithFormat:
                           @"<html><head>"\
                           "<meta name=\"viewport\" content=\"width=device-width\">"\
-                          "<style>body{word-break:break-all;margin:0;border-bottom:solid .5px;"\
+                          "<style>body{word-break:break-all;margin:0;"\
                           "font:-apple-system-body}"\
                           " *{max-width:100%%} #writeContents{margin:10px;display:block}</style></head>"\
                           "<script>function image_window3(s,w,h){"\
@@ -376,6 +383,8 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     });
 }
 
+#pragma mark - Web view delegate
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
@@ -391,7 +400,7 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     }
     if ([request.URL.scheme isEqualToString:@"ready"]) {
         NSLog(@"ready");
-        [self resizeTableHeaderView:[request.URL.host intValue]];
+//        [self resizeTableHeaderView:[request.URL.host intValue]];
         [self.refreshControl endRefreshing];
         return NO;
     }
@@ -410,7 +419,7 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    [self resizeTableHeaderView:webView.scrollView.contentSize.height];
+//    [self resizeTableHeaderView:webView.scrollView.contentSize.height];
 }
 
 - (void)resizeTableHeaderView:(int)height
@@ -459,6 +468,8 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     }
 }
 
+#pragma mark - Alert view delegate
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != alertView.cancelButtonIndex) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -506,6 +517,8 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     return _scrapParser;
 }
 
+#pragma mark - Picker view data source
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
 }
@@ -518,9 +531,13 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     return _memos[row];
 }
 
+#pragma mark - Picker view delegate
+
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     _memoTextField.text = _memos[row];
 }
+
+#pragma mark - Text view delegate
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange
 {
@@ -614,6 +631,11 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 
 - (void)edit:sender {
     [self performSegueWithIdentifier:@"edit" sender:self];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    CGSize size = [change[NSKeyValueChangeNewKey] CGSizeValue];
+    [self resizeTableHeaderView:size.height];
 }
 
 @end

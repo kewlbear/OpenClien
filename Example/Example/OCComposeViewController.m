@@ -37,11 +37,14 @@ enum {
     UIBarButtonItem *_categoryItem;
     NSUInteger _maxLinks;
     NSArray *_files;
+    CGFloat _contentHeight;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _contentHeight = 44;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData *data = [NSData dataWithContentsOfURL:_URL];
@@ -54,7 +57,7 @@ enum {
         _parser.links = [_parser.links filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.length > 0"]];
         [self updateFiles];
         int maxSize = _parser.maxUploadSize;
-        NSLog(@"제목: %@, 내용: %@, CCL: %lu, 파일: %@ 최대 %lu개 %d바이트", title, content, (unsigned long) CCLFlags, _files, [_parser.files count], maxSize);
+        NSLog(@"제목: %@, 내용: %@, CCL: %lu, 파일: %@ 최대 %lu개 %d바이트", title, content, (unsigned long) CCLFlags, _files, (unsigned long)[_parser.files count], maxSize);
         
         NSString *category = _parser.category;
         
@@ -66,9 +69,28 @@ enum {
             
             [self.tableView reloadData];
             
+            [[self webView].scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
+            [[self webView].scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:NULL];
+            
 //            [[self webView] stringByEvaluatingJavaScriptFromString:@"document.body.focus()"];
         });
     });
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"contentSize"]) {
+        [self.tableView beginUpdates];
+        _contentHeight = [change[NSKeyValueChangeNewKey] CGSizeValue].height + .5;
+        [self.tableView endUpdates];
+    } else if ([keyPath isEqualToString:@"contentOffset"]) {
+        static BOOL busy;
+        if (!busy) {
+            busy = YES;
+            UIScrollView *scrollView = object;
+            scrollView.contentOffset = CGPointZero;
+            busy = NO;
+        }
+    }
 }
 
 - (void)updateFiles {
@@ -129,10 +151,11 @@ enum {
         return cell;
     } else if (indexPath.section == kSectionContent) {
         OCWebViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"web"];
-        cell.webView.keyboardDisplayRequiresUserAction = NO;
+//        cell.webView.keyboardDisplayRequiresUserAction = NO;
         cell.webView.scrollView.scrollEnabled = NO;
+        
         if (_parser.content) {
-            NSString *content = [NSString stringWithFormat:@"<body contentEditable=\"true\">%@</body>", _parser.content];
+            NSString *content = [NSString stringWithFormat:@"<div id=\"editor\" contentEditable=\"true\">%@</div>", _parser.content];
             [cell.webView loadHTMLString:content baseURL:nil];
         }
         return cell;
@@ -154,10 +177,8 @@ enum {
         [links removeObjectAtIndex:indexPath.row];
         _parser.links = links;
     } else if (indexPath.section == kSectionFile) {
-        if ([_files[indexPath.row] isKindOfClass:[OCFile class]]) {
-            OCFile *file = _files[indexPath.row];
-            file.deleted = YES;
-        }
+        OCFile *file = _files[indexPath.row];
+        file.deleted = YES;
         [self updateFiles];
     } else {
         return; // fixme
@@ -169,7 +190,7 @@ enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == kSectionContent) {
-        return 100;
+        return _contentHeight;
     }
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
@@ -186,25 +207,28 @@ enum {
 */
 
 - (IBAction)dismiss:(id)sender {
+    [[self webView].scrollView removeObserver:self forKeyPath:@"contentSize"];
+    [[self webView].scrollView removeObserver:self forKeyPath:@"contentOffset"];
+
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (IBAction)post:(id)sender {
     [self becomeFirstResponder];
 
-    _parser.content = [[self webView] stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
+    _parser.content = [[self webView] stringByEvaluatingJavaScriptFromString:@"document.getElementById('editor').innerHTML"];
 
     [_parser prepareSubmitWithBlock:^(NSURL *URL, NSDictionary *parameters) {
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         manager.responseSerializer = [AFHTTPResponseSerializer serializer];
         [manager POST:URL.absoluteString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-            for (OCFile *file in _files) {
+            for (OCFile *file in _parser.files) {
                 if (file.userInfo) {
                     UIImage *image = file.userInfo;
                     NSData *data = UIImageJPEGRepresentation(image, 1);
                     [formData appendPartWithFileData:data name:@"bf_file[]" fileName:file.name mimeType:@"image/jpeg"];
                 } else {
-                    [formData appendPartWithFileData:[NSData data] name:@"bf_file[]" fileName:@"" mimeType:@"image/jpeg"];
+                    [formData appendPartWithFileData:[NSData data] name:@"bf_file[]" fileName:@"" mimeType:@""];
                 }
             }
         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
