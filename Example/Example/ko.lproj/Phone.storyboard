@@ -96,28 +96,28 @@
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="69"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="244" translatesAutoresizingMaskIntoConstraints="NO" id="ZGx-Yd-ifo" userLabel="제목">
-                                            <rect key="frame" x="10" y="11" width="244" height="19"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="244" translatesAutoresizingMaskIntoConstraints="NO" id="ZGx-Yd-ifo" userLabel="제목">
+                                            <rect key="frame" x="10" y="10" width="244" height="18"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="###" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tky-3b-PhP" userLabel="댓글수">
-                                            <rect key="frame" x="254" y="10" width="33" height="52.5"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="###" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tky-3b-PhP" userLabel="댓글수">
+                                            <rect key="frame" x="254" y="8" width="33" height="53"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="33" id="u3G-F0-syo"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZDN-Jw-qhH" userLabel="이미지네임">
-                                            <rect key="frame" x="10" y="41.5" width="60" height="16"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZDN-Jw-qhH" userLabel="이미지네임">
+                                            <rect key="frame" x="10" y="41" width="60" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" placeholder="YES" id="JHA-Jd-iQm"/>
                                                 <constraint firstAttribute="width" constant="60" placeholder="YES" id="V8B-KC-Scc"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rDW-sG-v5e" userLabel="닉네임">
-                                            <rect key="frame" x="70" y="39.5" width="42" height="21"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rDW-sG-v5e" userLabel="닉네임">
+                                            <rect key="frame" x="70" y="38" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -393,11 +393,11 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="66"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTe-6N-M5t" userLabel="내용">
-                                            <rect key="frame" x="5" y="0.0" width="305" height="39.5"/>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTe-6N-M5t" userLabel="내용">
+                                            <rect key="frame" x="5" y="0.0" width="295" height="37"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="305" id="1ux-QI-YL0"/>
+                                                <constraint firstAttribute="width" constant="295" id="1ux-QI-YL0"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -406,15 +406,15 @@
                                                 <outlet property="delegate" destination="k3D-Gd-Kxc" id="cKd-63-iMA"/>
                                             </connections>
                                         </textView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WIP-cw-XGb" userLabel="이미지네임">
-                                            <rect key="frame" x="10" y="40" width="60" height="16"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WIP-cw-XGb" userLabel="이미지네임">
+                                            <rect key="frame" x="10" y="39" width="60" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" placeholder="YES" id="LKN-9g-vbO"/>
                                                 <constraint firstAttribute="height" constant="16" placeholder="YES" id="sca-cc-cMc"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rM-Sp-eWp" userLabel="정보">
-                                            <rect key="frame" x="70" y="39" width="60" height="19"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rM-Sp-eWp" userLabel="정보">
+                                            <rect key="frame" x="70" y="37" width="60" height="19"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" placeholder="YES" id="gfV-9Q-40I"/>
                                                 <constraint firstAttribute="height" constant="19" placeholder="YES" id="heG-FO-tXm"/>
@@ -653,8 +653,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="fzn-Sq-Iig"/>
+        <segue reference="bnR-Ij-DqO"/>
         <segue reference="vAd-WD-RSA"/>
-        <segue reference="CLh-w2-H3g"/>
+        <segue reference="zJP-FX-KnX"/>
     </inferredMetricsTieBreakers>
 </document>

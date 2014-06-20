@@ -118,6 +118,8 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     return cell;
 }
 
+#pragma mark - Table view delegate
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self configureCell:[self prototypeCell] forRowAtIndexPath:indexPath tableView:tableView];
@@ -247,13 +249,6 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     }
 }
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    OCArticleTableViewController *vc = [[OCArticleTableViewController alloc] initWithStyle:UITableViewStylePlain];
-//    vc.article = _articles[indexPath.row];
-//    [self.navigationController pushViewController:vc animated:YES];
-//}
-
 - (void)setBoard:(OCBoard *)board
 {
     _board = board;
@@ -347,6 +342,8 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     [self.searchDisplayController.searchBar becomeFirstResponder];
 }
 
+#pragma mark - Search display controller delegate
+
 - (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
     tableView.delegate = self;
 }
@@ -358,6 +355,8 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 //    }
     return NO;
 }
+
+#pragma mark - Search bar delegate
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     if (_comment) {
@@ -395,6 +394,8 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     sheet.delegate = self;
     [sheet showFromBarButtonItem:sender animated:YES];
 }
+
+#pragma mark - Action sheet delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {

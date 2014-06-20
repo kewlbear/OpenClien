@@ -26,6 +26,8 @@
 #import "OCLink.h"
 #import "OCFile.h"
 
+static NSString *kErrorDomain = @"OCArticleParserErrorDomain";
+
 @implementation OCArticleParser
 {
     NSString *_response;
@@ -342,6 +344,43 @@
 
 - (BOOL)canDelete {
     return NO; // fixme
+}
+
+- (NSURL *)deleteURLForComment:(OCComment *)comment {
+    NSString *xpath = [NSString stringWithFormat:@"//a[contains(@href, 'delete') and contains(@href, '=%@&')][1]/@href", comment.commentId];
+    NSArray *hrefs = _document.rootElement[xpath];
+    if ([hrefs count]) {
+        NSArray *components = [[hrefs[0] stringValue] componentsSeparatedByString:@"'"];
+        if ([components count] > 1) {
+            return [NSURL URLWithString:components[1] relativeToURL:_URL];
+        } else {
+            NSLog(@"unexpected href: %@", hrefs[0]);
+        }
+    } else {
+        NSLog(@"delete URL not found");
+    }
+    return nil;
+}
+
+- (BOOL)parseDeleteResult:(NSData *)data error:(NSError *__autoreleasing *)error {
+    GDataXMLDocument *document = [[GDataXMLDocument alloc] initWithHTMLData:data error:error];
+    if (document) {
+        NSLog(@"%@", document.rootElement);
+        NSString *script = [[document.rootElement firstNodeForXPath:@"//head/script[1]" error:error] stringValue];
+        if (script) {
+            if ([script rangeOfString:@"location.replace"].length) {
+                return YES;
+            }
+            NSArray *components = [script componentsSeparatedByString:@"'"];
+            if ([components count] > 1) {
+                *error = [NSError errorWithDomain:kErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey: components[1]}];
+            } else {
+                *error = [NSError errorWithDomain:kErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: @"parse error"}]; // fixme
+            }
+        }
+    }
+    NSLog(@"%@", *error);
+    return NO;
 }
 
 @end

@@ -161,6 +161,35 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     return @"댓글";
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    OCComment *comment = _comments[indexPath.row];
+    if (comment.deletable) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    return UITableViewCellEditingStyleNone;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURL *URL = [_parser deleteURLForComment:_comments[indexPath.row]];
+        NSData *data = [NSData dataWithContentsOfURL:URL];
+        NSError *error;
+        if ([_parser parseDeleteResult:data error:&error]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSMutableArray *comments = [_comments mutableCopy];
+                [comments removeObjectAtIndex:indexPath.row];
+                _comments = comments;
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                OCAlert(error.localizedDescription);
+                [self reload];
+            });
+        }
+    });
+}
+
 #pragma mark - Table view delegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

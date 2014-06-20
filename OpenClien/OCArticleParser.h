@@ -20,6 +20,7 @@
 #import <Foundation/Foundation.h>
 
 @class OCArticle;
+@class OCComment;
 
 /**
  게시판 글 페이지 HTML을 분석하여 글/댓글 정보를 가져옵니다.
@@ -102,5 +103,24 @@
  @param data 글 HTML
  */
 - (void)parse:(NSData *)data article:(OCArticle *)article;
+
+/**
+ 댓글 삭제 URL을 반환한다.
+ 
+ @param comment 삭제할 댓글
+ 
+ @return 댓글 삭제 URL
+ */
+- (NSURL *)deleteURLForComment:(OCComment *)comment;
+
+/**
+ 댓글 삭제 결과를 분석한다.
+ 
+ @param data 댓글 삭제 결과 HTML
+ @param error 분석중 발생한 오류
+
+ @return 오류 없이 분석했으면 YES, 아니면 NO
+ */
+- (BOOL)parseDeleteResult:(NSData *)data error:(NSError **)error;
 
 @end
