@@ -223,6 +223,12 @@ static NSString *kBoard = @"board";
     self.tableView.contentOffset = CGPointMake(0, -CGRectGetHeight(self.refreshControl.frame));
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData* data = [NSData dataWithContentsOfURL:[OCMainParser URL]];
+        if (!data) {
+            // fixme
+            OCAlert(@"통신 오류");
+            return;
+        }
+
         NSArray *sections = [_parser parse:data];
         [self deleteNonFavorites];
         [self save:sections];

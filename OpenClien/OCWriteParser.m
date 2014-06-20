@@ -13,6 +13,8 @@
 
 enum { CCLUnknown = 1 << (sizeof(OCCCL) * 8 - 1) };
 
+static NSString *kErrorDomain = @"OCWriteParserErrorDomain";
+
 @implementation OCWriteParser {
     GDataXMLDocument *_document;
     GDataXMLElement *_form;
@@ -198,22 +200,29 @@ enum { CCLUnknown = 1 << (sizeof(OCCCL) * 8 - 1) };
     block(URL, parameters);
 }
 
-- (void)parseResult:(NSData *)data {
-    NSError *error;
-    GDataXMLDocument *document = [[GDataXMLDocument alloc] initWithHTMLData:data error:&error];
+- (BOOL)parseResult:(NSData *)data error:(NSError *__autoreleasing *)error {
+    GDataXMLDocument *document = [[GDataXMLDocument alloc] initWithHTMLData:data error:error];
     if (document) {
         NSArray *scripts = document.rootElement[@"//script[1]"];
         if (scripts) {
             NSString *script = [scripts[0] stringValue];
             if ([script hasPrefix:@"alert("]) {
-                NSLog(@"%@", [script componentsSeparatedByString:@"'"][1]);
-                return;
+                NSString *message = [script componentsSeparatedByString:@"'"][1];
+                NSLog(@"%@", message);
+                *error = [NSError errorWithDomain:kErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey: message}];
+                return NO;
+            } else {
+                return YES;
             }
+        } else {
+            // fixme
+            NSLog(@"unexpected response: %@", document.rootElement);
+            *error = [NSError errorWithDomain:kErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: @"unexpected response"}];
+            return NO;
         }
-        // fixme
-        NSLog(@"%@", document.rootElement);
     } else {
-        NSLog(@"%@", error);
+        NSLog(@"%@", *error);
+        return NO;
     }
 }
 
@@ -263,6 +272,25 @@ enum { CCLUnknown = 1 << (sizeof(OCCCL) * 8 - 1) };
         }
     }
     return _links;
+}
+
+- (NSString *)error {
+    if ([_document.rootElement[@"./body"] count]) {
+        return nil;
+    }
+    NSArray *scripts = _document.rootElement[@".//script[1]"];
+    if ([scripts count]) {
+        NSString *script = [scripts[0] stringValue];
+        NSArray *components = [script componentsSeparatedByString:@"'"];
+        if ([components count] > 1) {
+            return components[1];
+        } else {
+            NSLog(@"unexpected script: %@", script);
+        }
+    } else {
+        NSLog(@"unexpected response: %@", _document.rootElement);
+    }
+    return nil;
 }
 
 @end

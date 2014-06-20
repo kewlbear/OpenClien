@@ -456,4 +456,12 @@
     return nil;
 }
 
+- (NSURL *)writeURL {
+    NSArray *hrefs = _document.rootElement[@"//div[@class='write_button']/a/@href"];
+    if ([hrefs count]) {
+        return [NSURL URLWithString:[hrefs[0] stringValue] relativeToURL:_board.URL];
+    }
+    return nil;
+}
+
 @end

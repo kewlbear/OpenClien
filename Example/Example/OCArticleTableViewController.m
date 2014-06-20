@@ -184,7 +184,7 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         cell.imageNameView.image = nil;
     }
     cell.infoLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
-    cell.leftMarginConstraint.constant = comment.isNested ? 15 : 5;
+    cell.leftMarginConstraint.constant = comment.isNested ? 25 : 5;
 }
 
 - (OCArticleTableViewCell *)sizingCell
@@ -331,6 +331,12 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     self.tableView.contentOffset = CGPointMake(0, -CGRectGetHeight(self.refreshControl.frame));
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData* data = [NSData dataWithContentsOfURL:_article.URL];
+        if (!data) {
+            // fixme
+            OCAlert(@"통신 오류");
+            return;
+        }
+        
         [_parser parse:data article:_article];
 
         NSArray *files = _parser.files;

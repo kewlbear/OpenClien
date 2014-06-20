@@ -44,12 +44,24 @@ enum {
 {
     [super viewDidLoad];
     
-    _contentHeight = 44;
+    _contentHeight = 320;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData *data = [NSData dataWithContentsOfURL:_URL];
+        if (!data) {
+            OCAlert(@"통신오류");
+            return;
+        }
+        
         _parser = [[OCWriteParser alloc] initWithURL:_URL];
         [_parser parse:data];
+        
+        // fixme 더 좋은 방법?
+        // NOTE viewDidAppear: 에서 dismiss
+        if (_parser.error) {
+            return;
+        }
+        
         NSString *title = _parser.title;
         NSString *content = _parser.content;
         NSUInteger CCLFlags = _parser.CCLFlags;
@@ -59,11 +71,12 @@ enum {
         int maxSize = _parser.maxUploadSize;
         NSLog(@"제목: %@, 내용: %@, CCL: %lu, 파일: %@ 최대 %lu개 %d바이트", title, content, (unsigned long) CCLFlags, _files, (unsigned long)[_parser.files count], maxSize);
         
-        NSString *category = _parser.category;
-        
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (category) {
-                _categoryItem = [[UIBarButtonItem alloc] initWithTitle:category style:UIBarButtonItemStylePlain target:self action:@selector(showCategories:)];
+            if (_parser.categories) {
+                if (![_parser.category length]) {
+                    _parser.category = _parser.categories[0];
+                }
+                _categoryItem = [[UIBarButtonItem alloc] initWithTitle:_parser.category style:UIBarButtonItemStylePlain target:self action:@selector(showCategories:)];
                 self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem, _categoryItem];
             }
             
@@ -75,6 +88,16 @@ enum {
 //            [[self webView] stringByEvaluatingJavaScriptFromString:@"document.body.focus()"];
         });
     });
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    NSString *error = _parser.error;
+    if (error) {
+        OCAlert(error);
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -154,10 +177,8 @@ enum {
 //        cell.webView.keyboardDisplayRequiresUserAction = NO;
         cell.webView.scrollView.scrollEnabled = NO;
         
-        if (_parser.content) {
-            NSString *content = [NSString stringWithFormat:@"<div id=\"editor\" contentEditable=\"true\">%@</div>", _parser.content];
-            [cell.webView loadHTMLString:content baseURL:nil];
-        }
+        NSString *content = [NSString stringWithFormat:@"<div id=\"editor\" contentEditable=\"true\">%@</div>", _parser.content ?: @"<br/>oc"];
+        [cell.webView loadHTMLString:content baseURL:nil];
         return cell;
     } else {
         // fixme
@@ -232,8 +253,13 @@ enum {
                 }
             }
         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [_parser parseResult:responseObject];
-            [self dismiss:self];
+            NSError *error;
+            if ([_parser parseResult:responseObject error:&error]) {
+                [[(UINavigationController *)self.presentingViewController topViewController] performSelector:@selector(reload)]; // fixme
+                [self dismiss:self];
+            } else {
+                OCAlert(error.localizedDescription);
+            }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"%@", error);
             OCAlert(error.localizedDescription);

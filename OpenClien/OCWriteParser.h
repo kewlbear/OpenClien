@@ -24,6 +24,11 @@ typedef enum : NSUInteger {
 @interface OCWriteParser : NSObject
 
 /**
+ 오류 메시지
+ */
+@property (readonly, nonatomic) NSString *error;
+
+/**
  카테고리
  */
 @property (copy, nonatomic) NSString *category;
@@ -84,7 +89,12 @@ typedef enum : NSUInteger {
 
 /**
  전송결과 분석
+ 
+ @param data 전송결과 HTML
+ @param error 분석중 발생한 오류
+ 
+ @return 오류 없이 분석했으면 YES, 아니면 NO
  */
-- (void)parseResult:(NSData *)data;
+- (BOOL)parseResult:(NSData *)data error:(NSError **)error;
 
 @end

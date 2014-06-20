@@ -23,6 +23,7 @@
 #import "OCBoardTableViewCell.h"
 #import "OCWebViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "OCComposeViewController.h"
 
 enum {
     kCategoryActionSheetTag,
@@ -216,9 +217,19 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
-    NSArray *articles = [self activeModel];
-    NSIndexPath *indexPath = [[self activeTableView] indexPathForSelectedRow];
-    return [articles[indexPath.row] URL] != nil;
+    if ([identifier isEqualToString:@"article"]) {
+        NSArray *articles = [self activeModel];
+        NSIndexPath *indexPath = [[self activeTableView] indexPathForSelectedRow];
+        return [articles[indexPath.row] URL] != nil;
+    } else if ([identifier isEqualToString:@"write"]) {
+        if (_parser.writeURL) {
+            return YES;
+        }
+        // fixme
+        OCAlert(@"글 쓰기 권한이 없습니다. 로그인 해보세요.");
+        return NO;
+    }
+    return YES;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -226,9 +237,13 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     if ([segue.identifier isEqualToString:@"article"]) {
         OCArticleTableViewController *vc = segue.destinationViewController;
         vc.article = [[self activeModel] objectAtIndex:[[self activeTableView] indexPathForSelectedRow].row];
-    } else {
+    } else if ([segue.identifier isEqualToString:@"web"]) {
         OCWebViewController *vc = segue.destinationViewController;
         vc.URL = _board.URL;
+    } else if ([segue.identifier isEqualToString:@"write"]) {
+        UINavigationController *nc = segue.destinationViewController;
+        OCComposeViewController *vc = (OCComposeViewController *) nc.topViewController;
+        vc.URL = _parser.writeURL;
     }
 }
 
@@ -261,8 +276,15 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
         self.tableView.contentOffset = CGPointMake(0, -CGRectGetHeight(self.refreshControl.frame));
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSData* data = [NSData dataWithContentsOfURL:_board.URL];
+            if (!data) {
+                // fixme
+                OCAlert(@"통신 오류");
+                return;
+            }
+
             _articles = [_parser parse:data];
             _categories = [_parser categories];
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
                 [self.refreshControl endRefreshing];

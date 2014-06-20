@@ -42,6 +42,11 @@ typedef enum : NSUInteger {
 @property (nonatomic, readonly) int page;
 
 /**
+ 글 쓰기 URL
+ */
+@property (readonly, nonatomic) NSURL *writeURL;
+
+/**
  주어진 게시판을 위해 초기화한 파서를 반환합니다.
  
  @param board 게시판
