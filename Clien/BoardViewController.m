@@ -22,7 +22,7 @@
 #import "NSScanner+Skip.h"
 #import "Article.h"
 #import "ArticleViewController.h"
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "BoardCell.h"
 #import "GTMNSString+HTML.h"
 #import "UIViewController+Stack.h"

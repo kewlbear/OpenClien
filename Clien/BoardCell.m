@@ -44,6 +44,8 @@
         self.detailTextLabel.textColor = [UIColor darkGrayColor];
         self.detailTextLabel.adjustsFontSizeToFitWidth = YES;
 //        self.detailTextLabel.shadowColor = [UIColor darkGrayColor];
+        
+        self.clipsToBounds = YES;
     }
     return self;
 }
