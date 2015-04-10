@@ -11,6 +11,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'OpenClien', 'Vendor/GDataXML-HTML'
-  s.private_header_files = 'Vendor/*'
-  s.compiler_flags = '-I/usr/include/libxml2'
+  s.compiler_flags = '-I$(SDKROOT)/usr/include/libxml2'
+  s.dependency 'GTMNSStringHTMLAdditions'
 end
