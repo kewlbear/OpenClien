@@ -75,6 +75,17 @@ static NSString *kBoard = @"board";
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    if (!self.splitViewController.collapsed) {
+        UIViewController *controller = ((UINavigationController *) self.splitViewController.viewControllers.lastObject).topViewController;
+        if ([controller isKindOfClass:[OCBoardTableViewController class]] && !((OCBoardTableViewController *) controller).board) {
+            int section = [_boards[0] count] ? 0 : 1;
+            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section] animated:YES scrollPosition:UITableViewScrollPositionTop];
+            [self performSegueWithIdentifier:@"board" sender:self];
+        }
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -197,23 +208,31 @@ static NSString *kBoard = @"board";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"board"]) {
-        OCBoardTableViewController *vc = [segue destinationViewController];
+        OCBoardTableViewController *vc = (OCBoardTableViewController *) ((UINavigationController *) segue.destinationViewController).topViewController;
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         Board *board = _boards[indexPath.section][indexPath.row];
         NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:board.data];
         vc.board = [decoder decodeObjectForKey:kBoard];
+        vc.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        vc.navigationItem.leftItemsSupplementBackButton = YES;
     } else if ([segue.identifier isEqualToString:@"web"]) {
         OCWebViewController *vc = [segue destinationViewController];
         vc.URL = [OCMainParser URL];
     } else if ([segue.identifier isEqualToString:@"scrap"]) {
-        OCWebViewController *vc = [segue destinationViewController];
+        OCWebViewController *vc = (OCWebViewController *) ((UINavigationController *) segue.destinationViewController).topViewController;
         vc.URL = [NSURL URLWithString:@"http://m.clien.net/cs3/scrap"];
+        vc.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        vc.navigationItem.leftItemsSupplementBackButton = YES;
     } else if ([segue.identifier isEqualToString:@"image"]) {
-        OCImageBoardViewController *vc = segue.destinationViewController;
+        OCImageBoardViewController *vc = (OCImageBoardViewController *) ((UINavigationController *) segue.destinationViewController).topViewController;
         vc.board = sender;
+        vc.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        vc.navigationItem.leftItemsSupplementBackButton = YES;
     } else {
-        OCWebViewController *vc = [segue destinationViewController];
+        OCWebViewController *vc = (OCWebViewController *) ((UINavigationController *) segue.destinationViewController).topViewController;
         vc.URL = [NSURL URLWithString:@"http://best.mqoo.com/?site=clien&time=3&orderby=hit"];
+        vc.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        vc.navigationItem.leftItemsSupplementBackButton = YES;
     }
 }
 

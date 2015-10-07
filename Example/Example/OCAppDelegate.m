@@ -20,6 +20,11 @@
 #import "OCAppDelegate.h"
 #import "OCMainTableViewController.h"
 #import "OCSession.h"
+#import "OCBoardTableViewController.h"
+
+@interface OCAppDelegate () <UISplitViewControllerDelegate>
+
+@end
 
 @implementation OCAppDelegate
 
@@ -41,11 +46,26 @@
         }
     }];
     
-    UINavigationController *nc = (UINavigationController *) _window.rootViewController;
-    OCMainTableViewController *vc = nc.viewControllers[0];
+    UISplitViewController *splitViewController = (UISplitViewController *) _window.rootViewController;
+    splitViewController.delegate = self;
+    UINavigationController *nc = (UINavigationController *) splitViewController.viewControllers[0];
+    OCMainTableViewController *vc = (OCMainTableViewController *) nc.topViewController;
     vc.context = [self managedObjectContext];
+
+    splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+    
+    nc = splitViewController.viewControllers.lastObject;
+    nc.viewControllers[0].navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     
     return YES;
+}
+
+- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
+    UIViewController *top = ((UINavigationController *) secondaryViewController).topViewController;
+    if ([top isKindOfClass:[OCBoardTableViewController class]] && !((OCBoardTableViewController *) top).board) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/OpenClien.svg?style=flat)](http://cocoadocs.org/docsets/OpenClien)
 [![Platform](https://img.shields.io/cocoapods/p/OpenClien.svg?style=flat)](http://cocoadocs.org/docsets/OpenClien)
 
-OpenClien은 [Clien.net](http://clien.net) 웹페이지를 파싱하는 iOS용 라이브러리입니다.
+OpenClien은 [Clien.net](http://clien.net) 웹페이지를 파싱하는 iOS용 라이브러리와 예제 앱입니다.
 
 ## 기능
 
@@ -14,6 +14,7 @@ OpenClien은 [Clien.net](http://clien.net) 웹페이지를 파싱하는 iOS용 �
 * 글, 댓글 보기
 * 로그인, 로그아웃
 * 댓글 쓰기
+* iPad 멀티태스킹, iPhone 6 (Plus) 지원 (예제 앱)
 
 미구현된 기능 또는 버그 수정 등 어떤 pull request도 환영합니다.
 

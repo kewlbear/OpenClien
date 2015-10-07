@@ -44,7 +44,6 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 {
     OCArticleParser *_parser;
     NSArray *_comments;
-    OCArticleTableViewCell *_sizingCell;
     UIToolbar *_toolbar;
     UITextView *_textView;
     __weak UITextField *_memoTextField;
@@ -115,6 +114,9 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
+    
+    self.tableView.estimatedRowHeight = 44;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
 }
 
 - (void)didReceiveMemoryWarning
@@ -192,21 +194,13 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
 
 #pragma mark - Table view delegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self configureCell:[self sizingCell] forRowAtIndexPath:indexPath];
-    [self sizingCell].textView.scrollEnabled = NO; // NOTE iOS 7.0.4에서 필요 :-(
-    [[self sizingCell] layoutIfNeeded];
-    return [[self sizingCell].contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
-}
-
 - (void)configureCell:(OCArticleTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OCComment *comment = _comments[indexPath.row];
     cell.textView.text = comment.content;
     cell.textView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     if (comment.imageNameURL) {
-        [cell.imageNameView setImageWithURL:comment.imageNameURL];
+        [cell.imageNameView sd_setImageWithURL:comment.imageNameURL];
         cell.infoLabel.text = [NSString stringWithFormat:@"님 %@", comment.date];
     } else {
         cell.infoLabel.text = [NSString stringWithFormat:@"%@ %@", comment.name, comment.date];
@@ -214,14 +208,6 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
     }
     cell.infoLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
     cell.leftMarginConstraint.constant = comment.isNested ? 25 : 5;
-}
-
-- (OCArticleTableViewCell *)sizingCell
-{
-    if (!_sizingCell) {
-        _sizingCell = [self.tableView dequeueReusableCellWithIdentifier:REUSE_IDENTIFIER];
-    }
-    return _sizingCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

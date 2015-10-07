@@ -6,6 +6,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 target "Example-Pods" do
   pod "OpenClien", :path => "../"
   pod 'AFNetworking'
+  pod 'SDWebImage'
 end
 
 # Uncomment the following lines to add testing dependencies
