@@ -43,6 +43,10 @@
 		A752F9B06ACB4AC8B1C48C84 /* libPods-Example-Pods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35E2193054DB4CC5B120F705 /* libPods-Example-Pods.a */; };
 		E10B74621AD51B5600FF2DE0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C031DA81920A25200E2A7BA /* libxml2.dylib */; };
 		E19D5B0E1BC4BE3700374900 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E19D5B0D1BC4BE3700374900 /* Launch Screen.storyboard */; settings = {ASSET_TAGS = (); }; };
+		E1DFE1E41BD0A14D00991C5A /* OCTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C54CE021950211000212386 /* OCTextFieldTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		E1DFE1EC1BD0A16500991C5A /* OCWebViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C54CE061950212B00212386 /* OCWebViewTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		E1DFE1EE1BD0CEAD00991C5A /* OCArticleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DFE1ED1BD0CEAD00991C5A /* OCArticleTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		E1F041751BCCF9D300227C96 /* OCBoardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F041741BCCF9D300227C96 /* OCBoardTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,6 +197,9 @@
 		4CE9D2D7194079DE0044109A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		A4CA88806B8A4E18B1280347 /* libPods-Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E19D5B0D1BC4BE3700374900 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		E1DFE1ED1BD0CEAD00991C5A /* OCArticleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCArticleTableViewController.swift; sourceTree = "<group>"; };
+		E1F041731BCCF9D200227C96 /* Example-Pods-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Example-Pods-Bridging-Header.h"; sourceTree = "<group>"; };
+		E1F041741BCCF9D300227C96 /* OCBoardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCBoardTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -312,6 +319,9 @@
 				4C54CE021950211000212386 /* OCTextFieldTableViewCell.m */,
 				4C54CE051950212B00212386 /* OCWebViewTableViewCell.h */,
 				4C54CE061950212B00212386 /* OCWebViewTableViewCell.m */,
+				E1F041741BCCF9D300227C96 /* OCBoardTableViewController.swift */,
+				E1F041731BCCF9D200227C96 /* Example-Pods-Bridging-Header.h */,
+				E1DFE1ED1BD0CEAD00991C5A /* OCArticleTableViewController.swift */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -629,11 +639,14 @@
 			files = (
 				4CCEF4AA1934A16E00848934 /* OCMainTableViewCell.m in Sources */,
 				4CCEF4AB1934A16E00848934 /* OCMainTableViewController.m in Sources */,
+				E1F041751BCCF9D300227C96 /* OCBoardTableViewController.swift in Sources */,
 				4CCEF4AC1934A16E00848934 /* OCAppDelegate.m in Sources */,
 				4CCEF4AD1934A16E00848934 /* OCNavigationController.m in Sources */,
 				4CCEF4AF1934A16E00848934 /* OCSession.m in Sources */,
 				4CCEF4B21934A16E00848934 /* OCArticleTableViewController.m in Sources */,
 				4CCEF4B41934A16E00848934 /* Example.xcdatamodeld in Sources */,
+				E1DFE1E41BD0A14D00991C5A /* OCTextFieldTableViewCell.m in Sources */,
+				E1DFE1EC1BD0A16500991C5A /* OCWebViewTableViewCell.m in Sources */,
 				4CCEF4BE1934A16E00848934 /* OCComposeViewController.m in Sources */,
 				4CCEF4BF1934A16E00848934 /* OCBoardTableViewController.m in Sources */,
 				4CCEF4C01934A16E00848934 /* OCBoardTableViewCell.m in Sources */,
@@ -641,6 +654,7 @@
 				4CCEF4C21934A16E00848934 /* Board.m in Sources */,
 				4CCEF4C31934A16E00848934 /* OCWebViewController.m in Sources */,
 				4CCEF4C51934A16E00848934 /* OCArticleTableViewCell.m in Sources */,
+				E1DFE1EE1BD0CEAD00991C5A /* OCArticleTableViewController.swift in Sources */,
 				4CCEF4F8193C600900848934 /* OCImageBoardViewController.m in Sources */,
 				4CCEF4C61934A16E00848934 /* main.m in Sources */,
 				4CCEF509193C761300848934 /* OCImageBoardHeader.m in Sources */,
@@ -795,6 +809,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -803,8 +818,11 @@
 				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
 				INFOPLIST_FILE = "Example copy2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "Example copy";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Pods-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -815,6 +833,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -823,8 +842,10 @@
 				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
 				INFOPLIST_FILE = "Example copy2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "Example copy";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Pods-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

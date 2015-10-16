@@ -28,7 +28,7 @@
                                             <rect key="frame" x="20" y="11" width="42" height="21"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -130,7 +130,7 @@
                                             <rect key="frame" x="70" y="38" width="42" height="21"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -390,15 +390,15 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FCP-WU-TLo" userLabel="글">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="210"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="0Kh-7s-X2h" userLabel="제목">
-                                            <rect key="frame" x="10" y="10" width="582" height="21"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="0Kh-7s-X2h" userLabel="제목">
+                                            <rect key="frame" x="10" y="10" width="580" height="21"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" placeholder="YES" id="32n-hN-FN2"/>
                                                 <constraint firstAttribute="width" constant="300" id="xQx-1t-DMQ"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -422,7 +422,7 @@
                                                 <constraint firstAttribute="width" constant="15" placeholder="YES" id="hav-Un-X8d"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <webView contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="7fG-ov-Nwb" userLabel="내용">
@@ -585,7 +585,6 @@
                         <outlet property="imageNameView" destination="oNz-JD-hhc" id="8uj-78-4hG"/>
                         <outlet property="infoLabel" destination="ze1-sc-m7g" id="Wcq-Cd-qj3"/>
                         <outlet property="titleLabel" destination="0Kh-7s-X2h" id="k5y-4T-UnU"/>
-                        <segue destination="bNi-DT-gix" kind="show" identifier="search" id="vAd-WD-RSA"/>
                         <segue destination="cPr-cU-rNd" kind="presentation" identifier="edit" id="zJP-FX-KnX"/>
                     </connections>
                 </tableViewController>
@@ -647,7 +646,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0DK-Gm-jbu">
@@ -810,10 +809,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="zJP-FX-KnX"/>
-        <segue reference="0Pn-8C-57t"/>
         <segue reference="qUO-j8-3HP"/>
-        <segue reference="57F-aB-UfC"/>
         <segue reference="Acs-2S-gK5"/>
+        <segue reference="fzn-Sq-Iig"/>
+        <segue reference="CLh-w2-H3g"/>
     </inferredMetricsTieBreakers>
 </document>

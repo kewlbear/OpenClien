@@ -58,8 +58,9 @@
     NSError *error;
     _document = [[GDataXMLDocument alloc] initWithHTMLData:data error:&error];
     if (_document) {
-        GDataXMLNode *node = _document.rootElement[@"//div[@class='board_main']/table/form"][0];
-        if (node) {
+        NSArray *nodes = _document.rootElement[@"//div[@class='board_main']/table/form"];
+        if (nodes.count) {
+            GDataXMLNode *node = nodes[0];
 //            NSLog(@"%@", node.XMLString);
             BOOL isSearch = [[node[@"./input[@name='stx'][1]/@value"][0] stringValue] length];
             

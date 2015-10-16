@@ -27,6 +27,7 @@
 #import "UIAlertView+AFNetworking.h"
 #import "OCSession.h"
 #import "OCBoardTableViewController.h"
+#import "Example_copy-Swift.h"
 
 static NSString *REUSE_IDENTIFIER = @"article cell";
 
@@ -244,7 +245,8 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"답변"]) {
             [self reply:self];
         } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"아이디로 검색"]) {
-            [self performSegueWithIdentifier:@"search" sender:self];
+            OCComment *comment = _comments[self.tableView.indexPathForSelectedRow.row];
+            [self search:comment.memberId];
         } else {
             // fixme
             OCAlert(@"미구현");
@@ -325,9 +327,6 @@ static NSString *REUSE_IDENTIFIER = @"article cell";
         UINavigationController *nc = segue.destinationViewController;
         OCComposeViewController *vc = nc.viewControllers[0];
         vc.URL = _parser.editURL;
-    } else if ([segue.identifier isEqualToString:@"search"]) {
-        OCBoardTableViewController *vc = segue.destinationViewController;
-        vc.comment = _comments[[self.tableView indexPathForSelectedRow].row];
     } else {
         NSLog(@"%s segue=%@ sender=%@", __PRETTY_FUNCTION__, segue, sender);
     }

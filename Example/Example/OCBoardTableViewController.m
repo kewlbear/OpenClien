@@ -24,10 +24,10 @@
 #import "OCWebViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "OCComposeViewController.h"
+#import "Example_copy-Swift.h"
 
 enum {
-    kCategoryActionSheetTag,
-    kSearchFieldActionSheetTag
+    kCategoryActionSheetTag
 };
 
 static NSString* REUSE_IDENTIFIER = @"board cell";
@@ -42,7 +42,6 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     NSArray *_articles;
     OCBoardTableViewCell *_prototypeCell;
     UIActivityIndicatorView *_moreIndicator;
-    UISearchDisplayController *_searchController;
     NSArray *_searchResult;
     NSArray *_categories;
     __weak IBOutlet UIBarButtonItem *_categoryItem;
@@ -66,26 +65,19 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
     
-    UISearchBar *searchBar = [[UISearchBar alloc] init];
+    _searchFieldItem = [[UIBarButtonItem alloc] initWithTitle:@"제목" style:UIBarButtonItemStylePlain target:self action:@selector(showSearchFieldView:)];
+    
+    [self setupSearch];
+    
+    UISearchBar *searchBar = _searchController.searchBar;
     searchBar.delegate = self;
     UIToolbar *toolbar = [[UIToolbar alloc] init];
-    _searchFieldItem = [[UIBarButtonItem alloc] initWithTitle:@"제목" style:UIBarButtonItemStyleBordered target:self action:@selector(showSearchFieldView:)];
     toolbar.items = @[_searchFieldItem];
     [toolbar sizeToFit];
     searchBar.inputAccessoryView = toolbar;
     [searchBar sizeToFit];
-    self.tableView.tableHeaderView = searchBar;
-    _searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
-    _searchController.delegate = self;
-    _searchController.searchResultsDataSource = self;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    if (_comment) {
-        self.searchDisplayController.active = YES;
-        [self.searchDisplayController.searchBar becomeFirstResponder];
+    if (_searchController.searchResultsController != self) {
+        self.tableView.tableHeaderView = searchBar;
     }
 }
 
@@ -99,7 +91,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return tableView == self.tableView ? [_articles count] : [_searchResult count];
+    return [[self activeModel] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -134,7 +126,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 
 - (void)configureCell:(OCBoardTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView
 {
-    OCArticle *article = [(tableView == self.tableView ? _articles : _searchResult) objectAtIndex:indexPath.row];
+    OCArticle *article = [[self activeModel] objectAtIndex:indexPath.row];
     cell.titleLabel.text = article.title;
     cell.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
     if (article.URL) {
@@ -149,7 +141,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
         cell.imageNameView.image = nil;
         cell.nameLabel.text = [article.name stringByAppendingString:@"님"];
     } else {
-        [cell.imageNameView setImageWithURL:article.imageNameURL completed:NULL];
+        [cell.imageNameView sd_setImageWithURL:article.imageNameURL completed:NULL];
         cell.nameLabel.text = @"님";
     }
     cell.nameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
@@ -163,7 +155,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     }
     
     if (_board.isImage) {
-        [cell.imageView setImageWithURL:article.images[0]];
+        [cell.imageView sd_setImageWithURL:article.images[0]];
         cell.detailTextLabel.text = article.content;
         cell.commentCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[article.comments count]];
     }
@@ -257,20 +249,23 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     [self reload];
 }
 
-- (void)setComment:(OCComment *)comment {
-    _comment = comment;
-    _board = [comment.article.URL board];
-}
-
 - (void)reload
 {
+    if (_searchController.searchResultsController == self) {
+        [self searchBarSearchButtonClicked:_searchController.searchBar];
+        return;
+    }
     if ([_categories count]) {
         [self loadCategory];
     } else {
         [self.refreshControl beginRefreshing];
         self.tableView.contentOffset = CGPointMake(0, -CGRectGetHeight(self.refreshControl.frame));
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSData* data = [NSData dataWithContentsOfURL:_board.URL];
+        
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_board.URL];
+        [request addValue:_board.URL.baseURL.absoluteString forHTTPHeaderField:@"Referer"];
+        
+        NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSLog(@"글 목록");
             if (!data) {
                 // fixme
                 OCAlert(@"통신 오류");
@@ -288,7 +283,9 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
                     _categoryItem.enabled = YES;
                 }
             });
-        });
+        }];
+        [task resume];
+        NSLog(@"글 목록 요청");
     }
 }
 
@@ -326,7 +323,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 }
 
 - (UITableView *)activeTableView {
-    return self.searchDisplayController.active ? self.searchDisplayController.searchResultsTableView : self.tableView;
+    return _searchController.active ? ((UITableViewController *) _searchController.searchResultsController).tableView : self.tableView;
 }
 
 - (BOOL)shouldAutorotate
@@ -334,39 +331,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
     return NO;
 }
 
-- (IBAction)activateSearch:(id)sender {
-    // fixme 검색 막대의 취소 버튼을 터치할 수 없는 문제 회피
-    [self.tableView scrollRectToVisible:self.tableView.tableHeaderView.frame animated:NO];
-    
-//    [self.searchDisplayController setActive:YES animated:YES];
-    [self.searchDisplayController.searchBar becomeFirstResponder];
-}
-
-#pragma mark - Search display controller delegate
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
-    tableView.delegate = self;
-}
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-//    if (_comment) {
-//        _comment = nil;
-//        [self searchBarSearchButtonClicked:controller.searchBar];
-//    }
-    return NO;
-}
-
 #pragma mark - Search bar delegate
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    if (_comment) {
-        searchBar.text = _comment.memberId;
-        _comment = nil;
-        _searchField = OCSearchFieldMemberId;
-        _searchFieldItem.title = @"회원아이디"; // fixme
-        [self searchBarSearchButtonClicked:searchBar];
-    }
-}
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     if (!_searchParser) {
@@ -403,13 +368,15 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
             NSString *category = _categories[buttonIndex];
             _categoryItem.title = category;
             [self loadCategory];
-        } else if (actionSheet.tag == kSearchFieldActionSheetTag) {
-            _searchField = (int) buttonIndex;
-            _searchFieldItem.title = [actionSheet buttonTitleAtIndex:buttonIndex];
         } else {
             NSLog(@"unknown action sheet!");
         }
     }
+}
+
+- (void)setSearchField:(NSInteger)field title:(NSString *)title {
+    _searchField = field;
+    _searchFieldItem.title = title;
 }
 
 - (void)loadCategory {
@@ -423,6 +390,8 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 - (void)sendRequest:(NSURLRequest *)request more:(BOOL)more {
     if (more) {
         [[self moreIndicator] startAnimating];
+    } else if (_searchController.active) {
+        [((UITableViewController *) _searchController.searchResultsController).refreshControl beginRefreshing];
     }
     
     [self sendRequest:request completion:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -434,7 +403,7 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
                 array = [NSArray array];
             }
             array = [array arrayByAddingObjectsFromArray:[[self activeParser] parse:data]];
-            if (self.searchDisplayController.active) {
+            if (_searchController.active) {
                 _searchResult = array;
             } else {
                 _articles = array;
@@ -444,7 +413,8 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
                 if (more) {
                     [[self moreIndicator] stopAnimating];
                 } else {
-                    [self.refreshControl endRefreshing];
+                    UIRefreshControl *refreshControl = _searchController.active ? ((UITableViewController *) _searchController.searchResultsController).refreshControl : self.refreshControl;
+                    [refreshControl endRefreshing];
                 }
             });
         } else {
@@ -459,18 +429,11 @@ static NSString* REUSE_IDENTIFIER = @"board cell";
 }
 
 - (OCBoardParser *)activeParser {
-    return self.searchDisplayController.active ? _searchParser : _parser;
+    return _searchController.active ? _searchParser : _parser;
 }
 
 - (NSArray *)activeModel {
-    return self.searchDisplayController.active ? _searchResult : _articles;
-}
-
-- (void)showSearchFieldView:(id)sender {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"취소" destructiveButtonTitle:nil otherButtonTitles:@"제목", @"내용", @"제목+내용", @"회원아이디", @"회원아이디(코)", @"이름", @"이름(코)", nil];
-    sheet.tag = kSearchFieldActionSheetTag;
-//    [sheet showFromBarButtonItem:sender animated:YES];
-    [sheet showFromToolbar:self.navigationController.toolbar];
+    return _searchController.active ? _searchResult : _articles;
 }
 
 @end

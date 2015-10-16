@@ -47,6 +47,7 @@ static NSString *kPassword = @"password";
     NSString *logoutURL = [OCLoginParser URL].absoluteString;
     NSDictionary *parameters = [OCLoginParser parametersForId:loginId password:password URL:url];
     [manager POST:logoutURL parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"로그인: %@", [[NSString alloc] initWithBytes:[responseObject bytes] length:[responseObject length] encoding:NSUTF8StringEncoding]);
         if (block) {
             OCLoginParser *parser = [[OCLoginParser alloc] init];
             NSError *error;
@@ -64,11 +65,12 @@ static NSString *kPassword = @"password";
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"%@", error);
+        NSLog(@"로그인: %@", error);
         if (block) {
             block(error);
         }
     }];
+    NSLog(@"로그인 요청");
 }
 
 - (void)logout:(OCSessionBlock)block
@@ -98,6 +100,11 @@ static NSString *kPassword = @"password";
         NSURL *url = [NSURL URLWithString:@"http://clien.net"];
         [self loginWithId:login password:password URL:url completion:block];
     } else {
+        // NOTE: 로그인 페이지로 보내지 않도록
+        [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:@"http://clien.net"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSLog(@"%@", data);
+        }] resume];
+        
         if (block) {
             block([NSError errorWithDomain:@"OpenClienExampleErrorDomain" code:1 userInfo:@{NSLocalizedDescriptionKey: @"저장된 로그인 정보가 없습니다."}]);
         }

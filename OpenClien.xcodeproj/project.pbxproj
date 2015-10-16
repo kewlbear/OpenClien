@@ -108,7 +108,6 @@
 		4CDBED0315E91F5E0092B03E /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDBED0215E91F5E0092B03E /* Comment.m */; };
 		4CE4806519498565007B8F03 /* OCScrapParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE4806319498565007B8F03 /* OCScrapParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CE4806619498565007B8F03 /* OCScrapParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CE4806319498565007B8F03 /* OCScrapParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4CE4806719498565007B8F03 /* OCScrapParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE4806419498565007B8F03 /* OCScrapParser.m */; };
 		4CE4806819498565007B8F03 /* OCScrapParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE4806419498565007B8F03 /* OCScrapParser.m */; };
 		4CE647B317AF2BAF00513CFA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE647B217AF2BAF00513CFA /* StoreKit.framework */; };
 		4CE647B717AF93EE00513CFA /* SharedStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CE647B617AF93EE00513CFA /* SharedStoryboard.storyboard */; };
@@ -155,6 +154,8 @@
 		4CFE664F17950A0800CF6AC3 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE664D17950A0800CF6AC3 /* ComposeViewController.m */; };
 		E10C02771A7D1DEC002A6F7D /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10C02761A7D1DEC002A6F7D /* SDWebImage.framework */; };
 		E10C02791A7D21CE002A6F7D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E10C02781A7D21CE002A6F7D /* libsqlite3.dylib */; };
+		E138DDE31BCB90F0006BF472 /* ClienTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E138DDE21BCB90F0006BF472 /* ClienTests.swift */; settings = {ASSET_TAGS = (); }; };
+		E138DDE51BCB9847006BF472 /* OCScrapParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE4806419498565007B8F03 /* OCScrapParser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -414,6 +415,8 @@
 		4CFE664D17950A0800CF6AC3 /* ComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
 		E10C02761A7D1DEC002A6F7D /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Example/SDWebImage.framework; sourceTree = "<group>"; };
 		E10C02781A7D21CE002A6F7D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		E138DDE11BCB90F0006BF472 /* OpenClienTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenClienTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		E138DDE21BCB90F0006BF472 /* ClienTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClienTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -544,6 +547,8 @@
 			children = (
 				4C031CFB191C65B200E2A7BA /* OpenClienTests.m */,
 				4C031CF6191C65B200E2A7BA /* Supporting Files */,
+				E138DDE21BCB90F0006BF472 /* ClienTests.swift */,
+				E138DDE11BCB90F0006BF472 /* OpenClienTests-Bridging-Header.h */,
 			);
 			path = OpenClienTests;
 			sourceTree = "<group>";
@@ -1000,6 +1005,7 @@
 		4C49F88C15E311F300E929B4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastTestingUpgradeCheck = 0510;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "안창범";
@@ -1144,10 +1150,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E138DDE51BCB9847006BF472 /* OCScrapParser.m in Sources */,
 				4C54CE00194FF13C00212386 /* GTMNSString+HTML.m in Sources */,
 				4CCEF43D192B2BF700848934 /* OCLogoutParser.m in Sources */,
 				4C031D7B191CC38E00E2A7BA /* OCBoardParser.m in Sources */,
-				4CE4806719498565007B8F03 /* OCScrapParser.m in Sources */,
 				4CE9D2D3193EF52C0044109A /* OCRedirectResolver.m in Sources */,
 				4C54CDFE194ED54E00212386 /* OCWriteParser.m in Sources */,
 				4C031D7F191CC74E00E2A7BA /* OCArticle.m in Sources */,
@@ -1170,6 +1176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C031CFC191C65B200E2A7BA /* OpenClienTests.m in Sources */,
+				E138DDE31BCB90F0006BF472 /* ClienTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1410,7 +1417,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "OpenClienTests/OpenClienTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OpenClienTests/OpenClienTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1434,7 +1444,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "OpenClienTests/OpenClienTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OpenClienTests/OpenClienTests-Bridging-Header.h";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
